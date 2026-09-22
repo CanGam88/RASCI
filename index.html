@@ -118,21 +118,32 @@
             color: white;
         }
 
-        .btn-note {
-            padding: 3px 8px;
-            font-size: 0.78rem;
-            border-radius: 4px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
+        /* Diskret blyant-ikon til noter */
+        .btn-pencil-note {
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-weight: 600;
+            padding: 4px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            transition: all 0.2s;
+            opacity: 0.5;
         }
 
-        .btn-note.has-note {
+        .btn-pencil-note:hover {
+            opacity: 1;
+            background: var(--bg);
+        }
+
+        .btn-pencil-note.has-note {
+            opacity: 1;
             background: var(--primary-bg);
-            border-color: var(--primary-border);
-            color: var(--primary);
+            border: 1px solid var(--primary-border);
         }
 
         header {
@@ -519,12 +530,12 @@
         .note-textarea {
             width: 100%;
             min-height: 70px;
-            padding: 8px 12px;
+            padding: 10px 14px;
             border: 1px solid var(--border);
             border-radius: 6px;
             background: var(--input-bg);
             color: var(--input-text);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             outline: none;
             resize: vertical;
         }
@@ -1070,15 +1081,15 @@ function saveTaskNote(taskId, text) {
         proj.taskNotes[taskId] = text.trim();
         saveToLocalStorage();
         
-        // Opdater knap-udseende uden at genindlæse hele tabellen
+        // Opdater blyant-ikonets udseende
         const noteBtn = document.getElementById(`note-btn-${taskId}`);
         if (noteBtn) {
             if (text.trim()) {
                 noteBtn.classList.add('has-note');
-                noteBtn.textContent = '📝 Ret note';
+                noteBtn.title = "Rediger note (har skrevet note)";
             } else {
                 noteBtn.classList.remove('has-note');
-                noteBtn.textContent = '📝 Note';
+                noteBtn.title = "Tilføj note";
             }
         }
     }
@@ -1160,8 +1171,8 @@ function renderProjectTable() {
                             <input type="checkbox" class="task-checkbox" ${isDone ? 'checked' : ''} onchange="toggleTaskCompletion('${item.id}')">
                             <span class="task-title">${item.deliverable}</span>
                         </label>
-                        <button id="note-btn-${item.id}" class="btn-note ${hasNote ? 'has-note' : ''}" onclick="toggleNoteDrawer('${item.id}')">
-                            ${hasNote ? '📝 Ret note' : '📝 Note'}
+                        <button id="note-btn-${item.id}" class="btn-pencil-note ${hasNote ? 'has-note' : ''}" onclick="toggleNoteDrawer('${item.id}')" title="${hasNote ? 'Rediger note' : 'Tilføj note'}">
+                            ✏️
                         </button>
                     </div>
                 </td>
@@ -1176,7 +1187,7 @@ function renderProjectTable() {
                         <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Opgavenote / noter:</label>
                         <textarea class="note-textarea" placeholder="Skriv din note her (gemmes automatisk)..." onblur="saveTaskNote('${item.id}', this.value)">${noteText}</textarea>
                         <div style="text-align: right;">
-                            <button class="btn-note" onclick="toggleNoteDrawer('${item.id}')">Fold sammen</button>
+                            <button class="btn" style="padding: 3px 8px; font-size: 0.78rem;" onclick="toggleNoteDrawer('${item.id}')">Fold sammen</button>
                         </div>
                     </div>
                 </td>
