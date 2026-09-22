@@ -6,12 +6,11 @@
     <title>Change & Adaption RASCI App</title>
     <style>
         :root {
-            /* Dæmpet, behagelig lys baggrund */
             --bg: #e2e8f0;
             --surface: #ffffff;
             --surface-subtle: #f8fafc;
             --text-main: #0f172a;
-            --text-muted: #475569;
+            --text-muted: #64748b;
             --border: #cbd5e1;
             --primary: #2563eb;
             --primary-bg: #eff6ff;
@@ -24,7 +23,6 @@
             --input-bg: #ffffff;
             --input-text: #0f172a;
 
-            /* Badges colors */
             --badge-a-bg: #d1fae5;
             --badge-a-text: #047857;
             --badge-r-bg: #dbeafe;
@@ -63,22 +61,14 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        html, body {
-            width: 100%;
-            height: 100%;
+        body {
             background-color: var(--bg);
             color: var(--text-main);
-            font-size: 16px; /* High base readability */
+            padding: 24px;
         }
 
-        body {
-            padding: 20px 28px;
-        }
-
-        /* 1. MAX-WIDTH / FULL SCREEN: Expanded to use full screen width */
         .container {
             width: 100%;
-            max-width: 100%;
             margin: 0 auto;
         }
 
@@ -86,15 +76,15 @@
             background: var(--surface);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 9px 18px;
-            border-radius: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
             font-size: 0.95rem;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
+            gap: 6px;
+            transition: all 0.2s;
         }
 
         .btn:hover {
@@ -116,11 +106,11 @@
         .btn-return {
             background: var(--primary-bg);
             color: var(--primary);
-            border: 1.5px solid var(--primary-border);
+            border: 1px solid var(--primary-border);
             padding: 8px 16px;
             font-size: 0.95rem;
             font-weight: 700;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .btn-return:hover {
@@ -128,7 +118,23 @@
             color: white;
         }
 
-        /* Header */
+        .btn-note {
+            padding: 3px 8px;
+            font-size: 0.78rem;
+            border-radius: 4px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-note.has-note {
+            background: var(--primary-bg);
+            border-color: var(--primary-border);
+            color: var(--primary);
+        }
+
         header {
             display: flex;
             justify-content: space-between;
@@ -139,74 +145,68 @@
         }
 
         .title-area h1 {
-            font-size: 2rem; /* Scaled header title */
+            font-size: 2rem;
             color: var(--text-main);
             font-weight: 800;
-            letter-spacing: -0.02em;
         }
 
         /* Dashboard View */
         .dashboard-view {
             display: block;
-            width: 100%;
         }
 
-        /* 3. DASHBOARD GRID: Scaled project cards */
         .project-cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-            gap: 22px;
-            width: 100%;
+            gap: 20px;
         }
 
         .project-card {
             background: var(--surface);
-            border: 1.5px solid var(--border);
+            border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 22px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+            padding: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
             cursor: pointer;
-            transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+            transition: transform 0.15s, border-color 0.15s;
             position: relative;
         }
 
         .project-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             border-color: var(--primary);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
         }
 
         .project-card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 12px;
+            gap: 8px;
             padding-right: 32px;
         }
 
         .project-card-title {
-            font-size: 1.35rem; /* Scaled title */
-            font-weight: 800;
+            font-size: 1.35rem;
+            font-weight: 700;
             color: var(--text-main);
-            line-height: 1.25;
         }
 
         .delete-card-btn {
             position: absolute;
-            top: 14px;
-            right: 14px;
+            top: 12px;
+            right: 12px;
             background: transparent;
             border: none;
             color: #ef4444;
             font-size: 1.25rem;
             font-weight: 700;
             cursor: pointer;
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -214,7 +214,7 @@
         }
 
         .delete-card-btn:hover {
-            background: rgba(239, 68, 68, 0.12);
+            background: rgba(239, 68, 68, 0.1);
         }
 
         .card-deadline {
@@ -227,20 +227,18 @@
             padding: 4px 10px;
             border-radius: 6px;
             white-space: nowrap;
-            font-weight: 600;
         }
 
         .next-task-box {
-            font-size: 1rem; /* Scaled next task font */
+            font-size: 1rem;
             background: var(--bg);
-            padding: 12px 14px;
+            padding: 10px 14px;
             border-radius: 8px;
             color: var(--text-main);
             border-left: 4px solid var(--primary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            line-height: 1.3;
         }
 
         .card-progress-info {
@@ -249,7 +247,6 @@
             font-size: 0.95rem;
             color: var(--text-muted);
             margin-bottom: 6px;
-            font-weight: 600;
         }
 
         .progress-bar-bg {
@@ -268,10 +265,10 @@
         }
 
         .new-project-card {
-            background: rgba(255, 255, 255, 0.45);
-            border: 2.5px dashed var(--border);
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px dashed var(--border);
             border-radius: 12px;
-            padding: 32px;
+            padding: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -280,9 +277,7 @@
             cursor: pointer;
             color: var(--text-muted);
             transition: all 0.2s;
-            min-height: 200px;
-            font-size: 1.1rem;
-            font-weight: 700;
+            min-height: 180px;
         }
 
         .new-project-card:hover {
@@ -294,15 +289,14 @@
         /* Project Detail View */
         .project-view {
             display: none;
-            width: 100%;
         }
 
         .top-subnav-strip {
             background: var(--surface);
-            border: 1.5px solid var(--border);
+            border: 1px solid var(--border);
             border-radius: 10px;
             padding: 12px 20px;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -321,7 +315,7 @@
             align-items: center;
             gap: 14px;
             flex: 1;
-            max-width: 480px;
+            max-width: 450px;
         }
 
         .deadline-badge {
@@ -329,7 +323,7 @@
             color: var(--text-muted);
             background: var(--bg);
             padding: 6px 14px;
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -338,13 +332,12 @@
 
         .deadline-input {
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 4px;
             background: var(--input-bg);
             color: var(--input-text);
-            font-size: 0.92rem;
-            padding: 4px 8px;
+            font-size: 0.95rem;
+            padding: 3px 8px;
             outline: none;
-            font-weight: 600;
         }
 
         /* Filter Panel & Tooltip */
@@ -352,13 +345,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .collapsible-filter-panel {
             display: none;
             background: var(--surface);
-            border: 1.5px solid var(--border);
+            border: 1px solid var(--border);
             border-radius: 10px;
             padding: 14px;
             margin-bottom: 16px;
@@ -373,7 +366,7 @@
         .filter-input, .filter-select {
             padding: 10px 14px;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 6px;
             background: var(--input-bg);
             color: var(--input-text);
             font-size: 0.95rem;
@@ -390,12 +383,12 @@
             display: none;
             position: absolute;
             right: 0;
-            top: 42px;
+            top: 38px;
             background: var(--surface);
-            border: 1.5px solid var(--border);
+            border: 1px solid var(--border);
             border-radius: 10px;
-            padding: 16px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+            padding: 14px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
             z-index: 100;
             width: 380px;
             font-size: 0.9rem;
@@ -416,13 +409,13 @@
             margin-bottom: 0;
         }
 
-        /* Table Optimization (Fullscreen Scaling & Generous Padding) */
+        /* Table */
         .table-container {
             background: var(--surface);
-            border: 1.5px solid var(--border);
+            border: 1px solid var(--border);
             border-radius: 10px;
             overflow-x: auto;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
             width: 100%;
         }
 
@@ -436,12 +429,12 @@
         th {
             background: #cbd5e1;
             color: var(--text-main);
-            font-weight: 800;
+            font-weight: 700;
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 14px 18px;
-            border-bottom: 1.5px solid var(--border);
+            letter-spacing: 0.04em;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
             vertical-align: bottom;
         }
 
@@ -459,11 +452,11 @@
         tr.stage-header-row td {
             background: var(--primary-bg);
             color: var(--text-main);
-            font-weight: 800;
+            font-weight: 700;
             font-size: 1.05rem;
-            padding: 12px 18px;
-            border-top: 1.5px solid var(--primary-border);
-            border-bottom: 1.5px solid var(--primary-border);
+            padding: 12px 16px;
+            border-top: 1px solid var(--primary-border);
+            border-bottom: 1px solid var(--primary-border);
         }
 
         .phase-text {
@@ -474,7 +467,7 @@
         }
 
         td {
-            padding: 14px 18px; /* Generous vertical padding */
+            padding: 12px 16px;
             border-bottom: 1px solid var(--border);
             vertical-align: middle;
         }
@@ -485,25 +478,23 @@
 
         td.deliverable-cell {
             color: var(--text-main);
-            font-weight: 700;
-            font-size: 1.1rem; /* 1.1rem Deliverable title */
-            padding-left: 18px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding-left: 16px;
         }
 
         .task-label {
             display: inline-flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             cursor: pointer;
-            width: 100%;
         }
 
         .task-checkbox {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
             accent-color: var(--success);
-            border-radius: 4px;
         }
 
         tr.task-done td.deliverable-cell .task-title {
@@ -516,15 +507,40 @@
             background-color: rgba(22, 163, 74, 0.05);
         }
 
-        /* Badges (30px x 30px scaled up) */
+        .note-drawer-row {
+            display: none;
+            background-color: var(--surface-subtle);
+        }
+
+        .note-drawer-row.open {
+            display: table-row;
+        }
+
+        .note-textarea {
+            width: 100%;
+            min-height: 70px;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--input-bg);
+            color: var(--input-text);
+            font-size: 0.9rem;
+            outline: none;
+            resize: vertical;
+        }
+
+        .note-textarea:focus {
+            border-color: var(--primary);
+        }
+
         .badge-box {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 30px;
             height: 30px;
-            border-radius: 8px;
-            font-weight: 800;
+            border-radius: 6px;
+            font-weight: 700;
             font-size: 0.9rem;
             margin: 0 auto;
         }
@@ -535,7 +551,7 @@
         .badge-box.C { background: var(--badge-c-bg); color: var(--badge-c-text); }
         .badge-box.I { background: var(--badge-i-bg); color: var(--badge-i-text); }
 
-        /* Modal / Dialog Styling */
+        /* Modal Styling */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -543,8 +559,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(3px);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(2px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -552,20 +568,20 @@
 
         .modal-card {
             background: var(--surface);
-            border: 1.5px solid var(--border);
-            border-radius: 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
             width: 100%;
             max-width: 480px;
             padding: 28px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
         }
 
         .modal-header h2 {
             font-size: 1.4rem;
-            font-weight: 800;
+            font-weight: 700;
             color: var(--text-main);
         }
 
@@ -577,17 +593,17 @@
 
         .form-group label {
             font-size: 0.9rem;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text-muted);
         }
 
         .form-control {
             padding: 10px 14px;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 6px;
             background: var(--input-bg);
             color: var(--input-text);
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
         }
 
@@ -602,15 +618,15 @@
 
         .radio-label {
             flex: 1;
-            border: 1.5px solid var(--border);
+            border: 1px solid var(--border);
             padding: 12px 14px;
-            border-radius: 8px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 700;
+            font-size: 0.9rem;
+            font-weight: 600;
             transition: all 0.2s;
         }
 
@@ -663,7 +679,7 @@
             </div>
 
             <div class="subnav-right">
-                <span id="progress-text" style="font-size: 1rem; font-weight: 800; white-space: nowrap;">0/0 (0%)</span>
+                <span id="progress-text" style="font-size: 1rem; font-weight: 700; white-space: nowrap;">0/0 (0%)</span>
                 <div class="progress-bar-bg">
                     <div id="progress-bar-fill" class="progress-bar-fill"></div>
                 </div>
@@ -863,6 +879,7 @@ function loadFromLocalStorage() {
                 name: "Mit Første Projekt",
                 scope: "all",
                 completedTasks: {},
+                taskNotes: {},
                 deadline: "",
                 updatedAt: new Date().toLocaleDateString('da-DK')
             }
@@ -952,8 +969,8 @@ function renderDashboard() {
     newCard.className = 'new-project-card';
     newCard.onclick = openNewProjectModal;
     newCard.innerHTML = `
-        <div style="font-size: 2.5rem; font-weight: 300;">+</div>
-        <div>Opret Nyt Projekt</div>
+        <div style="font-size: 2.2rem; font-weight: 300;">+</div>
+        <div style="font-weight: 600; font-size: 1.1rem;">Opret Nyt Projekt</div>
     `;
     grid.appendChild(newCard);
 }
@@ -967,7 +984,7 @@ function formatDate(dateStr) {
     return dateStr;
 }
 
-/* MODAL / OPKALD */
+/* MODAL */
 function openNewProjectModal() {
     document.getElementById('modal-proj-name').value = '';
     document.getElementById('modal-proj-deadline').value = '';
@@ -995,6 +1012,7 @@ function confirmCreateProject() {
         name: name,
         scope: scope,
         completedTasks: {},
+        taskNotes: {},
         deadline: deadline,
         updatedAt: new Date().toLocaleDateString('da-DK')
     };
@@ -1033,6 +1051,36 @@ function toggleTaskCompletion(taskId) {
         proj.completedTasks[taskId] = !proj.completedTasks[taskId];
         saveToLocalStorage();
         renderProjectTable();
+    }
+}
+
+/* NOTES LOGIC */
+function toggleNoteDrawer(taskId) {
+    const drawerRow = document.getElementById(`note-drawer-${taskId}`);
+    if (drawerRow) {
+        drawerRow.classList.toggle('open');
+    }
+}
+
+function saveTaskNote(taskId, text) {
+    if (activeProjectId && projectsData[activeProjectId]) {
+        const proj = projectsData[activeProjectId];
+        if (!proj.taskNotes) proj.taskNotes = {};
+        
+        proj.taskNotes[taskId] = text.trim();
+        saveToLocalStorage();
+        
+        // Opdater knap-udseende uden at genindlæse hele tabellen
+        const noteBtn = document.getElementById(`note-btn-${taskId}`);
+        if (noteBtn) {
+            if (text.trim()) {
+                noteBtn.classList.add('has-note');
+                noteBtn.textContent = '📝 Ret note';
+            } else {
+                noteBtn.classList.remove('has-note');
+                noteBtn.textContent = '📝 Note';
+            }
+        }
     }
 }
 
@@ -1102,18 +1150,36 @@ function renderProjectTable() {
 
         stageTasks.forEach(item => {
             const isDone = proj.completedTasks && proj.completedTasks[item.id];
+            const noteText = (proj.taskNotes && proj.taskNotes[item.id]) ? proj.taskNotes[item.id] : '';
+            const hasNote = noteText.length > 0;
 
             html += `<tr class="${isDone ? 'task-done' : ''}">
                 <td class="deliverable-cell">
-                    <label class="task-label">
-                        <input type="checkbox" class="task-checkbox" ${isDone ? 'checked' : ''} onchange="toggleTaskCompletion('${item.id}')">
-                        <span class="task-title">${item.deliverable}</span>
-                    </label>
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                        <label class="task-label">
+                            <input type="checkbox" class="task-checkbox" ${isDone ? 'checked' : ''} onchange="toggleTaskCompletion('${item.id}')">
+                            <span class="task-title">${item.deliverable}</span>
+                        </label>
+                        <button id="note-btn-${item.id}" class="btn-note ${hasNote ? 'has-note' : ''}" onclick="toggleNoteDrawer('${item.id}')">
+                            ${hasNote ? '📝 Ret note' : '📝 Note'}
+                        </button>
+                    </div>
                 </td>
                 ${visibleRoles.map(r => {
                     const code = item.rasci[r] || '-';
                     return `<td style="text-align: center;">${formatBadge(code)}</td>`;
                 }).join('')}
+            </tr>
+            <tr class="note-drawer-row" id="note-drawer-${item.id}">
+                <td colspan="${colCount}" style="padding: 10px 16px;">
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                        <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Opgavenote / noter:</label>
+                        <textarea class="note-textarea" placeholder="Skriv din note her (gemmes automatisk)..." onblur="saveTaskNote('${item.id}', this.value)">${noteText}</textarea>
+                        <div style="text-align: right;">
+                            <button class="btn-note" onclick="toggleNoteDrawer('${item.id}')">Fold sammen</button>
+                        </div>
+                    </div>
+                </td>
             </tr>`;
         });
     });
