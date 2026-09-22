@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change & Adaption RASCI App</title>
+    <style>
+        :root {
+            --bg: #e2e8f0;
+            --surface: #ffffff;
+            --surface-subtle: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --primary: #2563eb;
+            --primary-bg: #eff6ff;
+            --primary-border: #93c5fd;
+            --purple: #9333ea;
+            --purple-bg: #f3e8ff;
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+
+            --input-bg: #ffffff;
+            --input-text: #0f172a;
+
+            --badge-a-bg: #d1fae5;
+            --badge-a-text: #047857;
+            --badge-r-bg: #dbeafe;
+            --badge-r-text: #1d4ed8;
+            --badge-s-bg: #fef3c7;
+            --badge-s-text: #b45309;
+            --badge-c-bg: #e0e7ff;
+            --badge-c-text: #4338ca;
+            --badge-i-bg: #f3f4f6;
+            --badge-i-text: #4b5563;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-subtle: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --primary: #3b82f6;
+            --primary-bg: #0c4a6e;
+            --primary-border: #0284c7;
+            --purple: #c084fc;
+            --purple-bg: #3b0764;
+            --success: #22c55e;
+            --success-bg: #14532d;
+
+            --input-bg: #1e293b;
+            --input-text: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.82rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        /* Tydeligere, mindre retur-knap */
+        .btn-return {
+            background: var(--primary-bg);
+            color: var(--primary);
+            border: 1px solid var(--primary-border);
+            padding: 5px 10px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border-radius: 6px;
+        }
+
+        .btn-return:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .title-area h1 {
+            font-size: 1.4rem;
+            color: var(--text-main);
+            font-weight: 800;
+        }
+
+        /* Dashboard View */
+        .dashboard-view {
+            display: block;
+        }
+
+        .project-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            cursor: pointer;
+            transition: transform 0.15s, border-color 0.15s;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .project-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            padding-right: 28px;
+        }
+
+        .project-card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .delete-card-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .delete-card-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .card-deadline {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--bg);
+            padding: 2px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .next-task-box {
+            font-size: 0.82rem;
+            background: var(--bg);
+            padding: 8px 10px;
+            border-radius: 6px;
+            color: var(--text-main);
+            border-left: 3px solid var(--primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .progress-bar-bg {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--success);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .new-project-card {
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            min-height: 160px;
+        }
+
+        .new-project-card:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-bg);
+        }
+
+        /* Project Detail View */
+        .project-view {
+            display: none;
+        }
+
+        .top-subnav-strip {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 14px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .subnav-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .subnav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            max-width: 380px;
+        }
+
+        .deadline-badge {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            background: var(--bg);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .deadline-input {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--input-bg);
+            color: var(--input-text);
+            font-size: 0.78rem;
+            padding: 2px 4px;
+            outline: none;
+        }
+
+        /* Filter Panel & Tooltip */
+        .filter-toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .collapsible-filter-panel {
+            display: none;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 8px;
+        }
+
+        .collapsible-filter-panel.open {
+            display: grid;
+        }
+
+        .filter-input, .filter-select {
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--input-bg);
+            color: var(--input-text);
+            font-size: 0.8rem;
+            outline: none;
+            width: 100%;
+        }
+
+        .legend-tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .legend-tooltip-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 28px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+            width: 320px;
+            font-size: 0.78rem;
+        }
+
+        .legend-tooltip-container:hover .legend-tooltip-content {
+            display: block;
+        }
+
+        .legend-pop-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .legend-pop-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow-x: auto;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            display: inline-block;
+            min-width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.82rem;
+        }
+
+        th {
+            background: #cbd5e1;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 9px 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: bottom;
+        }
+
+        [data-theme="dark"] th {
+            background: #1e293b;
+            color: var(--text-muted);
+        }
+
+        th.role-col {
+            text-align: center;
+            width: 90px;
+            line-height: 1.1;
+        }
+
+        tr.stage-header-row td {
+            background: var(--primary-bg);
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 0.82rem;
+            padding: 7px 12px;
+            border-top: 1px solid var(--primary-border);
+            border-bottom: 1px solid var(--primary-border);
+        }
+
+        .phase-text {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: 6px;
+        }
+
+        td {
+            padding: 7px 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        td.deliverable-cell {
+            color: var(--text-main);
+            font-weight: 600;
+            padding-left: 12px;
+            max-width: 480px;
+        }
+
+        .task-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .task-checkbox {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--success);
+        }
+
+        tr.task-done td.deliverable-cell .task-title {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        tr.task-done {
+            background-color: rgba(22, 163, 74, 0.05);
+        }
+
+        .badge-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin: 0 auto;
+        }
+
+        .badge-box.A { background: var(--badge-a-bg); color: var(--badge-a-text); }
+        .badge-box.R { background: var(--badge-r-bg); color: var(--badge-r-text); }
+        .badge-box.S { background: var(--badge-s-bg); color: var(--badge-s-text); }
+        .badge-box.C { background: var(--badge-c-bg); color: var(--badge-c-text); }
+        .badge-box.I { background: var(--badge-i-bg); color: var(--badge-i-text); }
+
+        /* Modal / Dialog Styling */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(2px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 420px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--input-bg);
+            color: var(--input-text);
+            font-size: 0.88rem;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .radio-label {
+            flex: 1;
+            border: 1px solid var(--border);
+            padding: 8px 10px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .radio-label:hover {
+            border-color: var(--primary);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        @media print {
+            .top-subnav-strip, .filter-toggle-row, .collapsible-filter-panel, header { display: none !important; }
+            body { background: white; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="title-area">
+            <h1 id="main-header-title">Change & Adaption RASCI</h1>
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+            <button class="btn" onclick="toggleTheme()">🌓 Tema</button>
+            <button class="btn" onclick="window.print()">🖨️ Udskriv</button>
+        </div>
+    </header>
+
+    <!-- DASHBOARD VIEW -->
+    <div id="view-dashboard" class="dashboard-view">
+        <div class="project-cards-grid" id="projects-grid"></div>
+    </div>
+
+    <!-- PROJECT DETAIL VIEW -->
+    <div id="view-project" class="project-view">
+        <!-- Top Sub-Nav Strip -->
+        <div class="top-subnav-strip">
+            <div class="subnav-left">
+                <button class="btn btn-return" onclick="showDashboard()">← Retur til oversigt</button>
+
+                <div class="deadline-badge">
+                    <span>📅 Deadline:</span>
+                    <input type="date" id="project-deadline-input" class="deadline-input" onchange="updateProjectDeadline(this.value)">
+                </div>
+            </div>
+
+            <div class="subnav-right">
+                <span id="progress-text" style="font-size: 0.78rem; font-weight: 700; white-space: nowrap;">0/0 (0%)</span>
+                <div class="progress-bar-bg">
+                    <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-toggle-row">
+            <button class="btn" onclick="toggleFilterPanel()">⚙️ Filtre & Søgning</button>
+            
+            <div class="legend-tooltip-container">
+                <button class="btn">ℹ️ RASCI Forklaring</button>
+                <div class="legend-tooltip-content">
+                    <div class="legend-pop-item"><span class="badge-box R">R</span> <strong>Responsible</strong> (does the work)</div>
+                    <div class="legend-pop-item"><span class="badge-box A">A</span> <strong>Accountable</strong> (owns outcome/decision)</div>
+                    <div class="legend-pop-item"><span class="badge-box S">S</span> <strong>Support</strong> (supports/helps)</div>
+                    <div class="legend-pop-item"><span class="badge-box C">C</span> <strong>Consulted</strong> (provides input)</div>
+                    <div class="legend-pop-item"><span class="badge-box I">I</span> <strong>Informed</strong> (kept up to date)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="collapsible-filter-panel" id="filter-panel">
+            <input type="text" id="search" class="filter-input" placeholder="🔍 Søg i opgaver..." oninput="renderProjectTable()">
+            
+            <select id="role-focus-filter" class="filter-select" onchange="renderProjectTable()">
+                <option value="all">👤 Vis alle roller (6 kolonner)</option>
+            </select>
+
+            <select id="phase-filter" class="filter-select" onchange="renderProjectTable()">
+                <option value="all">Alle Faser (Change Phase)</option>
+            </select>
+
+            <select id="stage-filter" class="filter-select" onchange="renderProjectTable()">
+                <option value="all">Alle Stages (Governance Model)</option>
+            </select>
+
+            <select id="code-filter" class="filter-select" onchange="renderProjectTable()">
+                <option value="all">Filtrér på ansvarskode...</option>
+                <option value="R">R - Responsible</option>
+                <option value="A">A - Accountable</option>
+                <option value="S">S - Support</option>
+                <option value="C">C - Consulted</option>
+                <option value="I">I - Informed</option>
+            </select>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr id="table-header-row">
+                        <th>DELIVERABLE / ACTIVITY</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- NEW PROJECT MODAL -->
+<div class="modal-overlay" id="new-project-modal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2>Opret Nyt Projekt</h2>
+        </div>
+
+        <div class="form-group">
+            <label for="modal-proj-name">Projektnavn:</label>
+            <input type="text" id="modal-proj-name" class="form-control" placeholder="f.eks. CRM Implementering">
+        </div>
+
+        <div class="form-group">
+            <label>Projekttype:</label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="modal-scope" value="minor" checked>
+                    Mindre (13 opgaver)
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="modal-scope" value="all">
+                    Komplekst (30 opgaver)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="modal-proj-deadline">Deadline:</label>
+            <input type="date" id="modal-proj-deadline" class="form-control">
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn" onclick="closeNewProjectModal()">Annuller</button>
+            <button class="btn btn-primary" onclick="confirmCreateProject()">Opret Projekt</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const roles = [
+    "Project manager",
+    "Local change master",
+    "Change & Adaption",
+    "OPCO Responsible",
+    "Sponsor",
+    "People Manager"
+];
+
+const masterTasks = [
+    { id: "task_1", phase: "Preparing Change", stage: "Scoping, Desk Study and Digital Concept", deliverable: "Complete pre-complexity assessment", minor: true, rasci: { "Project manager": "A", "Change & Adaption": "R" } },
+    { id: "task_2", phase: "Preparing Change", stage: "Scoping, Desk Study and Digital Concept", deliverable: "Defining Success", minor: true, rasci: { "Project manager": "A", "Change & Adaption": "R", "OPCO Responsible": "R" } },
+    { id: "task_3", phase: "Preparing Change", stage: "Scoping, Desk Study and Digital Concept", deliverable: "Complete Benefit Realisation Mapping", minor: false, rasci: { "Project manager": "A", "Change & Adaption": "R", "OPCO Responsible": "R" } },
+    
+    { id: "task_4", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Develop core story and key messages", minor: false, rasci: { "Project manager": "R, A", "Local change master": "R, A", "Change & Adaption": "S, C", "OPCO Responsible": "R" } },
+    { id: "task_5", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Organise sponsor coalition", minor: true, rasci: { "Project manager": "S", "Local change master": "R", "Change & Adaption": "S, C", "OPCO Responsible": "R" } },
+    { id: "task_6", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Critically evaluate local meeting structures", minor: false, rasci: { "Project manager": "S", "Local change master": "R, A", "Change & Adaption": "S, C", "OPCO Responsible": "R" } },
+    { id: "task_7", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Complete complexity assessment", minor: false, rasci: { "Project manager": "A", "Local change master": "R", "Change & Adaption": "S, C" } },
+    { id: "task_8", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Create high-level communication plan", minor: true, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+
+    { id: "task_9", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Complete Stakeholder Engagement Plan", minor: true, rasci: { "Project manager": "A", "Local change master": "R", "Change & Adaption": "S, C" } },
+    { id: "task_10", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Complete ADKAR Blueprint and Analyser", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_11", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Complete Change impact assessment", minor: true, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_12", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Create C&A Summary", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_13", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Create Detailed communication plan", minor: true, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_14", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Complete High-level Training plan", minor: false, rasci: { "Project manager": "C", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+
+    { id: "task_15", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Update Stakeholder Engagement Plan", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_16", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Update ADKAR Blueprint and Analyser", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_17", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Update Change impact assessment", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_18", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Update Detailed communication plan", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_19", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Plan and execute training", minor: true, rasci: { "Project manager": "C", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_20", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Secure creation of end user training material", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_21", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Collect Change & Adaption Lessons learned", minor: true, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_22", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Assess Organisation Readiness", minor: false, rasci: { "Project manager": "A", "Local change master": "R", "Change & Adaption": "S, C" } },
+
+    { id: "task_23", phase: "Reinforcing change", stage: "Hypercare/Aftercare", deliverable: "Update Stakeholder Engagement Plan", minor: false, rasci: { "Project manager": "R, A", "Local change master": "R", "Change & Adaption": "S, C" } },
+    { id: "task_24", phase: "Reinforcing change", stage: "Hypercare/Aftercare", deliverable: "Follow up communication", minor: true, rasci: { "Project manager": "A", "Local change master": "R", "Change & Adaption": "S, C" } },
+    { id: "task_25", phase: "Reinforcing change", stage: "Hypercare/Aftercare", deliverable: "Follow up end user training", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_26", phase: "Reinforcing change", stage: "Hypercare/Aftercare", deliverable: "Celebrate success", minor: true, rasci: { "Project manager": "A", "Local change master": "R", "Change & Adaption": "S, C" } },
+
+    { id: "task_27", phase: "Leadership & Sponsor", stage: "Sponsorship & Alignment", deliverable: "Define success, KPIs and local prioritisation", minor: false, rasci: { "Sponsor": "A", "People Manager": "C", "Local change master": "S" } },
+    { id: "task_28", phase: "Leadership & Sponsor", stage: "Sponsorship & Alignment", deliverable: "Communicate business purpose (“why”) visibly and credibly", minor: true, rasci: { "Sponsor": "A", "People Manager": "R", "Local change master": "S" } },
+    { id: "task_29", phase: "Leadership & Sponsor", stage: "Sponsorship & Alignment", deliverable: "Manage negative reactions locally", minor: true, rasci: { "Sponsor": "A", "People Manager": "R", "Local change master": "S" } },
+    { id: "task_30", phase: "Leadership & Sponsor", stage: "Sponsorship & Alignment", deliverable: "Ensure time and conditions for training / info events", minor: false, rasci: { "Sponsor": "A", "People Manager": "R", "Local change master": "S" } }
+];
+
+let projectsData = {};
+let activeProjectId = null;
+
+function initApp() {
+    loadFromLocalStorage();
+
+    const roleSel = document.getElementById('role-focus-filter');
+    roles.forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = r;
+        opt.textContent = `🎯 Fokus: ${r}`;
+        roleSel.appendChild(opt);
+    });
+
+    const phases = [...new Set(masterTasks.map(d => d.phase))];
+    const phaseSel = document.getElementById('phase-filter');
+    phases.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p;
+        opt.textContent = p;
+        phaseSel.appendChild(opt);
+    });
+
+    const stages = [...new Set(masterTasks.map(d => d.stage))];
+    const stageSel = document.getElementById('stage-filter');
+    stages.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s;
+        stageSel.appendChild(opt);
+    });
+
+    showDashboard();
+}
+
+function loadFromLocalStorage() {
+    const saved = localStorage.getItem('rasci_app_projects_v2');
+    if (saved) {
+        try {
+            projectsData = JSON.parse(saved);
+        } catch (e) {
+            console.error("Fejl ved indlæsning", e);
+        }
+    }
+
+    if (!projectsData || Object.keys(projectsData).length === 0) {
+        const defaultId = "proj_1";
+        projectsData = {
+            "proj_1": {
+                id: defaultId,
+                name: "Mit Første Projekt",
+                scope: "all",
+                completedTasks: {},
+                deadline: "",
+                updatedAt: new Date().toLocaleDateString('da-DK')
+            }
+        };
+        saveToLocalStorage();
+    }
+}
+
+function saveToLocalStorage() {
+    localStorage.setItem('rasci_app_projects_v2', JSON.stringify(projectsData));
+}
+
+function toggleFilterPanel() {
+    document.getElementById('filter-panel').classList.toggle('open');
+}
+
+/* NAVIGATION */
+function showDashboard() {
+    activeProjectId = null;
+    document.getElementById('main-header-title').textContent = "Change & Adaption RASCI";
+    document.getElementById('view-dashboard').style.display = 'block';
+    document.getElementById('view-project').style.display = 'none';
+    renderDashboard();
+}
+
+function openProject(projId) {
+    if (projectsData[projId]) {
+        activeProjectId = projId;
+        const proj = projectsData[projId];
+
+        document.getElementById('main-header-title').textContent = proj.name;
+        document.getElementById('view-dashboard').style.display = 'none';
+        document.getElementById('view-project').style.display = 'block';
+        
+        document.getElementById('project-deadline-input').value = proj.deadline || '';
+        renderProjectTable();
+    }
+}
+
+/* DASHBOARD RENDER */
+function renderDashboard() {
+    const grid = document.getElementById('projects-grid');
+    grid.innerHTML = '';
+
+    Object.values(projectsData).forEach(proj => {
+        const scopeTasks = masterTasks.filter(t => (proj.scope || 'all') === 'all' || t.minor);
+        const completedCount = scopeTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+        const totalCount = scopeTasks.length;
+        const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+        const nextTask = scopeTasks.find(t => !(proj.completedTasks && proj.completedTasks[t.id]));
+        const nextTaskText = nextTask ? nextTask.deliverable : "Alle opgaver gennemført! 🎉";
+
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.onclick = () => openProject(proj.id);
+
+        card.innerHTML = `
+            <button class="delete-card-btn" onclick="deleteProjectCard(event, '${proj.id}')" title="Slet projekt">✖</button>
+            
+            <div class="project-card-header">
+                <div class="project-card-title">${proj.name}</div>
+                <div class="card-deadline">
+                    📅 ${proj.deadline ? formatDate(proj.deadline) : 'Ingen deadline'}
+                </div>
+            </div>
+
+            <div class="next-task-box" title="Næste uafsluttede opgave">
+                <strong>Næste opgave:</strong> ${nextTaskText}
+            </div>
+
+            <div>
+                <div class="card-progress-info">
+                    <span>Status</span>
+                    <strong>${completedCount} / ${totalCount} (${pct}%)</strong>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" style="width: ${pct}%;"></div>
+                </div>
+            </div>
+        `;
+
+        grid.appendChild(card);
+    });
+
+    const newCard = document.createElement('div');
+    newCard.className = 'new-project-card';
+    newCard.onclick = openNewProjectModal;
+    newCard.innerHTML = `
+        <div style="font-size: 2rem; font-weight: 300;">+</div>
+        <div style="font-weight: 600;">Opret Nyt Projekt</div>
+    `;
+    grid.appendChild(newCard);
+}
+
+function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+    return dateStr;
+}
+
+/* MODAL / OPKALD */
+function openNewProjectModal() {
+    document.getElementById('modal-proj-name').value = '';
+    document.getElementById('modal-proj-deadline').value = '';
+    document.getElementById('new-project-modal').style.display = 'flex';
+    document.getElementById('modal-proj-name').focus();
+}
+
+function closeNewProjectModal() {
+    document.getElementById('new-project-modal').style.display = 'none';
+}
+
+function confirmCreateProject() {
+    const name = document.getElementById('modal-proj-name').value.trim();
+    const deadline = document.getElementById('modal-proj-deadline').value;
+    const scope = document.querySelector('input[name="modal-scope"]:checked').value;
+
+    if (!name) {
+        alert("Indtast venligst et projektnavn.");
+        return;
+    }
+
+    const newId = "proj_" + Date.now();
+    projectsData[newId] = {
+        id: newId,
+        name: name,
+        scope: scope,
+        completedTasks: {},
+        deadline: deadline,
+        updatedAt: new Date().toLocaleDateString('da-DK')
+    };
+
+    saveToLocalStorage();
+    closeNewProjectModal();
+    openProject(newId);
+}
+
+function deleteProjectCard(event, projId) {
+    event.stopPropagation();
+    if (Object.keys(projectsData).length <= 1) {
+        alert("Du skal have mindst ét aktivt projekt.");
+        return;
+    }
+    const proj = projectsData[projId];
+    if (confirm(`Er du sikker på, at du vil slette opgaven / projektet "${proj.name}"?`)) {
+        delete projectsData[projId];
+        saveToLocalStorage();
+        renderDashboard();
+    }
+}
+
+/* PROJECT VIEW LOGIC */
+function updateProjectDeadline(newDeadline) {
+    if (activeProjectId && projectsData[activeProjectId]) {
+        projectsData[activeProjectId].deadline = newDeadline;
+        saveToLocalStorage();
+    }
+}
+
+function toggleTaskCompletion(taskId) {
+    if (activeProjectId && projectsData[activeProjectId]) {
+        const proj = projectsData[activeProjectId];
+        if (!proj.completedTasks) proj.completedTasks = {};
+        proj.completedTasks[taskId] = !proj.completedTasks[taskId];
+        saveToLocalStorage();
+        renderProjectTable();
+    }
+}
+
+function renderProjectTable() {
+    if (!activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    const currentScope = proj.scope || 'all';
+
+    const searchVal = document.getElementById('search').value.toLowerCase();
+    const roleFocusVal = document.getElementById('role-focus-filter').value;
+    const phaseVal = document.getElementById('phase-filter').value;
+    const stageVal = document.getElementById('stage-filter').value;
+    const codeVal = document.getElementById('code-filter').value;
+
+    const visibleRoles = roleFocusVal === 'all' ? roles : [roleFocusVal];
+
+    // Header update
+    const headerRow = document.getElementById('table-header-row');
+    headerRow.innerHTML = `<th>DELIVERABLE / ACTIVITY</th>` + 
+        visibleRoles.map(r => `<th class="role-col">${r.toUpperCase()}</th>`).join('');
+
+    // Filter tasks
+    const filtered = masterTasks.filter(item => {
+        if (currentScope === 'minor' && !item.minor) return false;
+        if (phaseVal !== 'all' && item.phase !== phaseVal) return false;
+        if (stageVal !== 'all' && item.stage !== stageVal) return false;
+        if (searchVal && !item.deliverable.toLowerCase().includes(searchVal)) return false;
+        if (roleFocusVal !== 'all' && !item.rasci[roleFocusVal]) return false;
+        if (codeVal !== 'all') {
+            const hasCode = Object.values(item.rasci).some(c => c.includes(codeVal));
+            if (!hasCode) return false;
+        }
+        return true;
+    });
+
+    // Progress
+    const totalScopeTasks = masterTasks.filter(item => currentScope === 'all' || item.minor);
+    const completedCount = totalScopeTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+    const totalCount = totalScopeTasks.length;
+    const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+    document.getElementById('progress-text').textContent = `${completedCount}/${totalCount} (${pct}%)`;
+    document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+
+    const tbody = document.getElementById('table-body');
+    const colCount = visibleRoles.length + 1;
+
+    if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="${colCount}" style="text-align:center; padding: 20px; color: var(--text-muted);">Ingen leverancer matchede de valgte filtre.</td></tr>`;
+        return;
+    }
+
+    // Group by Stage
+    const stages = [...new Set(filtered.map(d => d.stage))];
+    let html = '';
+
+    stages.forEach(stageName => {
+        const stageTasks = filtered.filter(d => d.stage === stageName);
+        const phaseName = stageTasks[0].phase;
+
+        html += `<tr class="stage-header-row">
+            <td colspan="${colCount}">
+                ${stageName}
+                <span class="phase-text">(${phaseName})</span>
+            </td>
+        </tr>`;
+
+        stageTasks.forEach(item => {
+            const isDone = proj.completedTasks && proj.completedTasks[item.id];
+
+            html += `<tr class="${isDone ? 'task-done' : ''}">
+                <td class="deliverable-cell">
+                    <label class="task-label">
+                        <input type="checkbox" class="task-checkbox" ${isDone ? 'checked' : ''} onchange="toggleTaskCompletion('${item.id}')">
+                        <span class="task-title">${item.deliverable}</span>
+                    </label>
+                </td>
+                ${visibleRoles.map(r => {
+                    const code = item.rasci[r] || '-';
+                    return `<td style="text-align: center;">${formatBadge(code)}</td>`;
+                }).join('')}
+            </tr>`;
+        });
+    });
+
+    tbody.innerHTML = html;
+}
+
+function formatBadge(val) {
+    if (val === '-') return '<span style="color:var(--border);">-</span>';
+    const firstChar = val.trim().charAt(0);
+    if (['R','A','S','C','I'].includes(firstChar)) {
+        return `<span class="badge-box ${firstChar}">${firstChar}</span>`;
+    }
+    return val;
+}
+
+function toggleTheme() {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+}
+
+window.onload = initApp;
+</script>
+</body>
+</html>
