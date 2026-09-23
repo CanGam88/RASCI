@@ -1,5 +1,5 @@
 {
   "tools": [],
   "language": "HTML",
-  "query": "Update index.html so that in the assessment modal question buttons (.score-option-btn), the descriptive text (.score-desc) is placed FIRST on top in a bold, prominent, clear blue/bright font, and the point value (.score-num, e.g. '1 Point') is placed SECOND underneath it as a smaller, subtle caption. Swap their order in HTML and adjust CSS classes so reading the descriptive answer is primary and very clear."
+  "query": "Update index.html to remove the KPI status bar completely (.kpi-bar). Change 'Dagens Frø' concept to 'Fokus opgave' with a target/bullseye icon 🎯 instead of the frog 🐸. Update 'Huskeliste til dagens frø' to 'Noter'. Rename variables and tags accordingly (e.g. 'fokusProjectId' instead of 'frogProjectId'). Ensure all buttons, headers, and placeholders reflect 'Fokus opgave' and 'Noter'."
 }
