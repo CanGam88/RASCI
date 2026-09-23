@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change & Adaption RASCI App</title>
+    <title>RASCI - Change & Adaption</title>
+
+    <!-- App Icon & Manifest for installation -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%232563eb'/><text x='50%' y='58%' font-family='sans-serif' font-weight='900' font-size='130' fill='white' text-anchor='middle'>RASCI</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%232563eb'/><text x='50%' y='58%' font-family='sans-serif' font-weight='900' font-size='130' fill='white' text-anchor='middle'>RASCI</text></svg>">
+    
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlJBU0NJIC0gQ2hhbmdlICYgQWRhcHRpb24iLAogICJzaG9ydF9uYW1lIjogIlJBU0NJIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGYxNzJhIiwKICAidGhlbWVfY29sb3IiOiAiIzI1NjNlYiIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDUxMiA1MTInPjxyZWN0IHdpZHRoPSc1MTInIGhlaWdodD0nNTEyJyByeD0nMTAwJyBmaWxsPSclMjMyNTYzZWInLz48dGV4dCB4PSc1MCUnIHk9JzU4JScgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZvbnQtd2VpZ2h0PSc5MDAnIGZvbnQtc2l6ZT0nMTMwJyBmaWxsPSd3aGl0ZScgdGV4dC1hbmNob3I9J21pZGRsZSc+UkFTQ0k8L3RleHQ+PC9zdmc+IiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==">
+
     <style>
         :root {
             --bg: #e2e8f0;
@@ -19,6 +26,8 @@
             --purple-bg: #f3e8ff;
             --success: #16a34a;
             --success-bg: #dcfce7;
+            --amber: #d97706;
+            --amber-bg: #fef3c7;
 
             --input-bg: #ffffff;
             --input-text: #0f172a;
@@ -49,6 +58,8 @@
             --purple-bg: #3b0764;
             --success: #22c55e;
             --success-bg: #14532d;
+            --amber: #f59e0b;
+            --amber-bg: #78350f;
 
             --input-bg: #1e293b;
             --input-text: #f8fafc;
@@ -118,7 +129,6 @@
             color: white;
         }
 
-        /* Diskret blyant-ikon til noter */
         .btn-pencil-note {
             background: transparent;
             border: none;
@@ -155,6 +165,22 @@
             border-bottom: 2px solid var(--border);
         }
 
+        .app-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.05em;
+        }
+
+        .title-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .title-area h1 {
             font-size: 2rem;
             color: var(--text-main);
@@ -164,6 +190,50 @@
         /* Dashboard View */
         .dashboard-view {
             display: block;
+        }
+
+        /* Frog Featured Card */
+        .frog-container {
+            margin-bottom: 24px;
+        }
+
+        .frog-card {
+            background: var(--surface);
+            border: 2px solid var(--amber);
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.15s;
+        }
+
+        .frog-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .frog-header-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--amber-bg);
+            color: var(--amber);
+            font-weight: 800;
+            font-size: 0.85rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            align-self: flex-start;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .frog-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-main);
         }
 
         .project-cards-grid {
@@ -181,9 +251,18 @@
             display: flex;
             flex-direction: column;
             gap: 14px;
-            cursor: pointer;
+            cursor: grab;
             transition: transform 0.15s, border-color 0.15s;
             position: relative;
+        }
+
+        .project-card:active {
+            cursor: grabbing;
+        }
+
+        .project-card.dragging {
+            opacity: 0.4;
+            border: 2px dashed var(--primary);
         }
 
         .project-card:hover {
@@ -196,7 +275,7 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 8px;
-            padding-right: 32px;
+            padding-right: 60px;
         }
 
         .project-card-title {
@@ -205,10 +284,36 @@
             color: var(--text-main);
         }
 
-        .delete-card-btn {
+        .card-actions-top {
             position: absolute;
             top: 12px;
             right: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .frog-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.3;
+            transition: all 0.2s;
+        }
+
+        .frog-btn:hover, .frog-btn.is-frog {
+            opacity: 1;
+            background: var(--amber-bg);
+        }
+
+        .delete-card-btn {
             background: transparent;
             border: none;
             color: #ef4444;
@@ -663,7 +768,8 @@
 <div class="container">
     <header>
         <div class="title-area">
-            <h1 id="main-header-title">Change & Adaption RASCI</h1>
+            <span class="app-badge">RASCI</span>
+            <h1 id="main-header-title">Change & Adaption</h1>
         </div>
 
         <div style="display: flex; gap: 10px;">
@@ -674,6 +780,10 @@
 
     <!-- DASHBOARD VIEW -->
     <div id="view-dashboard" class="dashboard-view">
+        <!-- Frog Featured Top Area -->
+        <div class="frog-container" id="frog-area"></div>
+
+        <!-- Project Grid -->
         <div class="project-cards-grid" id="projects-grid"></div>
     </div>
 
@@ -838,9 +948,12 @@ const masterTasks = [
 ];
 
 let projectsData = {};
+let projectOrder = [];
+let frogProjectId = null;
 let activeProjectId = null;
 
 function initApp() {
+    loadSavedTheme();
     loadFromLocalStorage();
 
     const roleSel = document.getElementById('role-focus-filter');
@@ -872,13 +985,28 @@ function initApp() {
     showDashboard();
 }
 
+/* THEME PERSISTENCE */
+function loadSavedTheme() {
+    const savedTheme = localStorage.getItem('rasci_app_theme');
+    if (savedTheme) {
+        document.body.setAttribute('data-theme', savedTheme);
+    }
+}
+
+function toggleTheme() {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    const newTheme = isDark ? 'light' : 'dark';
+    document.body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('rasci_app_theme', newTheme);
+}
+
 function loadFromLocalStorage() {
     const saved = localStorage.getItem('rasci_app_projects_v2');
     if (saved) {
         try {
             projectsData = JSON.parse(saved);
         } catch (e) {
-            console.error("Fejl ved indlæsning", e);
+            console.error("Fejl ved indlæsning af projekter", e);
         }
     }
 
@@ -895,12 +1023,41 @@ function loadFromLocalStorage() {
                 updatedAt: new Date().toLocaleDateString('da-DK')
             }
         };
-        saveToLocalStorage();
     }
+
+    // Load order
+    const savedOrder = localStorage.getItem('rasci_app_order');
+    if (savedOrder) {
+        try {
+            projectOrder = JSON.parse(savedOrder);
+        } catch(e){}
+    }
+    
+    // Ensure all projects exist in order
+    Object.keys(projectsData).forEach(id => {
+        if (!projectOrder.includes(id)) {
+            projectOrder.push(id);
+        }
+    });
+    projectOrder = projectOrder.filter(id => projectsData[id]);
+
+    // Load Frog
+    frogProjectId = localStorage.getItem('rasci_app_frog') || null;
+    if (frogProjectId && !projectsData[frogProjectId]) {
+        frogProjectId = null;
+    }
+
+    saveToLocalStorage();
 }
 
 function saveToLocalStorage() {
     localStorage.setItem('rasci_app_projects_v2', JSON.stringify(projectsData));
+    localStorage.setItem('rasci_app_order', JSON.stringify(projectOrder));
+    if (frogProjectId) {
+        localStorage.setItem('rasci_app_frog', frogProjectId);
+    } else {
+        localStorage.removeItem('rasci_app_frog');
+    }
 }
 
 function toggleFilterPanel() {
@@ -910,7 +1067,7 @@ function toggleFilterPanel() {
 /* NAVIGATION */
 function showDashboard() {
     activeProjectId = null;
-    document.getElementById('main-header-title').textContent = "Change & Adaption RASCI";
+    document.getElementById('main-header-title').textContent = "Change & Adaption";
     document.getElementById('view-dashboard').style.display = 'block';
     document.getElementById('view-project').style.display = 'none';
     renderDashboard();
@@ -930,12 +1087,71 @@ function openProject(projId) {
     }
 }
 
+/* FROG TOGGLE */
+function setFrogProject(event, projId) {
+    event.stopPropagation();
+    if (frogProjectId === projId) {
+        frogProjectId = null; // Unset frog
+    } else {
+        frogProjectId = projId;
+    }
+    saveToLocalStorage();
+    renderDashboard();
+}
+
 /* DASHBOARD RENDER */
 function renderDashboard() {
+    const frogContainer = document.getElementById('frog-area');
     const grid = document.getElementById('projects-grid');
+    frogContainer.innerHTML = '';
     grid.innerHTML = '';
 
-    Object.values(projectsData).forEach(proj => {
+    // Render Frog Featured Card if selected
+    if (frogProjectId && projectsData[frogProjectId]) {
+        const frogProj = projectsData[frogProjectId];
+        const scopeTasks = masterTasks.filter(t => (frogProj.scope || 'all') === 'all' || t.minor);
+        const completedCount = scopeTasks.filter(t => frogProj.completedTasks && frogProj.completedTasks[t.id]).length;
+        const totalCount = scopeTasks.length;
+        const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+        const nextTask = scopeTasks.find(t => !(frogProj.completedTasks && frogProj.completedTasks[t.id]));
+        const nextTaskText = nextTask ? nextTask.deliverable : "Alle opgaver gennemført! 🎉";
+
+        const frogCard = document.createElement('div');
+        frogCard.className = 'frog-card';
+        frogCard.onclick = () => openProject(frogProj.id);
+        frogCard.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="frog-header-tag">🐸 Dagens Frø (Højeste Prioritet)</div>
+                <button class="frog-btn is-frog" onclick="setFrogProject(event, '${frogProj.id}')" title="Fjern frø-markering">🐸</button>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px;">
+                <div class="frog-title">${frogProj.name}</div>
+                <div class="card-deadline">📅 ${frogProj.deadline ? formatDate(frogProj.deadline) : 'Ingen deadline'}</div>
+            </div>
+
+            <div class="next-task-box" title="Næste uafsluttede opgave">
+                <strong>Næste opgave:</strong> ${nextTaskText}
+            </div>
+
+            <div>
+                <div class="card-progress-info">
+                    <span>Samlet Status</span>
+                    <strong>${completedCount} / ${totalCount} (${pct}%)</strong>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" style="width: ${pct}%;"></div>
+                </div>
+            </div>
+        `;
+        frogContainer.appendChild(frogCard);
+    }
+
+    // Render Grid Cards (in projectOrder sequence)
+    projectOrder.forEach((projId) => {
+        const proj = projectsData[projId];
+        if (!proj) return;
+
         const scopeTasks = masterTasks.filter(t => (proj.scope || 'all') === 'all' || t.minor);
         const completedCount = scopeTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
         const totalCount = scopeTasks.length;
@@ -946,10 +1162,17 @@ function renderDashboard() {
 
         const card = document.createElement('div');
         card.className = 'project-card';
+        card.draggable = true;
+        card.dataset.id = proj.id;
         card.onclick = () => openProject(proj.id);
 
+        const isFrog = frogProjectId === proj.id;
+
         card.innerHTML = `
-            <button class="delete-card-btn" onclick="deleteProjectCard(event, '${proj.id}')" title="Slet projekt">✖</button>
+            <div class="card-actions-top">
+                <button class="frog-btn ${isFrog ? 'is-frog' : ''}" onclick="setFrogProject(event, '${proj.id}')" title="Sæt som Dagens Frø">🐸</button>
+                <button class="delete-card-btn" onclick="deleteProjectCard(event, '${proj.id}')" title="Slet projekt">✖</button>
+            </div>
             
             <div class="project-card-header">
                 <div class="project-card-title">${proj.name}</div>
@@ -973,6 +1196,7 @@ function renderDashboard() {
             </div>
         `;
 
+        setupDragAndDrop(card);
         grid.appendChild(card);
     });
 
@@ -984,6 +1208,42 @@ function renderDashboard() {
         <div style="font-weight: 600; font-size: 1.1rem;">Opret Nyt Projekt</div>
     `;
     grid.appendChild(newCard);
+}
+
+/* DRAG & DROP REORDERING */
+let draggedCardId = null;
+
+function setupDragAndDrop(card) {
+    card.addEventListener('dragstart', (e) => {
+        draggedCardId = card.dataset.id;
+        card.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+    });
+
+    card.addEventListener('dragend', () => {
+        card.classList.remove('dragging');
+        draggedCardId = null;
+    });
+
+    card.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    });
+
+    card.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const targetId = card.dataset.id;
+        if (draggedCardId && targetId && draggedCardId !== targetId) {
+            const fromIndex = projectOrder.indexOf(draggedCardId);
+            const toIndex = projectOrder.indexOf(targetId);
+            if (fromIndex !== -1 && toIndex !== -1) {
+                projectOrder.splice(fromIndex, 1);
+                projectOrder.splice(toIndex, 0, draggedCardId);
+                saveToLocalStorage();
+                renderDashboard();
+            }
+        }
+    });
 }
 
 function formatDate(dateStr) {
@@ -1028,6 +1288,7 @@ function confirmCreateProject() {
         updatedAt: new Date().toLocaleDateString('da-DK')
     };
 
+    projectOrder.push(newId);
     saveToLocalStorage();
     closeNewProjectModal();
     openProject(newId);
@@ -1042,6 +1303,8 @@ function deleteProjectCard(event, projId) {
     const proj = projectsData[projId];
     if (confirm(`Er du sikker på, at du vil slette opgaven / projektet "${proj.name}"?`)) {
         delete projectsData[projId];
+        projectOrder = projectOrder.filter(id => id !== projId);
+        if (frogProjectId === projId) frogProjectId = null;
         saveToLocalStorage();
         renderDashboard();
     }
@@ -1081,7 +1344,6 @@ function saveTaskNote(taskId, text) {
         proj.taskNotes[taskId] = text.trim();
         saveToLocalStorage();
         
-        // Opdater blyant-ikonets udseende
         const noteBtn = document.getElementById(`note-btn-${taskId}`);
         if (noteBtn) {
             if (text.trim()) {
@@ -1205,11 +1467,6 @@ function formatBadge(val) {
         return `<span class="badge-box ${firstChar}">${firstChar}</span>`;
     }
     return val;
-}
-
-function toggleTheme() {
-    const isDark = document.body.getAttribute('data-theme') === 'dark';
-    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
 }
 
 window.onload = initApp;
