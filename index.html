@@ -28,6 +28,8 @@
             --success-bg: #dcfce7;
             --amber: #d97706;
             --amber-bg: #fef3c7;
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
 
             --input-bg: #ffffff;
             --input-text: #0f172a;
@@ -60,6 +62,8 @@
             --success-bg: #14532d;
             --amber: #f59e0b;
             --amber-bg: #78350f;
+            --danger: #ef4444;
+            --danger-bg: #7f1d1d;
 
             --input-bg: #1e293b;
             --input-text: #f8fafc;
@@ -163,6 +167,8 @@
             margin-bottom: 24px;
             padding-bottom: 16px;
             border-bottom: 2px solid var(--border);
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .app-badge {
@@ -235,25 +241,66 @@
             color: var(--text-main);
         }
 
-        .frog-notes-area {
-            margin-top: 4px;
+        /* Frog Checklist Styling */
+        .frog-todo-container {
+            background: var(--surface-subtle);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 6px;
         }
 
-        .frog-notes-input {
-            width: 100%;
-            min-height: 60px;
-            padding: 10px 14px;
+        .frog-todo-input-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .frog-todo-input {
+            flex: 1;
+            padding: 8px 12px;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            background: var(--bg);
-            color: var(--text-main);
+            border-radius: 6px;
+            background: var(--input-bg);
+            color: var(--input-text);
             font-size: 0.95rem;
             outline: none;
-            resize: vertical;
         }
 
-        .frog-notes-input:focus {
+        .frog-todo-input:focus {
             border-color: var(--amber);
+        }
+
+        .frog-todo-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .frog-todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 6px 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .frog-todo-item.done span {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .frog-todo-delete-btn {
+            background: transparent;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 2px 6px;
         }
 
         .project-cards-grid {
@@ -353,6 +400,7 @@
             background: rgba(239, 68, 68, 0.1);
         }
 
+        /* Deadline Dynamic Status Badges */
         .card-deadline {
             font-size: 0.9rem;
             color: var(--text-muted);
@@ -363,6 +411,19 @@
             padding: 4px 10px;
             border-radius: 6px;
             white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .card-deadline.overdue {
+            background: var(--danger-bg);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .card-deadline.due-soon {
+            background: var(--amber-bg);
+            color: var(--amber);
+            border: 1px solid var(--amber);
         }
 
         .next-task-box {
@@ -491,8 +552,9 @@
             border-radius: 10px;
             padding: 14px;
             margin-bottom: 16px;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 12px;
+            align-items: center;
         }
 
         .collapsible-filter-panel.open {
@@ -508,6 +570,23 @@
             font-size: 0.95rem;
             outline: none;
             width: 100%;
+        }
+
+        .my-view-btn {
+            background: var(--surface);
+            border: 1px solid var(--primary-border);
+            color: var(--primary);
+            font-weight: 700;
+            padding: 9px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .my-view-btn.active {
+            background: var(--primary);
+            color: white;
         }
 
         .legend-tooltip-container {
@@ -593,6 +672,22 @@
             padding: 12px 16px;
             border-top: 1px solid var(--primary-border);
             border-bottom: 1px solid var(--primary-border);
+        }
+
+        .stage-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stage-progress-badge {
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: var(--surface);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--primary-border);
         }
 
         .phase-text {
@@ -792,7 +887,10 @@
             <h1 id="main-header-title">Change & Adaption</h1>
         </div>
 
-        <div style="display: flex; gap: 10px;">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn" onclick="exportBackup()" title="Download alle data som en backup-fil">💾 Eksporter Backup</button>
+            <button class="btn" onclick="triggerImport()" title="Indlæs backup-fil">📂 Importer Backup</button>
+            <input type="file" id="import-file-input" style="display: none;" accept=".json" onchange="importBackup(event)">
             <button class="btn" onclick="toggleTheme()">🌓 Tema</button>
             <button class="btn" onclick="window.print()">🖨️ Udskriv</button>
         </div>
@@ -813,7 +911,7 @@
             <div class="subnav-left">
                 <button class="btn btn-return" onclick="showDashboard()">← Retur til oversigt</button>
 
-                <div class="deadline-badge">
+                <div id="project-deadline-badge" class="deadline-badge">
                     <span>📅 Deadline:</span>
                     <input type="date" id="project-deadline-input" class="deadline-input" onchange="updateProjectDeadline(this.value)">
                 </div>
@@ -848,6 +946,8 @@
             <select id="role-focus-filter" class="filter-select" onchange="renderProjectTable()">
                 <option value="all">👤 Vis alle roller (6 kolonner)</option>
             </select>
+
+            <button id="my-view-btn" class="my-view-btn" onclick="toggleMyView()">🎯 Min Visning (R/A)</button>
 
             <select id="phase-filter" class="filter-select" onchange="renderProjectTable()">
                 <option value="all">Alle Faser (Change Phase)</option>
@@ -971,6 +1071,7 @@ let projectsData = {};
 let projectOrder = [];
 let frogProjectId = null;
 let activeProjectId = null;
+let isMyViewActive = false;
 
 function initApp() {
     loadSavedTheme();
@@ -980,7 +1081,7 @@ function initApp() {
     roles.forEach(r => {
         const opt = document.createElement('option');
         opt.value = r;
-        opt.textContent = `🎯 Fokus: ${r}`;
+        opt.textContent = `👤 Fokus: ${r}`;
         roleSel.appendChild(opt);
     });
 
@@ -1039,7 +1140,7 @@ function loadFromLocalStorage() {
                 scope: "all",
                 completedTasks: {},
                 taskNotes: {},
-                frogNotes: "",
+                frogTodos: [],
                 deadline: "",
                 updatedAt: new Date().toLocaleDateString('da-DK')
             }
@@ -1054,7 +1155,6 @@ function loadFromLocalStorage() {
         } catch(e){}
     }
     
-    // Ensure all projects exist in order
     Object.keys(projectsData).forEach(id => {
         if (!projectOrder.includes(id)) {
             projectOrder.push(id);
@@ -1062,7 +1162,6 @@ function loadFromLocalStorage() {
     });
     projectOrder = projectOrder.filter(id => projectsData[id]);
 
-    // Load Frog
     frogProjectId = localStorage.getItem('rasci_app_frog') || null;
     if (frogProjectId && !projectsData[frogProjectId]) {
         frogProjectId = null;
@@ -1081,8 +1180,60 @@ function saveToLocalStorage() {
     }
 }
 
+/* BACKUP EXPORT & IMPORT */
+function exportBackup() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+        projects: projectsData,
+        order: projectOrder,
+        frog: frogProjectId,
+        theme: localStorage.getItem('rasci_app_theme')
+    }));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `rasci_backup_${new Date().toISOString().slice(0,10)}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+}
+
+function triggerImport() {
+    document.getElementById('import-file-input').click();
+}
+
+function importBackup(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const imported = JSON.parse(e.target.result);
+            if (imported.projects) {
+                projectsData = imported.projects;
+                if (imported.order) projectOrder = imported.order;
+                if (imported.frog) frogProjectId = imported.frog;
+                if (imported.theme) localStorage.setItem('rasci_app_theme', imported.theme);
+                saveToLocalStorage();
+                loadSavedTheme();
+                renderDashboard();
+                alert("Backup blev indlæst med succes!");
+            }
+        } catch (err) {
+            alert("Ugyldig backup-fil.");
+        }
+    };
+    reader.readAsText(file);
+}
+
 function toggleFilterPanel() {
     document.getElementById('filter-panel').classList.toggle('open');
+}
+
+function toggleMyView() {
+    isMyViewActive = !isMyViewActive;
+    const btn = document.getElementById('my-view-btn');
+    btn.classList.toggle('active', isMyViewActive);
+    renderProjectTable();
 }
 
 /* NAVIGATION */
@@ -1108,7 +1259,7 @@ function openProject(projId) {
     }
 }
 
-/* FROG TOGGLE & NOTES */
+/* FROG TOGGLE & CHECKLIST LOGIC */
 function setFrogProject(event, projId) {
     event.stopPropagation();
     if (frogProjectId === projId) {
@@ -1120,11 +1271,62 @@ function setFrogProject(event, projId) {
     renderDashboard();
 }
 
-function saveFrogNotes(projId, text) {
-    if (projectsData[projId]) {
-        projectsData[projId].frogNotes = text.trim();
+function addFrogTodo(projId) {
+    const input = document.getElementById(`frog-todo-input-${projId}`);
+    if (!input) return;
+    const text = input.value.trim();
+    if (text && projectsData[projId]) {
+        if (!projectsData[projId].frogTodos) projectsData[projId].frogTodos = [];
+        projectsData[projId].frogTodos.push({ id: Date.now(), text: text, done: false });
         saveToLocalStorage();
+        renderDashboard();
     }
+}
+
+function toggleFrogTodo(projId, todoId) {
+    if (projectsData[projId] && projectsData[projId].frogTodos) {
+        const item = projectsData[projId].frogTodos.find(t => t.id === todoId);
+        if (item) {
+            item.done = !item.done;
+            saveToLocalStorage();
+            renderDashboard();
+        }
+    }
+}
+
+function deleteFrogTodo(projId, todoId) {
+    if (projectsData[projId] && projectsData[projId].frogTodos) {
+        projectsData[projId].frogTodos = projectsData[projId].frogTodos.filter(t => t.id !== todoId);
+        saveToLocalStorage();
+        renderDashboard();
+    }
+}
+
+function clearDoneFrogTodos(projId) {
+    if (projectsData[projId] && projectsData[projId].frogTodos) {
+        projectsData[projId].frogTodos = projectsData[projId].frogTodos.filter(t => !t.done);
+        saveToLocalStorage();
+        renderDashboard();
+    }
+}
+
+/* DEADLINE STATUS HELPER */
+function getDeadlineStatus(deadlineStr, isCompleted) {
+    if (!deadlineStr || isCompleted) return { text: deadlineStr ? formatDate(deadlineStr) : 'Ingen deadline', class: '' };
+    
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const deadlineDate = new Date(deadlineStr);
+    deadlineDate.setHours(0,0,0,0);
+
+    const diffDays = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) {
+        return { text: `⚠️ Overskredet (${formatDate(deadlineStr)})`, class: 'overdue' };
+    } else if (diffDays <= 7) {
+        return { text: `⏳ Snart (${formatDate(deadlineStr)})`, class: 'due-soon' };
+    }
+    return { text: formatDate(deadlineStr), class: '' };
 }
 
 /* DASHBOARD RENDER */
@@ -1134,7 +1336,7 @@ function renderDashboard() {
     frogContainer.innerHTML = '';
     grid.innerHTML = '';
 
-    // Render Frog Featured Card if selected
+    // Render Frog Featured Card
     if (frogProjectId && projectsData[frogProjectId]) {
         const frogProj = projectsData[frogProjectId];
         const scopeTasks = masterTasks.filter(t => (frogProj.scope || 'all') === 'all' || t.minor);
@@ -1143,11 +1345,23 @@ function renderDashboard() {
         const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
         const nextTask = scopeTasks.find(t => !(frogProj.completedTasks && frogProj.completedTasks[t.id]));
         const nextTaskText = nextTask ? nextTask.deliverable : "Alle opgaver gennemført! 🎉";
-        const notes = frogProj.frogNotes || "";
+        const todos = frogProj.frogTodos || [];
+        const dlStatus = getDeadlineStatus(frogProj.deadline, pct === 100);
 
         const frogCard = document.createElement('div');
         frogCard.className = 'frog-card';
         frogCard.onclick = () => openProject(frogProj.id);
+        
+        let todosHtml = todos.map(t => `
+            <li class="frog-todo-item ${t.done ? 'done' : ''}">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer; width:100%;">
+                    <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleFrogTodo('${frogProj.id}', ${t.id})">
+                    <span>${t.text}</span>
+                </label>
+                <button class="frog-todo-delete-btn" onclick="deleteFrogTodo('${frogProj.id}', ${t.id})">🗑️</button>
+            </li>
+        `).join('');
+
         frogCard.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div class="frog-header-tag">🐸 Dagens Frø (Højeste Prioritet)</div>
@@ -1156,7 +1370,7 @@ function renderDashboard() {
             
             <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px;">
                 <div class="frog-title">${frogProj.name}</div>
-                <div class="card-deadline">📅 ${frogProj.deadline ? formatDate(frogProj.deadline) : 'Ingen deadline'}</div>
+                <div class="card-deadline ${dlStatus.class}">📅 ${dlStatus.text}</div>
             </div>
 
             <div class="next-task-box" title="Næste uafsluttede opgave">
@@ -1173,17 +1387,24 @@ function renderDashboard() {
                 </div>
             </div>
 
-            <div class="frog-notes-area" onclick="event.stopPropagation()">
-                <label style="font-size: 0.85rem; font-weight: 700; color: var(--amber); display: block; margin-bottom: 4px;">📝 Huskeliste & Noter til Dagens Frø:</label>
-                <textarea class="frog-notes-input" placeholder="Skriv dine huskenoter eller fokuspunkter til dette projekt her..." onblur="saveFrogNotes('${frogProj.id}', this.value)">${notes}</textarea>
+            <div class="frog-todo-container" onclick="event.stopPropagation()">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <label style="font-size: 0.85rem; font-weight: 700; color: var(--amber);">📝 Huskeliste til Dagens Frø:</label>
+                    ${todos.some(t => t.done) ? `<button class="btn" style="padding:2px 8px; font-size:0.75rem;" onclick="clearDoneFrogTodos('${frogProj.id}')">Ryd udførte</button>` : ''}
+                </div>
+                <div class="frog-todo-input-row">
+                    <input type="text" id="frog-todo-input-${frogProj.id}" class="frog-todo-input" placeholder="Tilføj nyt fokuspunkt..." onkeydown="if(event.key==='Enter') addFrogTodo('${frogProj.id}')">
+                    <button class="btn btn-primary" style="padding:6px 12px;" onclick="addFrogTodo('${frogProj.id}')">+ Tilføj</button>
+                </div>
+                <ul class="frog-todo-list">${todosHtml}</ul>
             </div>
         `;
         frogContainer.appendChild(frogCard);
     }
 
-    // Render Grid Cards (Excluding Frog Project to prevent duplicates)
+    // Render Grid Cards
     projectOrder.forEach((projId) => {
-        if (projId === frogProjectId) return; // Skjul frøen fra gitteret nedenunder
+        if (projId === frogProjectId) return;
 
         const proj = projectsData[projId];
         if (!proj) return;
@@ -1195,6 +1416,7 @@ function renderDashboard() {
 
         const nextTask = scopeTasks.find(t => !(proj.completedTasks && proj.completedTasks[t.id]));
         const nextTaskText = nextTask ? nextTask.deliverable : "Alle opgaver gennemført! 🎉";
+        const dlStatus = getDeadlineStatus(proj.deadline, pct === 100);
 
         const card = document.createElement('div');
         card.className = 'project-card';
@@ -1210,8 +1432,8 @@ function renderDashboard() {
             
             <div class="project-card-header">
                 <div class="project-card-title">${proj.name}</div>
-                <div class="card-deadline">
-                    📅 ${proj.deadline ? formatDate(proj.deadline) : 'Ingen deadline'}
+                <div class="card-deadline ${dlStatus.class}">
+                    📅 ${dlStatus.text}
                 </div>
             </div>
 
@@ -1318,7 +1540,7 @@ function confirmCreateProject() {
         scope: scope,
         completedTasks: {},
         taskNotes: {},
-        frogNotes: "",
+        frogTodos: [],
         deadline: deadline,
         updatedAt: new Date().toLocaleDateString('da-DK')
     };
@@ -1350,6 +1572,9 @@ function updateProjectDeadline(newDeadline) {
     if (activeProjectId && projectsData[activeProjectId]) {
         projectsData[activeProjectId].deadline = newDeadline;
         saveToLocalStorage();
+        const dlStatus = getDeadlineStatus(newDeadline, false);
+        const badge = document.getElementById('project-deadline-badge');
+        badge.className = `deadline-badge ${dlStatus.class}`;
     }
 }
 
@@ -1405,7 +1630,7 @@ function renderProjectTable() {
 
     const visibleRoles = roleFocusVal === 'all' ? roles : [roleFocusVal];
 
-    // Header update
+    // Update Header Row
     const headerRow = document.getElementById('table-header-row');
     headerRow.innerHTML = `<th>DELIVERABLE / ACTIVITY</th>` + 
         visibleRoles.map(r => `<th class="role-col">${r.toUpperCase()}</th>`).join('');
@@ -1417,6 +1642,14 @@ function renderProjectTable() {
         if (stageVal !== 'all' && item.stage !== stageVal) return false;
         if (searchVal && !item.deliverable.toLowerCase().includes(searchVal)) return false;
         if (roleFocusVal !== 'all' && !item.rasci[roleFocusVal]) return false;
+        
+        // "Min Visning" filter
+        if (isMyViewActive) {
+            const role = roleFocusVal !== 'all' ? roleFocusVal : "Change & Adaption";
+            const code = item.rasci[role] || "";
+            if (!code.includes("R") && !code.includes("A")) return false;
+        }
+
         if (codeVal !== 'all') {
             const hasCode = Object.values(item.rasci).some(c => c.includes(codeVal));
             if (!hasCode) return false;
@@ -1424,7 +1657,7 @@ function renderProjectTable() {
         return true;
     });
 
-    // Progress
+    // Progress Total
     const totalScopeTasks = masterTasks.filter(item => currentScope === 'all' || item.minor);
     const completedCount = totalScopeTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
     const totalCount = totalScopeTasks.length;
@@ -1432,6 +1665,11 @@ function renderProjectTable() {
 
     document.getElementById('progress-text').textContent = `${completedCount}/${totalCount} (${pct}%)`;
     document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+
+    // Deadline status badge in detail header
+    const dlStatus = getDeadlineStatus(proj.deadline, pct === 100);
+    const badge = document.getElementById('project-deadline-badge');
+    badge.className = `deadline-badge ${dlStatus.class}`;
 
     const tbody = document.getElementById('table-body');
     const colCount = visibleRoles.length + 1;
@@ -1441,7 +1679,7 @@ function renderProjectTable() {
         return;
     }
 
-    // Group by Stage
+    // Group by Stage with Stage Progress
     const stages = [...new Set(filtered.map(d => d.stage))];
     let html = '';
 
@@ -1449,10 +1687,19 @@ function renderProjectTable() {
         const stageTasks = filtered.filter(d => d.stage === stageName);
         const phaseName = stageTasks[0].phase;
 
+        const stageCompleted = stageTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+        const stageTotal = stageTasks.length;
+        const stagePct = Math.round((stageCompleted / stageTotal) * 100);
+
         html += `<tr class="stage-header-row">
             <td colspan="${colCount}">
-                ${stageName}
-                <span class="phase-text">(${phaseName})</span>
+                <div class="stage-header-content">
+                    <div>
+                        ${stageName}
+                        <span class="phase-text">(${phaseName})</span>
+                    </div>
+                    <span class="stage-progress-badge">${stageCompleted}/${stageTotal} udført (${stagePct}%)</span>
+                </div>
             </td>
         </tr>`;
 
