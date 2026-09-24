@@ -9,15 +9,16 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%232563eb'/><text x='50%' y='58%' font-family='-apple-system, sans-serif' font-weight='900' font-size='130' fill='white' text-anchor='middle'>RASCI</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%232563eb'/><text x='50%' y='58%' font-family='-apple-system, sans-serif' font-weight='900' font-size='130' fill='white' text-anchor='middle'>RASCI</text></svg>">
     
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlJBU0NJIC0gQ2hhbmdlICYgQWRhcHRpb24iLAogICJzaG9ydF9uYW1lIjogIlJBU0NJIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDkxZTNhIiwKICAidGhlbWVfY29sb3IiOiAiIzI1NjNlYiIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDUxMiA1MTInPjxyZWN0IHdpZHRoPSc1MTInIGhlaWdodD0nNTEyJyByeD0nMTIwJyBmaWxsPSclMjMyNTYzZWInLz48dGV4dCB4PSc1MCUnIHk9JzU4JScgZm9udC1mYW1pbHk9Jy1hcHBsZS1zeXN0ZW0sIHNhbnMtc2VyaWYnIGZvbnQtd2VpZ2h0PSc5MDAnIGZvbnQtc2l6ZT0nMTMwJyBmaWxsPSd3aGl0ZScgdGV4dC1hbmNob3I9J21pZGRsZSc+UkFTQ0k8L3RleHQ+PC9zdmc+IiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==">
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlJBU0NJIC0gQ2hhbmdlICYgQWRhcHRpb24iLAogICJzaG9ydF9uYW1lIjogIlJBU0NJIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDkxZTNhIiwKICAidGhlbWVfY29sb3IiOiAiIzI1NjNlYiIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDUxMiA1MTInPjxyZWN0IHdpZHRoPSc1MTInIGhlaWdodD0nNTEy'%232563eb' stroke-width='2'/><text x='50%' y='58%' font-family='-apple-system, sans-serif' font-weight='900' font-size='130' fill='white' text-anchor='middle'>RASCI</text></svg>">
 
     <style>
+        /* BLØDT OG HARMONISK LYST TEMA */
         :root {
-            --bg: #f8fafc;
-            --bg-pattern: radial-gradient(#cbd5e1 1.2px, transparent 1.2px);
+            --bg: #f4f6f9;
+            --bg-pattern: radial-gradient(#cbd5e1 0.8px, transparent 0.8px);
             --surface: #ffffff;
-            --surface-subtle: #f1f5f9;
-            --text-main: #0f172a;
+            --surface-subtle: #f8fafc;
+            --text-main: #1e293b;
             --text-muted: #64748b;
             --border: #e2e8f0;
             --primary: #2563eb;
@@ -25,18 +26,18 @@
             --primary-bg: #eff6ff;
             --primary-border: #bfdbfe;
             --success: #10b981;
-            --success-bg: #ecfdf5;
+            --success-bg: #f0fdf4;
             --amber: #f59e0b;
             --amber-bg: #fffbeb;
             --danger: #ef4444;
             --danger-bg: #fef2f2;
 
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.03);
-            --shadow-md: 0 6px 16px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
-            --shadow-lg: 0 16px 32px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.08);
 
             --input-bg: #ffffff;
-            --input-text: #0f172a;
+            --input-text: #1e293b;
 
             --badge-a-bg: #10b981;
             --badge-r-bg: #2563eb;
@@ -44,10 +45,13 @@
             --badge-c-bg: #6366f1;
             --badge-i-bg: #64748b;
 
-            --phase-bg: #1e293b;
-            --phase-text: #f8fafc;
+            --phase-bg: #334155;
+            --phase-text: #ffffff;
+            --stage-bg: #edf2f7;
+            --stage-text: #0f172a;
         }
 
+        /* MØRKT TEMA (BEVARET OG SKÅNSOMT) */
         [data-theme="dark"] {
             --bg: #091026;
             --bg-pattern: radial-gradient(#1e293b 1.2px, transparent 1.2px);
@@ -76,6 +80,8 @@
 
             --phase-bg: #1e293b;
             --phase-text: #f8fafc;
+            --stage-bg: #0f172a;
+            --stage-text: #f8fafc;
         }
 
         * {
@@ -88,7 +94,7 @@
         body {
             background-color: var(--bg);
             background-image: var(--bg-pattern);
-            background-size: 24px 24px;
+            background-size: 20px 20px;
             color: var(--text-main);
             padding: 28px;
             transition: background-color 0.3s ease, color 0.3s ease;
@@ -128,12 +134,12 @@
             background: var(--primary-gradient);
             color: white;
             border: none;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
             color: white;
         }
 
@@ -199,7 +205,7 @@
             padding: 4px 12px;
             border-radius: 8px;
             letter-spacing: 0.08em;
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
         }
 
         .title-area {
@@ -229,7 +235,7 @@
             border: 2px solid var(--primary);
             border-radius: 20px;
             padding: 28px;
-            box-shadow: 0 12px 30px -5px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 12px 30px -5px rgba(37, 99, 235, 0.15);
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -240,7 +246,7 @@
 
         .fokus-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 18px 36px -5px rgba(37, 99, 235, 0.28);
+            box-shadow: 0 18px 36px -5px rgba(37, 99, 235, 0.22);
         }
 
         .fokus-header-tag {
@@ -256,7 +262,7 @@
             align-self: flex-start;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
         }
 
         .fokus-title {
@@ -525,7 +531,7 @@
         }
 
         .new-project-card {
-            background: rgba(255, 255, 255, 0.3);
+            background: var(--surface);
             border: 2px dashed var(--border);
             border-radius: 20px;
             padding: 32px;
@@ -653,7 +659,7 @@
         .my-view-btn.active {
             background: var(--primary-gradient);
             color: white;
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
         }
 
         .legend-tooltip-container {
@@ -725,6 +731,7 @@
             border-radius: 16px;
             box-shadow: var(--shadow-md);
             width: 100%;
+            overflow: hidden;
         }
 
         table {
@@ -747,8 +754,8 @@
             text-transform: uppercase;
             letter-spacing: 0.06em;
             padding: 18px 20px;
-            border-bottom: 3px solid var(--primary);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         th.role-col {
@@ -766,19 +773,17 @@
             padding: 16px 20px;
             letter-spacing: 0.05em;
             border-left: 6px solid var(--primary);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
         }
 
         /* Stage Header Row */
         tr.stage-header-row td {
-            background: var(--primary-bg);
-            color: var(--text-main);
+            background: var(--stage-bg);
+            color: var(--stage-text);
             font-weight: 800;
             font-size: 0.95rem;
             padding: 12px 20px;
-            border-top: 1px solid var(--primary-border);
-            border-bottom: 1px solid var(--primary-border);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
         .stage-header-content {
@@ -794,7 +799,7 @@
             color: var(--primary);
             padding: 4px 10px;
             border-radius: 8px;
-            border: 1px solid var(--primary-border);
+            border: 1px solid var(--border);
         }
 
         td {
@@ -807,7 +812,7 @@
         td.deliverable-cell {
             color: var(--text-main);
             font-weight: 600;
-            font-size: 1.05rem;
+            font-size: 1.02rem;
             padding-left: 20px;
         }
 
@@ -833,7 +838,7 @@
         }
 
         tr.task-done td {
-            background-color: rgba(16, 185, 129, 0.04);
+            background-color: var(--success-bg);
         }
 
         .note-drawer-row td {
@@ -877,7 +882,7 @@
             font-size: 0.9rem;
             color: white;
             margin: 0 auto;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .badge-box.A { background: var(--badge-a-bg); }
@@ -894,8 +899,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(6px);
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(5px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -1306,7 +1311,7 @@
 </div>
 
 <script>
-// OPCO RESPONSIBLE PURGED - ONLY 5 ROLES NOW
+// ROLES - OPCO RESPONSIBLE PURGED
 const roles = [
     "Project manager",
     "Local change master",
@@ -1359,7 +1364,6 @@ let fokusProjectId = null;
 let activeProjectId = null;
 let isMyViewActive = false;
 
-// Pending state for new project wizard
 let newProjectPending = { name: "", deadline: "" };
 let currentAssessmentScores = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1 };
 
@@ -1396,7 +1400,6 @@ function initApp() {
     showDashboard();
 }
 
-/* THEME PERSISTENCE */
 function loadSavedTheme() {
     const savedTheme = localStorage.getItem('rasci_app_theme');
     if (savedTheme) {
@@ -1470,7 +1473,6 @@ function saveToLocalStorage() {
     }
 }
 
-/* BACKUP EXPORT & IMPORT */
 function exportBackup() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
         projects: projectsData,
@@ -1526,7 +1528,6 @@ function toggleMyView() {
     renderProjectTable();
 }
 
-/* NAVIGATION */
 function showDashboard() {
     activeProjectId = null;
     document.getElementById('main-header-title').textContent = "Change & Adaption";
@@ -1549,7 +1550,6 @@ function openProject(projId) {
     }
 }
 
-/* FOCUS TOGGLE & CHECKLIST LOGIC */
 function setFokusProject(event, projId) {
     event.stopPropagation();
     if (fokusProjectId === projId) {
@@ -1609,7 +1609,6 @@ function clearDoneFokusTodos(projId) {
     }
 }
 
-/* DEADLINE STATUS HELPER */
 function getDeadlineStatus(deadlineStr, isCompleted) {
     if (!deadlineStr || isCompleted) return { text: deadlineStr ? formatDate(deadlineStr) : 'Ingen deadline', class: '' };
     
@@ -1628,14 +1627,12 @@ function getDeadlineStatus(deadlineStr, isCompleted) {
     return { text: formatDate(deadlineStr), class: '' };
 }
 
-/* DASHBOARD RENDER */
 function renderDashboard() {
     const fokusContainer = document.getElementById('fokus-area');
     const grid = document.getElementById('projects-grid');
     fokusContainer.innerHTML = '';
     grid.innerHTML = '';
 
-    // Render Focus Featured Card
     if (fokusProjectId && projectsData[fokusProjectId]) {
         const fokusProj = projectsData[fokusProjectId];
         const scopeTasks = masterTasks.filter(t => (fokusProj.scope || 'all') === 'all' || t.minor);
@@ -1706,7 +1703,6 @@ function renderDashboard() {
         fokusContainer.appendChild(fokusCard);
     }
 
-    // Render Grid Cards
     projectOrder.forEach((projId) => {
         if (projId === fokusProjectId) return;
 
@@ -1775,7 +1771,6 @@ function renderDashboard() {
     grid.appendChild(newCard);
 }
 
-/* DRAG & DROP REORDERING */
 let draggedCardId = null;
 
 function setupDragAndDrop(card) {
@@ -1820,7 +1815,6 @@ function formatDate(dateStr) {
     return dateStr;
 }
 
-/* WIZARD MODALS & ASSESSMENT LOGIC */
 function openNewProjectModal() {
     document.getElementById('modal-proj-name').value = '';
     document.getElementById('modal-proj-deadline').value = '';
@@ -1909,7 +1903,6 @@ function deleteProjectCard(event, projId) {
     }
 }
 
-/* PROJECT VIEW LOGIC */
 function updateProjectDeadline(newDeadline) {
     if (activeProjectId && projectsData[activeProjectId]) {
         projectsData[activeProjectId].deadline = newDeadline;
@@ -1930,7 +1923,6 @@ function toggleTaskCompletion(taskId) {
     }
 }
 
-/* NOTES LOGIC */
 function toggleNoteDrawer(taskId) {
     const drawerRow = document.getElementById(`note-drawer-${taskId}`);
     if (drawerRow) {
@@ -1972,12 +1964,10 @@ function renderProjectTable() {
 
     const visibleRoles = roleFocusVal === 'all' ? roles : [roleFocusVal];
 
-    // Update Header Row
     const headerRow = document.getElementById('table-header-row');
     headerRow.innerHTML = `<th>DELIVERABLE / ACTIVITY</th>` + 
         visibleRoles.map(r => `<th class="role-col">${r.toUpperCase()}</th>`).join('');
 
-    // Filter tasks
     const filtered = masterTasks.filter(item => {
         if (currentScope === 'minor' && !item.minor) return false;
         if (phaseVal !== 'all' && item.phase !== phaseVal) return false;
@@ -1998,7 +1988,6 @@ function renderProjectTable() {
         return true;
     });
 
-    // Overall Progress Total
     const totalScopeTasks = masterTasks.filter(item => currentScope === 'all' || item.minor);
     const completedCount = totalScopeTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
     const totalCount = totalScopeTasks.length;
@@ -2007,7 +1996,6 @@ function renderProjectTable() {
     document.getElementById('progress-text').textContent = `${completedCount}/${totalCount} (${pct}%)`;
     document.getElementById('progress-bar-fill').style.width = `${pct}%`;
 
-    // Render Phase Progress Grid Top Summary
     const allPhases = [...new Set(masterTasks.map(t => t.phase))];
     const phaseSummaryContainer = document.getElementById('phase-summary-grid');
     phaseSummaryContainer.innerHTML = '';
@@ -2044,7 +2032,6 @@ function renderProjectTable() {
         return;
     }
 
-    // GROUP BY CHANGE PHASE THEN STAGE
     const phases = [...new Set(filtered.map(d => d.phase))];
     let html = '';
 
@@ -2054,17 +2041,15 @@ function renderProjectTable() {
         const phaseTotal = phaseTasks.length;
         const phasePct = Math.round((phaseCompleted / phaseTotal) * 100);
 
-        // CLEAN & ELEGANT PHASE ROW
         html += `<tr class="phase-header-row">
             <td colspan="${colCount}">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span style="letter-spacing:0.06em; font-weight:800;">${phaseName.toUpperCase()}</span>
-                    <span style="font-size:0.82rem; font-weight:700; background:var(--surface); color:var(--text-main); padding:4px 12px; border-radius:8px; border:1px solid var(--border);">${phaseCompleted}/${phaseTotal} udført (${phasePct}%)</span>
+                    <span style="letter-spacing:0.05em; font-weight:800;">${phaseName.toUpperCase()}</span>
+                    <span style="font-size:0.82rem; font-weight:700; background:rgba(255,255,255,0.2); color:white; padding:4px 12px; border-radius:8px;">${phaseCompleted}/${phaseTotal} udført (${phasePct}%)</span>
                 </div>
             </td>
         </tr>`;
 
-        // Sub-group by Stage
         const stages = [...new Set(phaseTasks.map(d => d.stage))];
         stages.forEach(stageName => {
             const stageTasks = phaseTasks.filter(d => d.stage === stageName);
