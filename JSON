@@ -1,5 +1,5 @@
 {
   "tools": [],
   "language": "HTML",
-  "query": "Update index.html so that the table header row ('thead th') becomes sticky/flydende (using CSS 'position: sticky; top: 0; z-index: 10;') when scrolling down through long task lists. Ensure the header background matches the surface theme and has a clean shadow border underneath so it stays clearly visible above scrolling rows."
+  "query": "Update index.html so that the table header row ('th') is strictly fixed/sticky at the top of the viewport when scrolling down the page ('position: sticky; top: 0; z-index: 100;'). Fix any container CSS (remove overflow:hidden/auto on wrapper divs if necessary or make table header sticky inside the window scroll context) to guarantee the row with role names stays visible at the top as the user scrolls through deliverables."
 }
