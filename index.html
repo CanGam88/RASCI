@@ -731,7 +731,6 @@
             border-radius: 16px;
             box-shadow: var(--shadow-md);
             width: 100%;
-            /* BEMÆRK: Fjernet overflow:hidden så position:sticky virker 100% på skærmens scroll */
         }
 
         table {
@@ -742,7 +741,6 @@
             font-size: 1rem;
         }
 
-        /* STICKY HEADER FIX FOR ALL BROWSERS */
         thead th {
             position: sticky;
             top: 0;
@@ -764,7 +762,6 @@
             line-height: 1.2;
         }
 
-        /* MODERN ELEGANT PHASE HEADER ROW */
         tr.phase-header-row td {
             background: var(--phase-bg);
             color: var(--phase-text);
@@ -775,7 +772,6 @@
             border-left: 6px solid var(--primary);
         }
 
-        /* Stage Header Row */
         tr.stage-header-row td {
             background: var(--stage-bg);
             color: var(--stage-text);
@@ -868,6 +864,74 @@
 
         .note-textarea:focus {
             border-color: var(--primary);
+        }
+
+        /* DEFINING SUCCESS TEMPLATE CARD */
+        .template-card {
+            background: var(--surface);
+            border: 2px solid var(--primary-border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .template-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary-border);
+            padding-bottom: 12px;
+        }
+
+        .template-card-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .template-field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .template-field-label {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .template-field-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .template-textarea {
+            width: 100%;
+            min-height: 70px;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--input-bg);
+            color: var(--input-text);
+            font-size: 0.95rem;
+            outline: none;
+            resize: vertical;
+        }
+
+        .template-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
 
         /* RASCI Badges */
@@ -1433,6 +1497,7 @@ function loadFromLocalStorage() {
                 scope: "all",
                 completedTasks: { "task_1": true },
                 taskNotes: { "task_1": "Pre-complexity assessment gennemført ved oprettelse." },
+                definingSuccessData: {},
                 assessmentScore: 12,
                 fokusTodos: [],
                 deadline: "",
@@ -1876,6 +1941,7 @@ function confirmAssessmentAndCreate() {
         assessmentDetails: { ...currentAssessmentScores },
         completedTasks: { "task_1": true },
         taskNotes: { "task_1": `Pre-complexity Score: ${totalScore}/18 (${calculatedScope === 'all' ? 'Komplekst' : 'Mindre'}). Test udført ved oprettelse.` },
+        definingSuccessData: {},
         fokusTodos: [],
         deadline: newProjectPending.deadline,
         updatedAt: new Date().toLocaleDateString('da-DK')
@@ -1938,16 +2004,40 @@ function saveTaskNote(taskId, text) {
         proj.taskNotes[taskId] = text.trim();
         saveToLocalStorage();
         
-        const noteBtn = document.getElementById(`note-btn-${taskId}`);
-        if (noteBtn) {
-            if (text.trim()) {
-                noteBtn.classList.add('has-note');
-                noteBtn.title = "Rediger note (har skrevet note)";
-            } else {
-                noteBtn.classList.remove('has-note');
-                noteBtn.title = "Tilføj note";
-            }
-        }
+        updateNoteBtnBadge(taskId);
+    }
+}
+
+function saveDefiningSuccessField(fieldKey, value) {
+    if (activeProjectId && projectsData[activeProjectId]) {
+        const proj = projectsData[activeProjectId];
+        if (!proj.definingSuccessData) proj.definingSuccessData = {};
+        
+        proj.definingSuccessData[fieldKey] = value.trim();
+        saveToLocalStorage();
+        updateNoteBtnBadge("task_2");
+    }
+}
+
+function updateNoteBtnBadge(taskId) {
+    const noteBtn = document.getElementById(`note-btn-${taskId}`);
+    if (!noteBtn || !activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+
+    let hasData = false;
+    if (taskId === 'task_2') {
+        const ds = proj.definingSuccessData || {};
+        hasData = Object.values(ds).some(val => val && val.trim().length > 0) || (proj.taskNotes && proj.taskNotes['task_2'] && proj.taskNotes['task_2'].trim().length > 0);
+    } else {
+        hasData = proj.taskNotes && proj.taskNotes[taskId] && proj.taskNotes[taskId].trim().length > 0;
+    }
+
+    if (hasData) {
+        noteBtn.classList.add('has-note');
+        noteBtn.title = "Rediger skabelon / note (har skrevet indhold)";
+    } else {
+        noteBtn.classList.remove('has-note');
+        noteBtn.title = "Åbn skabelon / note";
     }
 }
 
@@ -2041,7 +2131,6 @@ function renderProjectTable() {
         const phaseTotal = phaseTasks.length;
         const phasePct = Math.round((phaseCompleted / phaseTotal) * 100);
 
-        // RENSENDE FASEOVERDRIFT (UDEN ORD "FASE:")
         html += `<tr class="phase-header-row">
             <td colspan="${colCount}">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -2070,7 +2159,14 @@ function renderProjectTable() {
             stageTasks.forEach(item => {
                 const isDone = proj.completedTasks && proj.completedTasks[item.id];
                 const noteText = (proj.taskNotes && proj.taskNotes[item.id]) ? proj.taskNotes[item.id] : '';
-                const hasNote = noteText.length > 0;
+                
+                let hasNote = noteText.length > 0;
+                if (item.id === 'task_2') {
+                    const ds = proj.definingSuccessData || {};
+                    if (Object.values(ds).some(val => val && val.trim().length > 0)) {
+                        hasNote = true;
+                    }
+                }
 
                 html += `<tr class="${isDone ? 'task-done' : ''}">
                     <td class="deliverable-cell">
@@ -2079,7 +2175,7 @@ function renderProjectTable() {
                                 <input type="checkbox" class="task-checkbox" ${isDone ? 'checked' : ''} onchange="toggleTaskCompletion('${item.id}')">
                                 <span class="task-title">${item.deliverable}</span>
                             </label>
-                            <button id="note-btn-${item.id}" class="btn-pencil-note ${hasNote ? 'has-note' : ''}" onclick="toggleNoteDrawer('${item.id}')" title="${hasNote ? 'Rediger note' : 'Tilføj note'}">
+                            <button id="note-btn-${item.id}" class="btn-pencil-note ${hasNote ? 'has-note' : ''}" onclick="toggleNoteDrawer('${item.id}')" title="${hasNote ? 'Rediger skabelon / note' : 'Åbn skabelon / note'}">
                                 ✏️
                             </button>
                         </div>
@@ -2090,7 +2186,60 @@ function renderProjectTable() {
                     }).join('')}
                 </tr>
                 <tr class="note-drawer-row" id="note-drawer-${item.id}">
-                    <td colspan="${colCount}" style="padding: 10px 16px;">
+                    <td colspan="${colCount}" style="padding: 16px 20px;">`;
+
+                // SPECIAL INTERACTIVE TEMPLATE FOR TASK 2 "DEFINING SUCCESS"
+                if (item.id === 'task_2') {
+                    const ds = proj.definingSuccessData || {};
+                    html += `
+                        <div class="template-card">
+                            <div class="template-card-header">
+                                <div class="template-card-title">
+                                    <span>📋 Defining Success Skabelon</span>
+                                </div>
+                                <span style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">✓ Gemmes automatisk</span>
+                            </div>
+
+                            <div class="template-field-group">
+                                <label class="template-field-label">🎯 1. Business Purpose (Hvorfor gør vi dette?)</label>
+                                <div class="template-field-desc">Beskriv det overordnede forretningsmæssige formål og årsagen til forandringen.</div>
+                                <textarea class="template-textarea" placeholder="Skriv forretningsmæssigt formål..." onblur="saveDefiningSuccessField('businessPurpose', this.value)">${ds.businessPurpose || ''}</textarea>
+                            </div>
+
+                            <div class="template-field-group">
+                                <label class="template-field-label">📦 2. Project Outcomes (Hvilke resultater & leverancer forventes?)</label>
+                                <div class="template-field-desc">Nævn de konkrete løsninger, systemer eller nye arbejdsgange, der skal leveres.</div>
+                                <textarea class="template-textarea" placeholder="Skriv projektets konkrete leverancer..." onblur="saveDefiningSuccessField('projectOutcomes', this.value)">${ds.projectOutcomes || ''}</textarea>
+                            </div>
+
+                            <div class="template-field-group">
+                                <label class="template-field-label">👥 3. People & Adoption Goals (Menneskelige mål & adfærdsændring)</label>
+                                <div class="template-field-desc">Hvad er målet for medarbejdernes brug, adfærd og kompetencer, når det er rullet ud?</div>
+                                <textarea class="template-textarea" placeholder="Skriv adfærds- og adoptionsmål..." onblur="saveDefiningSuccessField('peopleGoals', this.value)">${ds.peopleGoals || ''}</textarea>
+                            </div>
+
+                            <div class="template-field-group">
+                                <label class="template-field-label">📊 4. Success Metrics & KPI'er (Hvordan måler vi succesen?)</label>
+                                <div class="template-field-desc">Nævn målbare nøgletal, KPI'er eller milepæle for hvornår forandringen er en succes.</div>
+                                <textarea class="template-textarea" placeholder="Skriv målepunkter og KPI'er..." onblur="saveDefiningSuccessField('successKpis', this.value)">${ds.successKpis || ''}</textarea>
+                            </div>
+
+                            <div class="template-field-group">
+                                <label class="template-field-label">🌟 5. Vision of Success (Hvordan ser hverdagen ud i mål?)</label>
+                                <div class="template-field-desc">Kort beskrivelse af hvordan den fremtidige hverdag ser ud, når alt fungerer optimalt.</div>
+                                <textarea class="template-textarea" placeholder="Skriv succesvisionen..." onblur="saveDefiningSuccessField('visionOfSuccess', this.value)">${ds.visionOfSuccess || ''}</textarea>
+                            </div>
+
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Supplerende noter:</label>
+                                <button class="btn" style="padding: 4px 10px; font-size: 0.8rem;" onclick="toggleNoteDrawer('${item.id}')">Fold sammen</button>
+                            </div>
+                            <textarea class="note-textarea" style="min-height:50px;" placeholder="Eventuelle øvrige noter til Defining Success..." onblur="saveTaskNote('${item.id}', this.value)">${noteText}</textarea>
+                        </div>
+                    `;
+                } else {
+                    // STANDARD NOTE DRAWER FOR OTHER TASKS
+                    html += `
                         <div style="display: flex; flex-direction: column; gap: 6px;">
                             <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Opgavenote / noter:</label>
                             <textarea class="note-textarea" placeholder="Skriv din note her (gemmes automatisk)..." onblur="saveTaskNote('${item.id}', this.value)">${noteText}</textarea>
@@ -2098,8 +2247,10 @@ function renderProjectTable() {
                                 <button class="btn" style="padding: 3px 8px; font-size: 0.78rem;" onclick="toggleNoteDrawer('${item.id}')">Fold sammen</button>
                             </div>
                         </div>
-                    </td>
-                </tr>`;
+                    `;
+                }
+
+                html += `</td></tr>`;
             });
         });
     });
@@ -2120,3 +2271,6 @@ window.onload = initApp;
 </script>
 </body>
 </html>
+```
+
+Prøv at åbne et projekt i appen, gå til opgave 2 ("Defining Success"), og tryk på blyant-ikonet ✏️ for at se skabelonen!
