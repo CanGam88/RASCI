@@ -1,5 +1,5 @@
 {
   "tools": [],
   "language": "HTML",
-  "query": "Update index.html to completely remove the 'OPCO Responsible' role from the roles list, table columns, filter dropdowns, and task definitions. Keep all other 5 roles ('Project manager', 'Local change master', 'Change & Adaption', 'Sponsor', 'People Manager') intact."
+  "query": "Update index.html so that the table header row ('thead th') becomes sticky/flydende (using CSS 'position: sticky; top: 0; z-index: 10;') when scrolling down through long task lists. Ensure the header background matches the surface theme and has a clean shadow border underneath so it stays clearly visible above scrolling rows."
 }
