@@ -12,7 +12,6 @@
     <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlJBU0NJIC0gQ2hhbmdlICYgQWRhcHRpb24iLAogICJzaG9ydF9uYW1lIjogIlJBU0NJIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDkxZTNhIiwKICAidGhlbWVfY29sb3IiOiAiIzI1NjNlYiIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDUxMiA1MTInPjxyZWN0IHdpZHRoPSc1MTInIGhlaWdodD0nNTEyJyByeD0nMTIwJyBmaWxsPSclMjMyNTYzZWInLz48dGV4dCB4PSc1MCUnIHk9JzU4JScgZm9udC1mYW1pbHk9Jy1hcHBsZS1zeXN0ZW0sIHNhbnMtc2VyaWYnIGZvbnQtd2VpZ2h0PSc5MDAnIGZvbnQtc2l6ZT0nMTMwJyBmaWxsPSd3aGl0ZScgdGV4dC1hbmNob3I9J21pZGRsZSc+UkFTQ0k8L3RleHQ+PC9zdmc+IiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==">
 
     <style>
-        /* BLØDT, MODERNE OG BEHAGELIGT LYST TEMA */
         :root {
             --bg: #f8fafc;
             --bg-pattern: radial-gradient(#cbd5e1 0.7px, transparent 0.7px);
@@ -51,7 +50,6 @@
             --stage-text: #0f172a;
         }
 
-        /* MØRKT TEMA */
         [data-theme="dark"] {
             --bg: #091026;
             --bg-pattern: radial-gradient(#1e293b 1.2px, transparent 1.2px);
@@ -866,72 +864,133 @@
             border-color: var(--primary);
         }
 
-        /* DEFINING SUCCESS TEMPLATE CARD */
-        .template-card {
+        /* DEFINING SUCCESS FORM STYLING */
+        .def-success-box {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
             background: var(--surface);
-            border: 2px solid var(--primary-border);
-            border-radius: 16px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            margin-top: 8px;
         }
 
-        .template-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--primary-border);
-            padding-bottom: 12px;
-        }
-
-        .template-card-title {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .template-field-group {
+        .def-field-group {
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
 
-        .template-field-label {
+        .def-field-label {
+            font-weight: 800;
             font-size: 0.9rem;
-            font-weight: 800;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            color: var(--primary);
         }
 
-        .template-field-desc {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .template-textarea {
+        .def-field-input {
             width: 100%;
-            min-height: 70px;
+            min-height: 60px;
             padding: 10px 14px;
             border: 1px solid var(--border);
-            border-radius: 10px;
+            border-radius: 8px;
             background: var(--input-bg);
             color: var(--input-text);
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             outline: none;
             resize: vertical;
         }
 
-        .template-textarea:focus {
+        .def-field-input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        /* BENEFIT REALISATION CANVAS STYLING */
+        .brm-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            margin-top: 8px;
+        }
+
+        .brm-toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            background: var(--surface-subtle);
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .brm-canvas-wrap {
+            position: relative;
+            width: 100%;
+            height: 520px;
+            background: var(--surface-subtle);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .brm-svg-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .brm-card-node {
+            position: absolute;
+            width: 180px;
+            min-height: 75px;
+            background: var(--surface);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 8px 10px;
+            box-shadow: var(--shadow-sm);
+            cursor: move;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            user-select: none;
+        }
+
+        .brm-card-node.selected {
+            border-color: var(--amber);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+        }
+
+        .brm-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2px;
+        }
+
+        .brm-card-body {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            resize: none;
+            outline: none;
+            height: 42px;
         }
 
         /* RASCI Badges */
@@ -1250,7 +1309,6 @@
         <div style="display:flex; flex-direction:column; gap:16px; max-height:55vh; overflow-y:auto; padding-right:6px;">
             <div class="assessment-section-title">The change</div>
             
-            <!-- Q1 -->
             <div class="question-card">
                 <div class="question-title">1. Hvor mange medarbejdere er ramt af forandringen?</div>
                 <div class="score-options-grid">
@@ -1269,7 +1327,6 @@
                 </div>
             </div>
 
-            <!-- Q2 -->
             <div class="question-card">
                 <div class="question-title">2. Hvilken type forandring er det?</div>
                 <div class="score-options-grid">
@@ -1288,7 +1345,6 @@
                 </div>
             </div>
 
-            <!-- Q3 -->
             <div class="question-card">
                 <div class="question-title">3. Er de forskellige målgrupper påvirket forskelligt?</div>
                 <div class="score-options-grid">
@@ -1309,7 +1365,6 @@
 
             <div class="assessment-section-title">The organization</div>
 
-            <!-- Q4 -->
             <div class="question-card">
                 <div class="question-title">4. Hvordan er ændringskapaciteten i den/de påvirkede dele af organisationen?</div>
                 <div class="score-options-grid">
@@ -1328,7 +1383,6 @@
                 </div>
             </div>
 
-            <!-- Q5 -->
             <div class="question-card">
                 <div class="question-title">5. Hvordan var tidligere forandringer håndteret?</div>
                 <div class="score-options-grid">
@@ -1347,7 +1401,6 @@
                 </div>
             </div>
 
-            <!-- Q6 -->
             <div class="question-card">
                 <div class="question-title">6. Hvordan er det oplevede behov for den planlagte forandring blandt påvirkede medarbejdere?</div>
                 <div class="score-options-grid">
@@ -1375,7 +1428,6 @@
 </div>
 
 <script>
-// EXCLUSIVELY 5 ROLES - OPCO RESPONSIBLE PURGED
 const roles = [
     "Project manager",
     "Local change master",
@@ -1430,6 +1482,9 @@ let isMyViewActive = false;
 
 let newProjectPending = { name: "", deadline: "" };
 let currentAssessmentScores = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1 };
+
+let selectedBrmNodeId = null;
+let brmConnectingSourceId = null;
 
 function initApp() {
     loadSavedTheme();
@@ -1498,6 +1553,7 @@ function loadFromLocalStorage() {
                 completedTasks: { "task_1": true },
                 taskNotes: { "task_1": "Pre-complexity assessment gennemført ved oprettelse." },
                 definingSuccessData: {},
+                brmData: { nodes: [], connections: [] },
                 assessmentScore: 12,
                 fokusTodos: [],
                 deadline: "",
@@ -1942,6 +1998,7 @@ function confirmAssessmentAndCreate() {
         completedTasks: { "task_1": true },
         taskNotes: { "task_1": `Pre-complexity Score: ${totalScore}/18 (${calculatedScope === 'all' ? 'Komplekst' : 'Mindre'}). Test udført ved oprettelse.` },
         definingSuccessData: {},
+        brmData: { nodes: [], connections: [] },
         fokusTodos: [],
         deadline: newProjectPending.deadline,
         updatedAt: new Date().toLocaleDateString('da-DK')
@@ -2004,41 +2061,208 @@ function saveTaskNote(taskId, text) {
         proj.taskNotes[taskId] = text.trim();
         saveToLocalStorage();
         
-        updateNoteBtnBadge(taskId);
+        const noteBtn = document.getElementById(`note-btn-${taskId}`);
+        if (noteBtn) {
+            if (text.trim()) {
+                noteBtn.classList.add('has-note');
+            } else {
+                noteBtn.classList.remove('has-note');
+            }
+        }
     }
 }
 
+/* DEFINING SUCCESS SAVE FUNCTION */
 function saveDefiningSuccessField(fieldKey, value) {
     if (activeProjectId && projectsData[activeProjectId]) {
         const proj = projectsData[activeProjectId];
         if (!proj.definingSuccessData) proj.definingSuccessData = {};
         
-        proj.definingSuccessData[fieldKey] = value.trim();
+        proj.definingSuccessData[fieldKey] = value;
         saveToLocalStorage();
-        updateNoteBtnBadge("task_2");
+
+        const noteBtn = document.getElementById(`note-btn-task_2`);
+        const hasContent = Object.values(proj.definingSuccessData).some(v => v && v.trim().length > 0);
+        if (noteBtn) {
+            if (hasContent) {
+                noteBtn.classList.add('has-note');
+            } else {
+                noteBtn.classList.remove('has-note');
+            }
+        }
     }
 }
 
-function updateNoteBtnBadge(taskId) {
-    const noteBtn = document.getElementById(`note-btn-${taskId}`);
-    if (!noteBtn || !activeProjectId || !projectsData[activeProjectId]) return;
+/* BENEFIT REALISATION MAPPING (BRM) CANVAS LOGIC */
+function addBrmNode(type) {
+    if (!activeProjectId || !projectsData[activeProjectId]) return;
     const proj = projectsData[activeProjectId];
+    if (!proj.brmData) proj.brmData = { nodes: [], connections: [] };
 
-    let hasData = false;
-    if (taskId === 'task_2') {
-        const ds = proj.definingSuccessData || {};
-        hasData = Object.values(ds).some(val => val && val.trim().length > 0) || (proj.taskNotes && proj.taskNotes['task_2'] && proj.taskNotes['task_2'].trim().length > 0);
-    } else {
-        hasData = proj.taskNotes && proj.taskNotes[taskId] && proj.taskNotes[taskId].trim().length > 0;
-    }
+    const id = "node_" + Date.now();
+    const count = proj.brmData.nodes.length;
+    const newNode = {
+        id: id,
+        type: type,
+        text: "",
+        x: 30 + (count % 4) * 200,
+        y: 40 + Math.floor(count / 4) * 100
+    };
 
-    if (hasData) {
-        noteBtn.classList.add('has-note');
-        noteBtn.title = "Rediger skabelon / note (har skrevet indhold)";
-    } else {
-        noteBtn.classList.remove('has-note');
-        noteBtn.title = "Åbn skabelon / note";
+    proj.brmData.nodes.push(newNode);
+    saveToLocalStorage();
+    renderBrmCanvas();
+}
+
+function updateBrmNodeText(nodeId, text) {
+    if (!activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    const node = proj.brmData?.nodes?.find(n => n.id === nodeId);
+    if (node) {
+        node.text = text;
+        saveToLocalStorage();
     }
+}
+
+function selectBrmNode(nodeId) {
+    selectedBrmNodeId = nodeId;
+    renderBrmCanvas();
+}
+
+function deleteSelectedBrmNode() {
+    if (!selectedBrmNodeId || !activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    if (!proj.brmData) return;
+
+    proj.brmData.nodes = proj.brmData.nodes.filter(n => n.id !== selectedBrmNodeId);
+    proj.brmData.connections = proj.brmData.connections.filter(c => c.from !== selectedBrmNodeId && c.to !== selectedBrmNodeId);
+    selectedBrmNodeId = null;
+    brmConnectingSourceId = null;
+    saveToLocalStorage();
+    renderBrmCanvas();
+}
+
+function toggleConnectMode() {
+    if (!selectedBrmNodeId) {
+        alert("Vælg først en boks ved at klikke på den, og tryk derefter på 'Forbind Bokse'.");
+        return;
+    }
+    if (brmConnectingSourceId === selectedBrmNodeId) {
+        brmConnectingSourceId = null;
+    } else {
+        brmConnectingSourceId = selectedBrmNodeId;
+    }
+    renderBrmCanvas();
+}
+
+function handleNodeClickForConnect(nodeId) {
+    if (brmConnectingSourceId && brmConnectingSourceId !== nodeId) {
+        const proj = projectsData[activeProjectId];
+        if (!proj.brmData.connections) proj.brmData.connections = [];
+        
+        const exists = proj.brmData.connections.some(c => (c.from === brmConnectingSourceId && c.to === nodeId) || (c.from === nodeId && c.to === brmConnectingSourceId));
+        if (!exists) {
+            proj.brmData.connections.push({ from: brmConnectingSourceId, to: nodeId });
+            saveToLocalStorage();
+        }
+        brmConnectingSourceId = null;
+    }
+    selectBrmNode(nodeId);
+}
+
+function clearBrmCanvas() {
+    if (confirm("Er du sikker på, at du vil rydde hele Benefit Realisation Lærredet?")) {
+        if (activeProjectId && projectsData[activeProjectId]) {
+            projectsData[activeProjectId].brmData = { nodes: [], connections: [] };
+            saveToLocalStorage();
+            renderBrmCanvas();
+        }
+    }
+}
+
+function renderBrmCanvas() {
+    const wrap = document.getElementById('brm-canvas-wrap');
+    const svgLayer = document.getElementById('brm-svg-layer');
+    if (!wrap || !svgLayer) return;
+
+    const proj = projectsData[activeProjectId];
+    const brm = proj?.brmData || { nodes: [], connections: [] };
+
+    // Clear nodes (keep SVG layer)
+    const existingNodes = wrap.querySelectorAll('.brm-card-node');
+    existingNodes.forEach(n => n.remove());
+
+    // Update SVG Lines
+    let svgHtml = `<defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary)"/>
+        </marker>
+    </defs>`;
+
+    brm.connections.forEach(conn => {
+        const fromNode = brm.nodes.find(n => n.id === conn.from);
+        const toNode = brm.nodes.find(n => n.id === conn.to);
+        if (fromNode && toNode) {
+            const x1 = fromNode.x + 90;
+            const y1 = fromNode.y + 37;
+            const x2 = toNode.x + 90;
+            const y2 = toNode.y + 37;
+            svgHtml += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--primary)" stroke-width="2.5" marker-end="url(#arrow)" />`;
+        }
+    });
+    svgLayer.innerHTML = svgHtml;
+
+    // Render Nodes
+    brm.nodes.forEach(node => {
+        const div = document.createElement('div');
+        div.className = `brm-card-node ${selectedBrmNodeId === node.id ? 'selected' : ''}`;
+        div.style.left = `${node.x}px`;
+        div.style.top = `${node.y}px`;
+
+        div.onclick = (e) => {
+            e.stopPropagation();
+            handleNodeClickForConnect(node.id);
+        };
+
+        div.innerHTML = `
+            <div class="brm-card-header">
+                <span>${node.type}</span>
+            </div>
+            <textarea class="brm-card-body" placeholder="Skriv indhold..." oninput="updateBrmNodeText('${node.id}', this.value)" onclick="e.stopPropagation()">${node.text || ''}</textarea>
+        `;
+
+        // Make node draggable
+        let isDragging = false;
+        let startX, startY;
+
+        div.onmousedown = (e) => {
+            if (e.target.tagName === 'TEXTAREA') return;
+            isDragging = true;
+            startX = e.clientX - node.x;
+            startY = e.clientY - node.y;
+
+            const onMouseMove = (moveEvent) => {
+                if (!isDragging) return;
+                node.x = Math.max(0, Math.min(wrap.clientWidth - 180, moveEvent.clientX - startX));
+                node.y = Math.max(0, Math.min(wrap.clientHeight - 75, moveEvent.clientY - startY));
+                div.style.left = `${node.x}px`;
+                div.style.top = `${node.y}px`;
+                renderBrmCanvas();
+            };
+
+            const onMouseUp = () => {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+                saveToLocalStorage();
+            };
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        };
+
+        wrap.appendChild(div);
+    });
 }
 
 function renderProjectTable() {
@@ -2160,13 +2384,15 @@ function renderProjectTable() {
                 const isDone = proj.completedTasks && proj.completedTasks[item.id];
                 const noteText = (proj.taskNotes && proj.taskNotes[item.id]) ? proj.taskNotes[item.id] : '';
                 
-                let hasNote = noteText.length > 0;
-                if (item.id === 'task_2') {
-                    const ds = proj.definingSuccessData || {};
-                    if (Object.values(ds).some(val => val && val.trim().length > 0)) {
-                        hasNote = true;
-                    }
-                }
+                const isTask2 = item.id === 'task_2';
+                const defData = proj.definingSuccessData || {};
+                const hasDefData = isTask2 && Object.values(defData).some(v => v && v.trim().length > 0);
+
+                const isTask3 = item.id === 'task_3';
+                const brmData = proj.brmData || { nodes: [] };
+                const hasBrmData = isTask3 && brmData.nodes && brmData.nodes.length > 0;
+
+                const hasNote = noteText.length > 0 || hasDefData || hasBrmData;
 
                 html += `<tr class="${isDone ? 'task-done' : ''}">
                     <td class="deliverable-cell">
@@ -2175,7 +2401,7 @@ function renderProjectTable() {
                                 <input type="checkbox" class="task-checkbox" ${isDone ? 'checked' : ''} onchange="toggleTaskCompletion('${item.id}')">
                                 <span class="task-title">${item.deliverable}</span>
                             </label>
-                            <button id="note-btn-${item.id}" class="btn-pencil-note ${hasNote ? 'has-note' : ''}" onclick="toggleNoteDrawer('${item.id}')" title="${hasNote ? 'Rediger skabelon / note' : 'Åbn skabelon / note'}">
+                            <button id="note-btn-${item.id}" class="btn-pencil-note ${hasNote ? 'has-note' : ''}" onclick="toggleNoteDrawer('${item.id}')" title="${hasNote ? 'Rediger dokument / note' : 'Tilføj dokument / note'}">
                                 ✏️
                             </button>
                         </div>
@@ -2186,76 +2412,84 @@ function renderProjectTable() {
                     }).join('')}
                 </tr>
                 <tr class="note-drawer-row" id="note-drawer-${item.id}">
-                    <td colspan="${colCount}" style="padding: 16px 20px;">`;
-
-                // SPECIAL INTERACTIVE TEMPLATE FOR TASK 2 "DEFINING SUCCESS"
-                if (item.id === 'task_2') {
-                    const ds = proj.definingSuccessData || {};
-                    html += `
-                        <div class="template-card">
-                            <div class="template-card-header">
-                                <div class="template-card-title">
-                                    <span>📋 Defining Success Skabelon</span>
+                    <td colspan="${colCount}" style="padding: 10px 16px;">
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            
+                            ${isTask2 ? `
+                            <div class="def-success-box">
+                                <div style="font-weight: 800; font-size: 1.05rem; color: var(--primary); border-bottom: 2px solid var(--primary-border); padding-bottom: 6px;">
+                                    📋 Defining Success Template
                                 </div>
-                                <span style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">✓ Gemmes automatisk</span>
+                                <div class="def-field-group">
+                                    <label class="def-field-label">1. Business Purpose / Why (Hvorfor gør vi dette?):</label>
+                                    <textarea class="def-field-input" placeholder="Beskriv forretningsmæssigt formål..." onblur="saveDefiningSuccessField('why', this.value)">${defData.why || ''}</textarea>
+                                </div>
+                                <div class="def-field-group">
+                                    <label class="def-field-label">2. Project Outcomes (Konkrete projektresultater & leverancer):</label>
+                                    <textarea class="def-field-input" placeholder="Beskriv målbare resultater..." onblur="saveDefiningSuccessField('outcomes', this.value)">${defData.outcomes || ''}</textarea>
+                                </div>
+                                <div class="def-field-group">
+                                    <label class="def-field-label">3. People Goals / Adoption (Menneskelige mål & brug):</label>
+                                    <textarea class="def-field-input" placeholder="Beskriv adfærdsændringer og adoption..." onblur="saveDefiningSuccessField('people', this.value)">${defData.people || ''}</textarea>
+                                </div>
+                                <div class="def-field-group">
+                                    <label class="def-field-label">4. Success Metrics / KPIs (Hvordan måler vi succesen?):</label>
+                                    <textarea class="def-field-input" placeholder="Indtast KPIs og målepunkter..." onblur="saveDefiningSuccessField('kpis', this.value)">${defData.kpis || ''}</textarea>
+                                </div>
+                                <div class="def-field-group">
+                                    <label class="def-field-label">5. Vision of Success (Hverdagsbillede når forandringen er i mål):</label>
+                                    <textarea class="def-field-input" placeholder="Beskriv succeshverdagen..." onblur="saveDefiningSuccessField('vision', this.value)">${defData.vision || ''}</textarea>
+                                </div>
+                            </div>
+                            ` : ''}
+
+                            ${isTask3 ? `
+                            <div class="brm-container">
+                                <div style="font-weight: 800; font-size: 1.05rem; color: var(--primary); border-bottom: 2px solid var(--primary-border); padding-bottom: 6px; display:flex; justify-content:space-between; align-items:center;">
+                                    <span>🗺️ Interaktivt Benefit Realisation Map</span>
+                                    <span style="font-size:0.8rem; font-weight:600; color:var(--text-muted);">Tilføj bokse, træk dem rundt og forbind med streger</span>
+                                </div>
+
+                                <div class="brm-toolbar">
+                                    <span style="font-weight:700; font-size:0.85rem;">+ Tilføj Boks:</span>
+                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('Investment Objective')">+ Objective</button>
+                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('Business Benefit')">+ Benefit</button>
+                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('Business Change')">+ Business Change</button>
+                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('Enabling Change')">+ Enabling Change</button>
+                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('IS/IT Enabler')">+ IS/IT Enabler</button>
+                                    <div style="flex:1;"></div>
+                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem; background:var(--primary-bg); color:var(--primary);" onclick="toggleConnectMode()">🔗 Forbind Bokse</button>
+                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem; color:var(--danger);" onclick="deleteSelectedBrmNode()">🗑️ Slet Boks</button>
+                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="clearBrmCanvas()">Ryd Lærred</button>
+                                </div>
+
+                                <div class="brm-canvas-wrap" id="brm-canvas-wrap" onclick="selectBrmNode(null)">
+                                    <svg class="brm-svg-layer" id="brm-svg-layer"></svg>
+                                </div>
+                            </div>
+                            ` : ''}
+
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Supplerende opgavenoter:</label>
+                                <textarea class="note-textarea" placeholder="Skriv din note her (gemmes automatisk)..." onblur="saveTaskNote('${item.id}', this.value)">${noteText}</textarea>
                             </div>
 
-                            <div class="template-field-group">
-                                <label class="template-field-label">🎯 1. Business Purpose (Hvorfor gør vi dette?)</label>
-                                <div class="template-field-desc">Beskriv det overordnede forretningsmæssige formål og årsagen til forandringen.</div>
-                                <textarea class="template-textarea" placeholder="Skriv forretningsmæssigt formål..." onblur="saveDefiningSuccessField('businessPurpose', this.value)">${ds.businessPurpose || ''}</textarea>
-                            </div>
-
-                            <div class="template-field-group">
-                                <label class="template-field-label">📦 2. Project Outcomes (Hvilke resultater & leverancer forventes?)</label>
-                                <div class="template-field-desc">Nævn de konkrete løsninger, systemer eller nye arbejdsgange, der skal leveres.</div>
-                                <textarea class="template-textarea" placeholder="Skriv projektets konkrete leverancer..." onblur="saveDefiningSuccessField('projectOutcomes', this.value)">${ds.projectOutcomes || ''}</textarea>
-                            </div>
-
-                            <div class="template-field-group">
-                                <label class="template-field-label">👥 3. People & Adoption Goals (Menneskelige mål & adfærdsændring)</label>
-                                <div class="template-field-desc">Hvad er målet for medarbejdernes brug, adfærd og kompetencer, når det er rullet ud?</div>
-                                <textarea class="template-textarea" placeholder="Skriv adfærds- og adoptionsmål..." onblur="saveDefiningSuccessField('peopleGoals', this.value)">${ds.peopleGoals || ''}</textarea>
-                            </div>
-
-                            <div class="template-field-group">
-                                <label class="template-field-label">📊 4. Success Metrics & KPI'er (Hvordan måler vi succesen?)</label>
-                                <div class="template-field-desc">Nævn målbare nøgletal, KPI'er eller milepæle for hvornår forandringen er en succes.</div>
-                                <textarea class="template-textarea" placeholder="Skriv målepunkter og KPI'er..." onblur="saveDefiningSuccessField('successKpis', this.value)">${ds.successKpis || ''}</textarea>
-                            </div>
-
-                            <div class="template-field-group">
-                                <label class="template-field-label">🌟 5. Vision of Success (Hvordan ser hverdagen ud i mål?)</label>
-                                <div class="template-field-desc">Kort beskrivelse af hvordan den fremtidige hverdag ser ud, når alt fungerer optimalt.</div>
-                                <textarea class="template-textarea" placeholder="Skriv succesvisionen..." onblur="saveDefiningSuccessField('visionOfSuccess', this.value)">${ds.visionOfSuccess || ''}</textarea>
-                            </div>
-
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-                                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Supplerende noter:</label>
-                                <button class="btn" style="padding: 4px 10px; font-size: 0.8rem;" onclick="toggleNoteDrawer('${item.id}')">Fold sammen</button>
-                            </div>
-                            <textarea class="note-textarea" style="min-height:50px;" placeholder="Eventuelle øvrige noter til Defining Success..." onblur="saveTaskNote('${item.id}', this.value)">${noteText}</textarea>
-                        </div>
-                    `;
-                } else {
-                    // STANDARD NOTE DRAWER FOR OTHER TASKS
-                    html += `
-                        <div style="display: flex; flex-direction: column; gap: 6px;">
-                            <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Opgavenote / noter:</label>
-                            <textarea class="note-textarea" placeholder="Skriv din note her (gemmes automatisk)..." onblur="saveTaskNote('${item.id}', this.value)">${noteText}</textarea>
                             <div style="text-align: right;">
                                 <button class="btn" style="padding: 3px 8px; font-size: 0.78rem;" onclick="toggleNoteDrawer('${item.id}')">Fold sammen</button>
                             </div>
                         </div>
-                    `;
-                }
-
-                html += `</td></tr>`;
+                    </td>
+                </tr>`;
             });
         });
     });
 
     tbody.innerHTML = html;
+
+    // Render BRM Canvas if task_3 drawer is active
+    if (document.getElementById('note-drawer-task_3')?.classList.contains('open')) {
+        renderBrmCanvas();
+    }
 }
 
 function formatBadge(val) {
@@ -2271,6 +2505,3 @@ window.onload = initApp;
 </script>
 </body>
 </html>
-```
-
-Prøv at åbne et projekt i appen, gå til opgave 2 ("Defining Success"), og tryk på blyant-ikonet ✏️ for at se skabelonen!
