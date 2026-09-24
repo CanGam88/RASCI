@@ -43,6 +43,9 @@
             --badge-s-bg: #f59e0b;
             --badge-c-bg: #6366f1;
             --badge-i-bg: #64748b;
+
+            --phase-bg: #1e293b;
+            --phase-text: #f8fafc;
         }
 
         [data-theme="dark"] {
@@ -70,6 +73,9 @@
 
             --input-bg: #0d152b;
             --input-text: #f8fafc;
+
+            --phase-bg: #1e293b;
+            --phase-text: #f8fafc;
         }
 
         * {
@@ -751,14 +757,17 @@
             line-height: 1.2;
         }
 
-        /* Phase Header Row */
+        /* MODERN ELEGANT PHASE HEADER ROW */
         tr.phase-header-row td {
-            background: var(--primary-gradient);
-            color: white;
-            font-weight: 900;
-            font-size: 1.15rem;
+            background: var(--phase-bg);
+            color: var(--phase-text);
+            font-weight: 800;
+            font-size: 1.05rem;
             padding: 16px 20px;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.05em;
+            border-left: 6px solid var(--primary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
         /* Stage Header Row */
@@ -766,7 +775,7 @@
             background: var(--primary-bg);
             color: var(--text-main);
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.95rem;
             padding: 12px 20px;
             border-top: 1px solid var(--primary-border);
             border-bottom: 1px solid var(--primary-border);
@@ -2045,12 +2054,12 @@ function renderProjectTable() {
         const phaseTotal = phaseTasks.length;
         const phasePct = Math.round((phaseCompleted / phaseTotal) * 100);
 
-        // Phase Separator Header Row
+        // CLEAN & ELEGANT PHASE ROW
         html += `<tr class="phase-header-row">
             <td colspan="${colCount}">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span>📌 FASE: ${phaseName.toUpperCase()}</span>
-                    <span style="font-size:0.88rem; background:rgba(255,255,255,0.2); padding:4px 12px; border-radius:8px;">${phaseCompleted}/${phaseTotal} udført (${phasePct}%)</span>
+                    <span style="letter-spacing:0.06em; font-weight:800;">${phaseName.toUpperCase()}</span>
+                    <span style="font-size:0.82rem; font-weight:700; background:var(--surface); color:var(--text-main); padding:4px 12px; border-radius:8px; border:1px solid var(--border);">${phaseCompleted}/${phaseTotal} udført (${phasePct}%)</span>
                 </div>
             </td>
         </tr>`;
