@@ -28,7 +28,6 @@
             --success-bg: #ecfdf5;
             --amber: #f59e0b;
             --amber-bg: #fffbeb;
-            --amber-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
             --danger: #ef4444;
             --danger-bg: #fef2f2;
 
@@ -62,7 +61,6 @@
             --success-bg: #064e3b;
             --amber: #f59e0b;
             --amber-bg: #451a03;
-            --amber-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
             --danger: #f87171;
             --danger-bg: #7f1d1d;
 
@@ -687,47 +685,89 @@
             margin-bottom: 0;
         }
 
-        /* Table */
+        /* PHASE PROGRESS GRID BAR */
+        .phase-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .phase-summary-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .phase-summary-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Table & Sticky Header */
         .table-container {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 16px;
-            overflow-x: auto;
             box-shadow: var(--shadow-md);
             width: 100%;
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             text-align: left;
             font-size: 1rem;
         }
 
-        th {
-            background: var(--surface-subtle);
+        /* GUARANTEED STICKY HEADER */
+        thead th {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--surface);
             color: var(--text-muted);
             font-weight: 800;
             font-size: 0.82rem;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            padding: 16px 20px;
-            border-bottom: 2px solid var(--border);
-            vertical-align: bottom;
+            padding: 18px 20px;
+            border-bottom: 3px solid var(--primary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         th.role-col {
             text-align: center;
-            width: 120px;
+            width: 130px;
             line-height: 1.2;
         }
 
+        /* Phase Header Row */
+        tr.phase-header-row td {
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 900;
+            font-size: 1.15rem;
+            padding: 16px 20px;
+            letter-spacing: 0.02em;
+        }
+
+        /* Stage Header Row */
         tr.stage-header-row td {
             background: var(--primary-bg);
             color: var(--text-main);
             font-weight: 800;
-            font-size: 1.05rem;
-            padding: 16px 20px;
+            font-size: 1rem;
+            padding: 12px 20px;
             border-top: 1px solid var(--primary-border);
             border-bottom: 1px solid var(--primary-border);
         }
@@ -739,31 +779,20 @@
         }
 
         .stage-progress-badge {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             font-weight: 800;
             background: var(--surface);
             color: var(--primary);
-            padding: 4px 12px;
+            padding: 4px 10px;
             border-radius: 8px;
             border: 1px solid var(--primary-border);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .phase-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-left: 8px;
         }
 
         td {
             padding: 16px 20px;
             border-bottom: 1px solid var(--border);
             vertical-align: middle;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
+            background: var(--surface);
         }
 
         td.deliverable-cell {
@@ -794,13 +823,16 @@
             font-weight: 400;
         }
 
-        tr.task-done {
+        tr.task-done td {
             background-color: rgba(16, 185, 129, 0.04);
+        }
+
+        .note-drawer-row td {
+            background-color: var(--surface-subtle);
         }
 
         .note-drawer-row {
             display: none;
-            background-color: var(--surface-subtle);
         }
 
         .note-drawer-row.open {
@@ -968,7 +1000,6 @@
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
         }
 
-        /* PRIMARY DISPLAY: TEXT TOP (BOLD & CLEAR BLUE) */
         .score-desc {
             font-size: 0.95rem;
             font-weight: 800;
@@ -976,7 +1007,6 @@
             line-height: 1.25;
         }
 
-        /* SECONDARY DISPLAY: POINTS BOTTOM (SMALL & SUBTLE) */
         .score-num {
             font-size: 0.8rem;
             font-weight: 600;
@@ -991,7 +1021,7 @@
         }
 
         @media print {
-            .top-subnav-strip, .filter-toggle-row, .collapsible-filter-panel, header { display: none !important; }
+            .top-subnav-strip, .filter-toggle-row, .collapsible-filter-panel, header, .phase-summary-grid { display: none !important; }
             body { background: white; padding: 0; }
         }
     </style>
@@ -1042,6 +1072,9 @@
             </div>
         </div>
 
+        <!-- PHASE PROGRESS SUMMARY GRID -->
+        <div class="phase-summary-grid" id="phase-summary-grid"></div>
+
         <div class="filter-toggle-row">
             <button class="btn" onclick="toggleFilterPanel()">⚙️ Filtre & Søgning</button>
             
@@ -1061,7 +1094,7 @@
             <input type="text" id="search" class="filter-input" placeholder="🔍 Søg i opgaver..." oninput="renderProjectTable()">
             
             <select id="role-focus-filter" class="filter-select" onchange="renderProjectTable()">
-                <option value="all">👤 Vis alle roller (6 kolonner)</option>
+                <option value="all">👤 Vis alle roller (5 kolonner)</option>
             </select>
 
             <button id="my-view-btn" class="my-view-btn" onclick="toggleMyView()">🎯 Min Visning (R/A)</button>
@@ -1264,23 +1297,23 @@
 </div>
 
 <script>
+// OPCO RESPONSIBLE PURGED - ONLY 5 ROLES NOW
 const roles = [
     "Project manager",
     "Local change master",
     "Change & Adaption",
-    "OPCO Responsible",
     "Sponsor",
     "People Manager"
 ];
 
 const masterTasks = [
     { id: "task_1", phase: "Preparing Change", stage: "Scoping, Desk Study and Digital Concept", deliverable: "Complete pre-complexity assessment", minor: true, rasci: { "Project manager": "A", "Change & Adaption": "R" } },
-    { id: "task_2", phase: "Preparing Change", stage: "Scoping, Desk Study and Digital Concept", deliverable: "Defining Success", minor: true, rasci: { "Project manager": "A", "Change & Adaption": "R", "OPCO Responsible": "R" } },
-    { id: "task_3", phase: "Preparing Change", stage: "Scoping, Desk Study and Digital Concept", deliverable: "Complete Benefit Realisation Mapping", minor: false, rasci: { "Project manager": "A", "Change & Adaption": "R", "OPCO Responsible": "R" } },
+    { id: "task_2", phase: "Preparing Change", stage: "Scoping, Desk Study and Digital Concept", deliverable: "Defining Success", minor: true, rasci: { "Project manager": "A", "Change & Adaption": "R" } },
+    { id: "task_3", phase: "Preparing Change", stage: "Scoping, Desk Study and Digital Concept", deliverable: "Complete Benefit Realisation Mapping", minor: false, rasci: { "Project manager": "A", "Change & Adaption": "R" } },
     
-    { id: "task_4", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Develop core story and key messages", minor: false, rasci: { "Project manager": "R, A", "Local change master": "R, A", "Change & Adaption": "S, C", "OPCO Responsible": "R" } },
-    { id: "task_5", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Organise sponsor coalition", minor: true, rasci: { "Project manager": "S", "Local change master": "R", "Change & Adaption": "S, C", "OPCO Responsible": "R" } },
-    { id: "task_6", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Critically evaluate local meeting structures", minor: false, rasci: { "Project manager": "S", "Local change master": "R, A", "Change & Adaption": "S, C", "OPCO Responsible": "R" } },
+    { id: "task_4", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Develop core story and key messages", minor: false, rasci: { "Project manager": "R, A", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_5", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Organise sponsor coalition", minor: true, rasci: { "Project manager": "S", "Local change master": "R", "Change & Adaption": "S, C" } },
+    { id: "task_6", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Critically evaluate local meeting structures", minor: false, rasci: { "Project manager": "S", "Local change master": "R, A", "Change & Adaption": "S, C" } },
     { id: "task_7", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Complete complexity assessment", minor: false, rasci: { "Project manager": "A", "Local change master": "R", "Change & Adaption": "S, C" } },
     { id: "task_8", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Create high-level communication plan", minor: true, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
 
@@ -1944,19 +1977,19 @@ function renderProjectTable() {
         if (roleFocusVal !== 'all' && !item.rasci[roleFocusVal]) return false;
         
         if (isMyViewActive) {
-            const role = roleFocusVal !== 'all' ? roleFocusVal : "Change & Adaption";
+            const role = roleFocusVal !== 'all' ? roleFocusVal : "Local change master";
             const code = item.rasci[role] || "";
             if (!code.includes("R") && !code.includes("A")) return false;
         }
 
         if (codeVal !== 'all') {
-            const hasCode = Object.values(item.rasci).some(c => c.includes(codeVal));
+            const hasCode = Object.values(item.rasci).some(c => c && c.includes(codeVal));
             if (!hasCode) return false;
         }
         return true;
     });
 
-    // Progress Total
+    // Overall Progress Total
     const totalScopeTasks = masterTasks.filter(item => currentScope === 'all' || item.minor);
     const completedCount = totalScopeTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
     const totalCount = totalScopeTasks.length;
@@ -1965,7 +1998,31 @@ function renderProjectTable() {
     document.getElementById('progress-text').textContent = `${completedCount}/${totalCount} (${pct}%)`;
     document.getElementById('progress-bar-fill').style.width = `${pct}%`;
 
-    // Deadline status badge in detail header
+    // Render Phase Progress Grid Top Summary
+    const allPhases = [...new Set(masterTasks.map(t => t.phase))];
+    const phaseSummaryContainer = document.getElementById('phase-summary-grid');
+    phaseSummaryContainer.innerHTML = '';
+
+    allPhases.forEach(pName => {
+        const pTasks = totalScopeTasks.filter(t => t.phase === pName);
+        const pDone = pTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+        const pTotal = pTasks.length;
+        const pPct = pTotal > 0 ? Math.round((pDone / pTotal) * 100) : 0;
+
+        const pCard = document.createElement('div');
+        pCard.className = 'phase-summary-card';
+        pCard.innerHTML = `
+            <div class="phase-summary-title">
+                <span>${pName}</span>
+                <span style="color:var(--primary);">${pDone}/${pTotal} (${pPct}%)</span>
+            </div>
+            <div style="height:8px; background:var(--border); border-radius:4px; overflow:hidden;">
+                <div style="height:100%; background:var(--success); width:${pPct}%; transition:width 0.3s;"></div>
+            </div>
+        `;
+        phaseSummaryContainer.appendChild(pCard);
+    });
+
     const dlStatus = getDeadlineStatus(proj.deadline, pct === 100);
     const badge = document.getElementById('project-deadline-badge');
     badge.className = `deadline-badge ${dlStatus.class}`;
@@ -1978,63 +2035,77 @@ function renderProjectTable() {
         return;
     }
 
-    // Group by Stage with Stage Progress
-    const stages = [...new Set(filtered.map(d => d.stage))];
+    // GROUP BY CHANGE PHASE THEN STAGE
+    const phases = [...new Set(filtered.map(d => d.phase))];
     let html = '';
 
-    stages.forEach(stageName => {
-        const stageTasks = filtered.filter(d => d.stage === stageName);
-        const phaseName = stageTasks[0].phase;
+    phases.forEach(phaseName => {
+        const phaseTasks = filtered.filter(d => d.phase === phaseName);
+        const phaseCompleted = phaseTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+        const phaseTotal = phaseTasks.length;
+        const phasePct = Math.round((phaseCompleted / phaseTotal) * 100);
 
-        const stageCompleted = stageTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
-        const stageTotal = stageTasks.length;
-        const stagePct = Math.round((stageCompleted / stageTotal) * 100);
-
-        html += `<tr class="stage-header-row">
+        // Phase Separator Header Row
+        html += `<tr class="phase-header-row">
             <td colspan="${colCount}">
-                <div class="stage-header-content">
-                    <div>
-                        ${stageName}
-                        <span class="phase-text">(${phaseName})</span>
-                    </div>
-                    <span class="stage-progress-badge">${stageCompleted}/${stageTotal} udført (${stagePct}%)</span>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>📌 FASE: ${phaseName.toUpperCase()}</span>
+                    <span style="font-size:0.88rem; background:rgba(255,255,255,0.2); padding:4px 12px; border-radius:8px;">${phaseCompleted}/${phaseTotal} udført (${phasePct}%)</span>
                 </div>
             </td>
         </tr>`;
 
-        stageTasks.forEach(item => {
-            const isDone = proj.completedTasks && proj.completedTasks[item.id];
-            const noteText = (proj.taskNotes && proj.taskNotes[item.id]) ? proj.taskNotes[item.id] : '';
-            const hasNote = noteText.length > 0;
+        // Sub-group by Stage
+        const stages = [...new Set(phaseTasks.map(d => d.stage))];
+        stages.forEach(stageName => {
+            const stageTasks = phaseTasks.filter(d => d.stage === stageName);
+            const stageCompleted = stageTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+            const stageTotal = stageTasks.length;
+            const stagePct = Math.round((stageCompleted / stageTotal) * 100);
 
-            html += `<tr class="${isDone ? 'task-done' : ''}">
-                <td class="deliverable-cell">
-                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-                        <label class="task-label">
-                            <input type="checkbox" class="task-checkbox" ${isDone ? 'checked' : ''} onchange="toggleTaskCompletion('${item.id}')">
-                            <span class="task-title">${item.deliverable}</span>
-                        </label>
-                        <button id="note-btn-${item.id}" class="btn-pencil-note ${hasNote ? 'has-note' : ''}" onclick="toggleNoteDrawer('${item.id}')" title="${hasNote ? 'Rediger note' : 'Tilføj note'}">
-                            ✏️
-                        </button>
-                    </div>
-                </td>
-                ${visibleRoles.map(r => {
-                    const code = item.rasci[r] || '-';
-                    return `<td style="text-align: center;">${formatBadge(code)}</td>`;
-                }).join('')}
-            </tr>
-            <tr class="note-drawer-row" id="note-drawer-${item.id}">
-                <td colspan="${colCount}" style="padding: 10px 16px;">
-                    <div style="display: flex; flex-direction: column; gap: 6px;">
-                        <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Opgavenote / noter:</label>
-                        <textarea class="note-textarea" placeholder="Skriv din note her (gemmes automatisk)..." onblur="saveTaskNote('${item.id}', this.value)">${noteText}</textarea>
-                        <div style="text-align: right;">
-                            <button class="btn" style="padding: 3px 8px; font-size: 0.78rem;" onclick="toggleNoteDrawer('${item.id}')">Fold sammen</button>
-                        </div>
+            html += `<tr class="stage-header-row">
+                <td colspan="${colCount}">
+                    <div class="stage-header-content">
+                        <div>${stageName}</div>
+                        <span class="stage-progress-badge">${stageCompleted}/${stageTotal} udført (${stagePct}%)</span>
                     </div>
                 </td>
             </tr>`;
+
+            stageTasks.forEach(item => {
+                const isDone = proj.completedTasks && proj.completedTasks[item.id];
+                const noteText = (proj.taskNotes && proj.taskNotes[item.id]) ? proj.taskNotes[item.id] : '';
+                const hasNote = noteText.length > 0;
+
+                html += `<tr class="${isDone ? 'task-done' : ''}">
+                    <td class="deliverable-cell">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                            <label class="task-label">
+                                <input type="checkbox" class="task-checkbox" ${isDone ? 'checked' : ''} onchange="toggleTaskCompletion('${item.id}')">
+                                <span class="task-title">${item.deliverable}</span>
+                            </label>
+                            <button id="note-btn-${item.id}" class="btn-pencil-note ${hasNote ? 'has-note' : ''}" onclick="toggleNoteDrawer('${item.id}')" title="${hasNote ? 'Rediger note' : 'Tilføj note'}">
+                                ✏️
+                            </button>
+                        </div>
+                    </td>
+                    ${visibleRoles.map(r => {
+                        const code = item.rasci[r] || '-';
+                        return `<td style="text-align: center;">${formatBadge(code)}</td>`;
+                    }).join('')}
+                </tr>
+                <tr class="note-drawer-row" id="note-drawer-${item.id}">
+                    <td colspan="${colCount}" style="padding: 10px 16px;">
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Opgavenote / noter:</label>
+                            <textarea class="note-textarea" placeholder="Skriv din note her (gemmes automatisk)..." onblur="saveTaskNote('${item.id}', this.value)">${noteText}</textarea>
+                            <div style="text-align: right;">
+                                <button class="btn" style="padding: 3px 8px; font-size: 0.78rem;" onclick="toggleNoteDrawer('${item.id}')">Fold sammen</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>`;
+            });
         });
     });
 
