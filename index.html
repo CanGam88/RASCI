@@ -28,7 +28,7 @@
             --success-bg: #ecfdf5;
             --amber: #f59e0b;
             --amber-bg: #fffbeb;
-            --amber-gradient: linear-gradient(135deg, #f59e0b, #d97706);
+            --amber-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
             --danger: #ef4444;
             --danger-bg: #fef2f2;
 
@@ -62,7 +62,7 @@
             --success-bg: #064e3b;
             --amber: #f59e0b;
             --amber-bg: #451a03;
-            --amber-gradient: linear-gradient(135deg, #f59e0b, #b45309);
+            --amber-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
             --danger: #f87171;
             --danger-bg: #7f1d1d;
 
@@ -211,65 +211,21 @@
             letter-spacing: -0.02em;
         }
 
-        /* KPI Dashboard Stats Bar */
-        .kpi-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 18px;
-            margin-bottom: 28px;
-        }
-
-        .kpi-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px 24px;
-            box-shadow: var(--shadow-sm);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .kpi-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .kpi-info h3 {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .kpi-info .kpi-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-
-        .kpi-icon {
-            font-size: 2.2rem;
-            opacity: 0.85;
-        }
-
         /* Dashboard View */
         .dashboard-view {
             display: block;
         }
 
-        .frog-container {
+        .fokus-container {
             margin-bottom: 28px;
         }
 
-        .frog-card {
+        .fokus-card {
             background: var(--surface);
-            border: 2px solid var(--amber);
+            border: 2px solid var(--primary);
             border-radius: 20px;
             padding: 28px;
-            box-shadow: 0 12px 30px -5px rgba(245, 158, 11, 0.2);
+            box-shadow: 0 12px 30px -5px rgba(37, 99, 235, 0.2);
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -278,16 +234,16 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .frog-card:hover {
+        .fokus-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 18px 36px -5px rgba(245, 158, 11, 0.28);
+            box-shadow: 0 18px 36px -5px rgba(37, 99, 235, 0.28);
         }
 
-        .frog-header-tag {
+        .fokus-header-tag {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: var(--amber-gradient);
+            background: var(--primary-gradient);
             color: white;
             font-weight: 800;
             font-size: 0.85rem;
@@ -296,18 +252,18 @@
             align-self: flex-start;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
         }
 
-        .frog-title {
+        .fokus-title {
             font-size: 1.85rem;
             font-weight: 800;
             color: var(--text-main);
             letter-spacing: -0.01em;
         }
 
-        /* Frog Checklist */
-        .frog-todo-container {
+        /* Focus Checklist / Notes */
+        .fokus-todo-container {
             background: var(--surface-subtle);
             border: 1px solid var(--border);
             border-radius: 14px;
@@ -315,13 +271,13 @@
             margin-top: 6px;
         }
 
-        .frog-todo-input-row {
+        .fokus-todo-input-row {
             display: flex;
             gap: 10px;
             margin-bottom: 14px;
         }
 
-        .frog-todo-input {
+        .fokus-todo-input {
             flex: 1;
             padding: 11px 16px;
             border: 1px solid var(--border);
@@ -333,18 +289,18 @@
             transition: border-color 0.2s;
         }
 
-        .frog-todo-input:focus {
-            border-color: var(--amber);
+        .fokus-todo-input:focus {
+            border-color: var(--primary);
         }
 
-        .frog-todo-list {
+        .fokus-todo-list {
             list-style: none;
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
 
-        .frog-todo-item {
+        .fokus-todo-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -356,12 +312,12 @@
             box-shadow: var(--shadow-sm);
         }
 
-        .frog-todo-item.done span {
+        .fokus-todo-item.done span {
             text-decoration: line-through;
             color: var(--text-muted);
         }
 
-        .frog-todo-delete-btn {
+        .fokus-todo-delete-btn {
             background: transparent;
             border: none;
             color: var(--danger);
@@ -372,7 +328,7 @@
             transition: background 0.2s;
         }
 
-        .frog-todo-delete-btn:hover {
+        .fokus-todo-delete-btn:hover {
             background: var(--danger-bg);
         }
 
@@ -436,7 +392,7 @@
             gap: 6px;
         }
 
-        .frog-btn {
+        .fokus-btn {
             background: transparent;
             border: none;
             font-size: 1.3rem;
@@ -451,9 +407,9 @@
             transition: all 0.2s;
         }
 
-        .frog-btn:hover, .frog-btn.is-frog {
+        .fokus-btn:hover, .fokus-btn.is-fokus {
             opacity: 1;
-            background: var(--amber-bg);
+            background: var(--primary-bg);
         }
 
         .delete-card-btn {
@@ -1035,7 +991,7 @@
         }
 
         @media print {
-            .top-subnav-strip, .filter-toggle-row, .collapsible-filter-panel, header, .kpi-bar { display: none !important; }
+            .top-subnav-strip, .filter-toggle-row, .collapsible-filter-panel, header { display: none !important; }
             body { background: white; padding: 0; }
         }
     </style>
@@ -1060,31 +1016,7 @@
 
     <!-- DASHBOARD VIEW -->
     <div id="view-dashboard" class="dashboard-view">
-        <div class="kpi-bar">
-            <div class="kpi-card">
-                <div class="kpi-info">
-                    <h3>Aktive Projekter</h3>
-                    <div class="kpi-value" id="kpi-total-projects">0</div>
-                </div>
-                <div class="kpi-icon">📁</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-info">
-                    <h3>Dagens Frø Status</h3>
-                    <div class="kpi-value" id="kpi-frog-status">-</div>
-                </div>
-                <div class="kpi-icon">🐸</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-info">
-                    <h3>Gennemsnitlig Fremgang</h3>
-                    <div class="kpi-value" id="kpi-avg-progress">0%</div>
-                </div>
-                <div class="kpi-icon">📊</div>
-            </div>
-        </div>
-
-        <div class="frog-container" id="frog-area"></div>
+        <div class="fokus-container" id="fokus-area"></div>
         <div class="project-cards-grid" id="projects-grid"></div>
     </div>
 
@@ -1381,7 +1313,7 @@ const masterTasks = [
 
 let projectsData = {};
 let projectOrder = [];
-let frogProjectId = null;
+let fokusProjectId = null;
 let activeProjectId = null;
 let isMyViewActive = false;
 
@@ -1457,7 +1389,7 @@ function loadFromLocalStorage() {
                 completedTasks: { "task_1": true },
                 taskNotes: { "task_1": "Pre-complexity assessment gennemført ved oprettelse." },
                 assessmentScore: 12,
-                frogTodos: [],
+                fokusTodos: [],
                 deadline: "",
                 updatedAt: new Date().toLocaleDateString('da-DK')
             }
@@ -1478,9 +1410,9 @@ function loadFromLocalStorage() {
     });
     projectOrder = projectOrder.filter(id => projectsData[id]);
 
-    frogProjectId = localStorage.getItem('rasci_app_frog') || null;
-    if (frogProjectId && !projectsData[frogProjectId]) {
-        frogProjectId = null;
+    fokusProjectId = localStorage.getItem('rasci_app_fokus') || localStorage.getItem('rasci_app_frog') || null;
+    if (fokusProjectId && !projectsData[fokusProjectId]) {
+        fokusProjectId = null;
     }
 
     saveToLocalStorage();
@@ -1489,10 +1421,10 @@ function loadFromLocalStorage() {
 function saveToLocalStorage() {
     localStorage.setItem('rasci_app_projects_v2', JSON.stringify(projectsData));
     localStorage.setItem('rasci_app_order', JSON.stringify(projectOrder));
-    if (frogProjectId) {
-        localStorage.setItem('rasci_app_frog', frogProjectId);
+    if (fokusProjectId) {
+        localStorage.setItem('rasci_app_fokus', fokusProjectId);
     } else {
-        localStorage.removeItem('rasci_app_frog');
+        localStorage.removeItem('rasci_app_fokus');
     }
 }
 
@@ -1501,7 +1433,7 @@ function exportBackup() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
         projects: projectsData,
         order: projectOrder,
-        frog: frogProjectId,
+        fokus: fokusProjectId,
         theme: localStorage.getItem('rasci_app_theme')
     }));
     const downloadAnchor = document.createElement('a');
@@ -1527,7 +1459,7 @@ function importBackup(event) {
             if (imported.projects) {
                 projectsData = imported.projects;
                 if (imported.order) projectOrder = imported.order;
-                if (imported.frog) frogProjectId = imported.frog;
+                if (imported.fokus || imported.frog) fokusProjectId = imported.fokus || imported.frog;
                 if (imported.theme) localStorage.setItem('rasci_app_theme', imported.theme);
                 saveToLocalStorage();
                 loadSavedTheme();
@@ -1575,33 +1507,36 @@ function openProject(projId) {
     }
 }
 
-/* FROG TOGGLE & CHECKLIST LOGIC */
-function setFrogProject(event, projId) {
+/* FOCUS TOGGLE & CHECKLIST LOGIC */
+function setFokusProject(event, projId) {
     event.stopPropagation();
-    if (frogProjectId === projId) {
-        frogProjectId = null;
+    if (fokusProjectId === projId) {
+        fokusProjectId = null;
     } else {
-        frogProjectId = projId;
+        fokusProjectId = projId;
     }
     saveToLocalStorage();
     renderDashboard();
 }
 
-function addFrogTodo(projId) {
-    const input = document.getElementById(`frog-todo-input-${projId}`);
+function addFokusTodo(projId) {
+    const input = document.getElementById(`fokus-todo-input-${projId}`);
     if (!input) return;
     const text = input.value.trim();
     if (text && projectsData[projId]) {
-        if (!projectsData[projId].frogTodos) projectsData[projId].frogTodos = [];
-        projectsData[projId].frogTodos.push({ id: Date.now(), text: text, done: false });
+        if (!projectsData[projId].fokusTodos) {
+            projectsData[projId].fokusTodos = projectsData[projId].frogTodos || [];
+        }
+        projectsData[projId].fokusTodos.push({ id: Date.now(), text: text, done: false });
         saveToLocalStorage();
         renderDashboard();
     }
 }
 
-function toggleFrogTodo(projId, todoId) {
-    if (projectsData[projId] && projectsData[projId].frogTodos) {
-        const item = projectsData[projId].frogTodos.find(t => t.id === todoId);
+function toggleFokusTodo(projId, todoId) {
+    const todos = projectsData[projId]?.fokusTodos || projectsData[projId]?.frogTodos;
+    if (todos) {
+        const item = todos.find(t => t.id === todoId);
         if (item) {
             item.done = !item.done;
             saveToLocalStorage();
@@ -1610,19 +1545,25 @@ function toggleFrogTodo(projId, todoId) {
     }
 }
 
-function deleteFrogTodo(projId, todoId) {
-    if (projectsData[projId] && projectsData[projId].frogTodos) {
-        projectsData[projId].frogTodos = projectsData[projId].frogTodos.filter(t => t.id !== todoId);
-        saveToLocalStorage();
-        renderDashboard();
+function deleteFokusTodo(projId, todoId) {
+    if (projectsData[projId]) {
+        let todos = projectsData[projId].fokusTodos || projectsData[projId].frogTodos;
+        if (todos) {
+            projectsData[projId].fokusTodos = todos.filter(t => t.id !== todoId);
+            saveToLocalStorage();
+            renderDashboard();
+        }
     }
 }
 
-function clearDoneFrogTodos(projId) {
-    if (projectsData[projId] && projectsData[projId].frogTodos) {
-        projectsData[projId].frogTodos = projectsData[projId].frogTodos.filter(t => !t.done);
-        saveToLocalStorage();
-        renderDashboard();
+function clearDoneFokusTodos(projId) {
+    if (projectsData[projId]) {
+        let todos = projectsData[projId].fokusTodos || projectsData[projId].frogTodos;
+        if (todos) {
+            projectsData[projId].fokusTodos = todos.filter(t => !t.done);
+            saveToLocalStorage();
+            renderDashboard();
+        }
     }
 }
 
@@ -1647,63 +1588,47 @@ function getDeadlineStatus(deadlineStr, isCompleted) {
 
 /* DASHBOARD RENDER */
 function renderDashboard() {
-    const frogContainer = document.getElementById('frog-area');
+    const fokusContainer = document.getElementById('fokus-area');
     const grid = document.getElementById('projects-grid');
-    frogContainer.innerHTML = '';
+    fokusContainer.innerHTML = '';
     grid.innerHTML = '';
 
-    const totalProjects = Object.keys(projectsData).length;
-    let totalPctSum = 0;
-
-    Object.values(projectsData).forEach(proj => {
-        const scopeTasks = masterTasks.filter(t => (proj.scope || 'all') === 'all' || t.minor);
-        const completedCount = scopeTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+    // Render Focus Featured Card
+    if (fokusProjectId && projectsData[fokusProjectId]) {
+        const fokusProj = projectsData[fokusProjectId];
+        const scopeTasks = masterTasks.filter(t => (fokusProj.scope || 'all') === 'all' || t.minor);
+        const completedCount = scopeTasks.filter(t => fokusProj.completedTasks && fokusProj.completedTasks[t.id]).length;
         const totalCount = scopeTasks.length;
         const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
-        totalPctSum += pct;
-    });
-
-    const avgProgress = totalProjects > 0 ? Math.round(totalPctSum / totalProjects) : 0;
-    document.getElementById('kpi-total-projects').textContent = totalProjects;
-    document.getElementById('kpi-avg-progress').textContent = `${avgProgress}%`;
-    document.getElementById('kpi-frog-status').textContent = frogProjectId && projectsData[frogProjectId] ? "Valgt 🎯" : "Ingen";
-
-    // Render Frog Featured Card
-    if (frogProjectId && projectsData[frogProjectId]) {
-        const frogProj = projectsData[frogProjectId];
-        const scopeTasks = masterTasks.filter(t => (frogProj.scope || 'all') === 'all' || t.minor);
-        const completedCount = scopeTasks.filter(t => frogProj.completedTasks && frogProj.completedTasks[t.id]).length;
-        const totalCount = scopeTasks.length;
-        const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
-        const nextTask = scopeTasks.find(t => !(frogProj.completedTasks && frogProj.completedTasks[t.id]));
+        const nextTask = scopeTasks.find(t => !(fokusProj.completedTasks && fokusProj.completedTasks[t.id]));
         const nextTaskText = nextTask ? nextTask.deliverable : "Alle opgaver gennemført! 🎉";
-        const todos = frogProj.frogTodos || [];
-        const dlStatus = getDeadlineStatus(frogProj.deadline, pct === 100);
-        const isComplex = (frogProj.scope || 'all') === 'all';
+        const todos = fokusProj.fokusTodos || fokusProj.frogTodos || [];
+        const dlStatus = getDeadlineStatus(fokusProj.deadline, pct === 100);
+        const isComplex = (fokusProj.scope || 'all') === 'all';
 
-        const frogCard = document.createElement('div');
-        frogCard.className = 'frog-card';
-        frogCard.onclick = () => openProject(frogProj.id);
+        const fokusCard = document.createElement('div');
+        fokusCard.className = 'fokus-card';
+        fokusCard.onclick = () => openProject(fokusProj.id);
         
         let todosHtml = todos.map(t => `
-            <li class="frog-todo-item ${t.done ? 'done' : ''}">
+            <li class="fokus-todo-item ${t.done ? 'done' : ''}">
                 <label style="display:flex; align-items:center; gap:8px; cursor:pointer; width:100%;">
-                    <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleFrogTodo('${frogProj.id}', ${t.id})">
+                    <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleFokusTodo('${fokusProj.id}', ${t.id})">
                     <span>${t.text}</span>
                 </label>
-                <button class="frog-todo-delete-btn" onclick="deleteFrogTodo('${frogProj.id}', ${t.id})">🗑️</button>
+                <button class="fokus-todo-delete-btn" onclick="deleteFokusTodo('${fokusProj.id}', ${t.id})">🗑️</button>
             </li>
         `).join('');
 
-        frogCard.innerHTML = `
+        fokusCard.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div class="frog-header-tag">🐸 Dagens Frø (Højeste Prioritet)</div>
-                <button class="frog-btn is-frog" onclick="setFrogProject(event, '${frogProj.id}')" title="Fjern frø-markering">🐸</button>
+                <div class="fokus-header-tag">🎯 Fokus opgave</div>
+                <button class="fokus-btn is-fokus" onclick="setFokusProject(event, '${fokusProj.id}')" title="Fjern fokus-markering">🎯</button>
             </div>
             
             <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px;">
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <div class="frog-title">${frogProj.name}</div>
+                    <div class="fokus-title">${fokusProj.name}</div>
                     <span class="scope-type-badge ${isComplex ? 'complex' : 'minor'}">${isComplex ? 'Komplekst' : 'Mindre'}</span>
                 </div>
                 <div class="card-deadline ${dlStatus.class}">📅 ${dlStatus.text}</div>
@@ -1724,24 +1649,24 @@ function renderDashboard() {
                 </div>
             </div>
 
-            <div class="frog-todo-container" onclick="event.stopPropagation()">
+            <div class="fokus-todo-container" onclick="event.stopPropagation()">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <label style="font-size: 0.88rem; font-weight: 800; color: var(--amber);">📝 Huskeliste til Dagens Frø:</label>
-                    ${todos.some(t => t.done) ? `<button class="btn" style="padding:3px 10px; font-size:0.75rem;" onclick="clearDoneFrogTodos('${frogProj.id}')">Ryd udførte</button>` : ''}
+                    <label style="font-size: 0.88rem; font-weight: 800; color: var(--primary);">📝 Noter:</label>
+                    ${todos.some(t => t.done) ? `<button class="btn" style="padding:3px 10px; font-size:0.75rem;" onclick="clearDoneFokusTodos('${fokusProj.id}')">Ryd udførte</button>` : ''}
                 </div>
-                <div class="frog-todo-input-row">
-                    <input type="text" id="frog-todo-input-${frogProj.id}" class="frog-todo-input" placeholder="Tilføj nyt fokuspunkt..." onkeydown="if(event.key==='Enter') addFrogTodo('${frogProj.id}')">
-                    <button class="btn btn-primary" style="padding:8px 14px;" onclick="addFrogTodo('${frogProj.id}')">+ Tilføj</button>
+                <div class="fokus-todo-input-row">
+                    <input type="text" id="fokus-todo-input-${fokusProj.id}" class="fokus-todo-input" placeholder="Tilføj ny note..." onkeydown="if(event.key==='Enter') addFokusTodo('${fokusProj.id}')">
+                    <button class="btn btn-primary" style="padding:8px 14px;" onclick="addFokusTodo('${fokusProj.id}')">+ Tilføj</button>
                 </div>
-                <ul class="frog-todo-list">${todosHtml}</ul>
+                <ul class="fokus-todo-list">${todosHtml}</ul>
             </div>
         `;
-        frogContainer.appendChild(frogCard);
+        fokusContainer.appendChild(fokusCard);
     }
 
     // Render Grid Cards
     projectOrder.forEach((projId) => {
-        if (projId === frogProjectId) return;
+        if (projId === fokusProjectId) return;
 
         const proj = projectsData[projId];
         if (!proj) return;
@@ -1764,7 +1689,7 @@ function renderDashboard() {
 
         card.innerHTML = `
             <div class="card-actions-top">
-                <button class="frog-btn" onclick="setFrogProject(event, '${proj.id}')" title="Sæt som Dagens Frø">🐸</button>
+                <button class="fokus-btn" onclick="setFokusProject(event, '${proj.id}')" title="Sæt som Fokus opgave">🎯</button>
                 <button class="delete-card-btn" onclick="deleteProjectCard(event, '${proj.id}')" title="Slet projekt">✖</button>
             </div>
             
@@ -1915,7 +1840,7 @@ function confirmAssessmentAndCreate() {
         assessmentDetails: { ...currentAssessmentScores },
         completedTasks: { "task_1": true },
         taskNotes: { "task_1": `Pre-complexity Score: ${totalScore}/18 (${calculatedScope === 'all' ? 'Komplekst' : 'Mindre'}). Test udført ved oprettelse.` },
-        frogTodos: [],
+        fokusTodos: [],
         deadline: newProjectPending.deadline,
         updatedAt: new Date().toLocaleDateString('da-DK')
     };
@@ -1936,7 +1861,7 @@ function deleteProjectCard(event, projId) {
     if (confirm(`Er du sikker på, at du vil slette opgaven / projektet "${proj.name}"?`)) {
         delete projectsData[projId];
         projectOrder = projectOrder.filter(id => id !== projId);
-        if (frogProjectId === projId) frogProjectId = null;
+        if (fokusProjectId === projId) fokusProjectId = null;
         saveToLocalStorage();
         renderDashboard();
     }
