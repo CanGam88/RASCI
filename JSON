@@ -1,5 +1,5 @@
 {
   "tools": [],
   "language": "HTML",
-  "query": "Update index.html to remove the KPI status bar completely (.kpi-bar). Change 'Dagens Frø' concept to 'Fokus opgave' with a target/bullseye icon 🎯 instead of the frog 🐸. Update 'Huskeliste til dagens frø' to 'Noter'. Rename variables and tags accordingly (e.g. 'fokusProjectId' instead of 'frogProjectId'). Ensure all buttons, headers, and placeholders reflect 'Fokus opgave' and 'Noter'."
+  "query": "Update index.html in the project detail view so that the deliverables/tasks are distinctly grouped by major Change Phase ('Preparing Change', 'Managing Change', 'Reinforcing change', 'Leadership & Sponsor'). Each Phase section should have its own styled header card with a dedicated Phase progress bar / status badge (showing completed/total and percentage for THAT specific phase). Below each Phase header, group tasks by Stage as sub-sections. Also add a summary phase progress bar grid at the top of the project view showing status bars for each individual phase instead of just a single overall project progress bar."
 }
