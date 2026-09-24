@@ -1,5 +1,5 @@
 {
   "tools": [],
   "language": "HTML",
-  "query": "Update index.html so that the table header row ('th') is strictly fixed/sticky at the top of the viewport when scrolling down the page ('position: sticky; top: 0; z-index: 100;'). Fix any container CSS (remove overflow:hidden/auto on wrapper divs if necessary or make table header sticky inside the window scroll context) to guarantee the row with role names stays visible at the top as the user scrolls through deliverables."
+  "query": "Update index.html so that: 1. The text 'FASE:' and the pin emoji 📌 are completely removed from phase rows in the project detail view. Display ONLY the phase name (e.g. 'PREPARING CHANGE'). 2. Design the phase rows to look much sleeker and visually appealing: use subtle rounded pill styling or clean modern dark glassmorphism gradients with subtle left borders/accents, refined status badges, balanced typography, and smooth spacing so it blends elegantly into the dark/light dashboard instead of looking like a heavy solid blue block."
 }
