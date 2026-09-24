@@ -48,6 +48,13 @@
             --phase-text: #ffffff;
             --stage-bg: #f1f5f9;
             --stage-text: #0f172a;
+
+            /* BRM Custom Colors */
+            --brm-red: #ef4444;
+            --brm-yellow: #eab308;
+            --brm-green: #10b981;
+            --brm-light-blue: #38bdf8;
+            --brm-dark-blue: #1d4ed8;
         }
 
         [data-theme="dark"] {
@@ -905,7 +912,7 @@
             border-color: var(--primary);
         }
 
-        /* BENEFIT REALISATION CANVAS STYLING */
+        /* BENEFIT REALISATION CANVAS STYLING & COLUMNS */
         .brm-container {
             display: flex;
             flex-direction: column;
@@ -916,6 +923,33 @@
             padding: 18px;
             margin-top: 8px;
         }
+
+        /* 5-COLUMN FIXED HEADER BAR WITH EXACT REQUESTED COLORS */
+        .brm-columns-header {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 0.88rem;
+            color: white;
+            padding: 4px;
+            border-radius: 10px;
+            background: var(--surface-subtle);
+        }
+
+        .brm-col-head {
+            padding: 10px 8px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            letter-spacing: 0.02em;
+        }
+
+        .brm-col-head.deliverables { background: var(--brm-red); }
+        .brm-col-head.competencies { background: var(--brm-yellow); color: #1e293b; }
+        .brm-col-head.behaviours { background: var(--brm-green); }
+        .brm-col-head.outcomes { background: var(--brm-light-blue); color: #0f172a; }
+        .brm-col-head.benefits { background: var(--brm-dark-blue); }
 
         .brm-toolbar {
             display: flex;
@@ -928,6 +962,18 @@
             border: 1px solid var(--border);
         }
 
+        .brm-btn-add {
+            color: white;
+            border: none;
+            font-weight: 700;
+        }
+
+        .brm-btn-add.deliverables { background: var(--brm-red); }
+        .brm-btn-add.competencies { background: var(--brm-yellow); color: #1e293b; }
+        .brm-btn-add.behaviours { background: var(--brm-green); }
+        .brm-btn-add.outcomes { background: var(--brm-light-blue); color: #0f172a; }
+        .brm-btn-add.benefits { background: var(--brm-dark-blue); }
+
         .brm-canvas-wrap {
             position: relative;
             width: 100%;
@@ -936,6 +982,28 @@
             border: 1px solid var(--border);
             border-radius: 12px;
             overflow: hidden;
+        }
+
+        /* DASHED DIVIDERS BETWEEN THE 5 COLUMNS */
+        .brm-column-dividers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .brm-col-divider {
+            border-right: 2px dashed var(--border);
+            height: 100%;
+        }
+
+        .brm-col-divider:last-child {
+            border-right: none;
         }
 
         .brm-svg-layer {
@@ -950,10 +1018,10 @@
 
         .brm-card-node {
             position: absolute;
-            width: 180px;
+            width: 170px;
             min-height: 75px;
             background: var(--surface);
-            border: 2px solid var(--primary);
+            border: 2px solid var(--border);
             border-radius: 10px;
             padding: 8px 10px;
             box-shadow: var(--shadow-sm);
@@ -965,16 +1033,21 @@
             user-select: none;
         }
 
+        .brm-card-node.deliverables { border-color: var(--brm-red); }
+        .brm-card-node.competencies { border-color: var(--brm-yellow); }
+        .brm-card-node.behaviours { border-color: var(--brm-green); }
+        .brm-card-node.outcomes { border-color: var(--brm-light-blue); }
+        .brm-card-node.benefits { border-color: var(--brm-dark-blue); }
+
         .brm-card-node.selected {
-            border-color: var(--amber);
-            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.4);
         }
 
         .brm-card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 800;
             text-transform: uppercase;
             color: var(--text-muted);
@@ -2072,7 +2145,6 @@ function saveTaskNote(taskId, text) {
     }
 }
 
-/* DEFINING SUCCESS SAVE FUNCTION */
 function saveDefiningSuccessField(fieldKey, value) {
     if (activeProjectId && projectsData[activeProjectId]) {
         const proj = projectsData[activeProjectId];
@@ -2094,19 +2166,33 @@ function saveDefiningSuccessField(fieldKey, value) {
 }
 
 /* BENEFIT REALISATION MAPPING (BRM) CANVAS LOGIC */
-function addBrmNode(type) {
+const brmCategoryMap = {
+    'deliverables': { name: 'Project deliverables', class: 'deliverables', colIndex: 0 },
+    'competencies': { name: 'New competencies', class: 'competencies', colIndex: 1 },
+    'behaviours': { name: 'New behaviours', class: 'behaviours', colIndex: 2 },
+    'outcomes': { name: 'Outcomes', class: 'outcomes', colIndex: 3 },
+    'benefits': { name: 'Benefits', class: 'benefits', colIndex: 4 }
+};
+
+function addBrmNode(categoryKey) {
     if (!activeProjectId || !projectsData[activeProjectId]) return;
     const proj = projectsData[activeProjectId];
     if (!proj.brmData) proj.brmData = { nodes: [], connections: [] };
 
+    const cat = brmCategoryMap[categoryKey] || brmCategoryMap['deliverables'];
+    const wrap = document.getElementById('brm-canvas-wrap');
+    const colWidth = wrap ? wrap.clientWidth / 5 : 200;
+
     const id = "node_" + Date.now();
-    const count = proj.brmData.nodes.length;
+    const countInCol = proj.brmData.nodes.filter(n => n.typeKey === categoryKey).length;
+    
     const newNode = {
         id: id,
-        type: type,
+        typeKey: categoryKey,
+        typeName: cat.name,
         text: "",
-        x: 30 + (count % 4) * 200,
-        y: 40 + Math.floor(count / 4) * 100
+        x: (cat.colIndex * colWidth) + 12,
+        y: 20 + (countInCol * 90)
     };
 
     proj.brmData.nodes.push(newNode);
@@ -2188,11 +2274,9 @@ function renderBrmCanvas() {
     const proj = projectsData[activeProjectId];
     const brm = proj?.brmData || { nodes: [], connections: [] };
 
-    // Clear nodes (keep SVG layer)
     const existingNodes = wrap.querySelectorAll('.brm-card-node');
     existingNodes.forEach(n => n.remove());
 
-    // Update SVG Lines
     let svgHtml = `<defs>
         <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary)"/>
@@ -2203,19 +2287,19 @@ function renderBrmCanvas() {
         const fromNode = brm.nodes.find(n => n.id === conn.from);
         const toNode = brm.nodes.find(n => n.id === conn.to);
         if (fromNode && toNode) {
-            const x1 = fromNode.x + 90;
+            const x1 = fromNode.x + 85;
             const y1 = fromNode.y + 37;
-            const x2 = toNode.x + 90;
+            const x2 = toNode.x + 85;
             const y2 = toNode.y + 37;
             svgHtml += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--primary)" stroke-width="2.5" marker-end="url(#arrow)" />`;
         }
     });
     svgLayer.innerHTML = svgHtml;
 
-    // Render Nodes
     brm.nodes.forEach(node => {
+        const catKey = node.typeKey || 'deliverables';
         const div = document.createElement('div');
-        div.className = `brm-card-node ${selectedBrmNodeId === node.id ? 'selected' : ''}`;
+        div.className = `brm-card-node ${catKey} ${selectedBrmNodeId === node.id ? 'selected' : ''}`;
         div.style.left = `${node.x}px`;
         div.style.top = `${node.y}px`;
 
@@ -2226,12 +2310,11 @@ function renderBrmCanvas() {
 
         div.innerHTML = `
             <div class="brm-card-header">
-                <span>${node.type}</span>
+                <span>${node.typeName || 'Boks'}</span>
             </div>
             <textarea class="brm-card-body" placeholder="Skriv indhold..." oninput="updateBrmNodeText('${node.id}', this.value)" onclick="e.stopPropagation()">${node.text || ''}</textarea>
         `;
 
-        // Make node draggable
         let isDragging = false;
         let startX, startY;
 
@@ -2243,7 +2326,7 @@ function renderBrmCanvas() {
 
             const onMouseMove = (moveEvent) => {
                 if (!isDragging) return;
-                node.x = Math.max(0, Math.min(wrap.clientWidth - 180, moveEvent.clientX - startX));
+                node.x = Math.max(0, Math.min(wrap.clientWidth - 170, moveEvent.clientX - startX));
                 node.y = Math.max(0, Math.min(wrap.clientHeight - 75, moveEvent.clientY - startY));
                 div.style.left = `${node.x}px`;
                 div.style.top = `${node.y}px`;
@@ -2447,16 +2530,25 @@ function renderProjectTable() {
                             <div class="brm-container">
                                 <div style="font-weight: 800; font-size: 1.05rem; color: var(--primary); border-bottom: 2px solid var(--primary-border); padding-bottom: 6px; display:flex; justify-content:space-between; align-items:center;">
                                     <span>🗺️ Interaktivt Benefit Realisation Map</span>
-                                    <span style="font-size:0.8rem; font-weight:600; color:var(--text-muted);">Tilføj bokse, træk dem rundt og forbind med streger</span>
+                                    <span style="font-size:0.8rem; font-weight:600; color:var(--text-muted);">Tilføj bokse, træk dem rundt og forbinder med streger</span>
+                                </div>
+
+                                <!-- 5 FIXED COLOR HEADERS -->
+                                <div class="brm-columns-header">
+                                    <div class="brm-col-head deliverables">Project deliverables</div>
+                                    <div class="brm-col-head competencies">New competencies</div>
+                                    <div class="brm-col-head behaviours">New behaviours</div>
+                                    <div class="brm-col-head outcomes">Outcomes</div>
+                                    <div class="brm-col-head benefits">Benefits</div>
                                 </div>
 
                                 <div class="brm-toolbar">
                                     <span style="font-weight:700; font-size:0.85rem;">+ Tilføj Boks:</span>
-                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('Investment Objective')">+ Objective</button>
-                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('Business Benefit')">+ Benefit</button>
-                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('Business Change')">+ Business Change</button>
-                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('Enabling Change')">+ Enabling Change</button>
-                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('IS/IT Enabler')">+ IS/IT Enabler</button>
+                                    <button class="btn brm-btn-add deliverables" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('deliverables')">+ Deliverable</button>
+                                    <button class="btn brm-btn-add competencies" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('competencies')">+ Competency</button>
+                                    <button class="btn brm-btn-add behaviours" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('behaviours')">+ Behaviour</button>
+                                    <button class="btn brm-btn-add outcomes" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('outcomes')">+ Outcome</button>
+                                    <button class="btn brm-btn-add benefits" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('benefits')">+ Benefit</button>
                                     <div style="flex:1;"></div>
                                     <button class="btn" style="padding:4px 10px; font-size:0.8rem; background:var(--primary-bg); color:var(--primary);" onclick="toggleConnectMode()">🔗 Forbind Bokse</button>
                                     <button class="btn" style="padding:4px 10px; font-size:0.8rem; color:var(--danger);" onclick="deleteSelectedBrmNode()">🗑️ Slet Boks</button>
@@ -2464,6 +2556,13 @@ function renderProjectTable() {
                                 </div>
 
                                 <div class="brm-canvas-wrap" id="brm-canvas-wrap" onclick="selectBrmNode(null)">
+                                    <div class="brm-column-dividers">
+                                        <div class="brm-col-divider"></div>
+                                        <div class="brm-col-divider"></div>
+                                        <div class="brm-col-divider"></div>
+                                        <div class="brm-col-divider"></div>
+                                        <div class="brm-col-divider"></div>
+                                    </div>
                                     <svg class="brm-svg-layer" id="brm-svg-layer"></svg>
                                 </div>
                             </div>
@@ -2486,7 +2585,6 @@ function renderProjectTable() {
 
     tbody.innerHTML = html;
 
-    // Render BRM Canvas if task_3 drawer is active
     if (document.getElementById('note-drawer-task_3')?.classList.contains('open')) {
         renderBrmCanvas();
     }
