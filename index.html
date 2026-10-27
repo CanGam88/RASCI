@@ -1358,7 +1358,7 @@ function addBrmNode(categoryKey) {
     renderBrmCanvas();
 }
 
-function updateBrmNodeText(nodeId, text, textareaEl) {
+function updateBrmNodeTextDirect(nodeId, text, textareaEl) {
     if (!activeProjectId || !projectsData[activeProjectId]) return;
     const proj = projectsData[activeProjectId];
     const node = proj.brmData?.nodes?.find(n => n.id === nodeId);
@@ -1370,11 +1370,58 @@ function updateBrmNodeText(nodeId, text, textareaEl) {
         textareaEl.style.height = 'auto';
         textareaEl.style.height = (textareaEl.scrollHeight) + 'px';
     }
+    updateBrmLinesOnly();
+}
+
+function updateBrmLinesOnly() {
+    const wrap = document.getElementById('brm-canvas-wrap');
+    const svgLayer = document.getElementById('brm-svg-layer');
+    if (!wrap || !svgLayer || !activeProjectId) return;
+
+    const proj = projectsData[activeProjectId];
+    const brm = proj?.brmData || { nodes: [], connections: [] };
+
+    let svgHtml = `<defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary)"/>
+        </marker>
+    </defs>`;
+
+    brm.connections.forEach(conn => {
+        const fromNode = brm.nodes.find(n => n.id === conn.from);
+        const toNode = brm.nodes.find(n => n.id === conn.to);
+        if (fromNode && toNode) {
+            const fromEl = document.getElementById(`brm-node-el-${fromNode.id}`);
+            const toEl = document.getElementById(`brm-node-el-${toNode.id}`);
+            
+            const fromH = fromEl ? fromEl.offsetHeight : 75;
+            const toH = toEl ? toEl.offsetHeight : 75;
+
+            const x1 = fromNode.x + 87;
+            const y1 = fromNode.y + (fromH / 2);
+            const x2 = toNode.x + 87;
+            const y2 = toNode.y + (toH / 2);
+            svgHtml += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--primary)" stroke-width="2.5" marker-end="url(#arrow)" />`;
+        }
+    });
+    svgLayer.innerHTML = svgHtml;
 }
 
 function selectBrmNode(nodeId) {
     selectedBrmNodeId = nodeId;
-    renderBrmCanvas();
+    const proj = projectsData[activeProjectId];
+    const brm = proj?.brmData || { nodes: [] };
+
+    brm.nodes.forEach(node => {
+        const el = document.getElementById(`brm-node-el-${node.id}`);
+        if (el) {
+            if (node.id === selectedBrmNodeId) {
+                el.classList.add('selected');
+            } else {
+                el.classList.remove('selected');
+            }
+        }
+    });
 }
 
 function deleteSelectedBrmNode() {
@@ -1430,8 +1477,7 @@ function clearBrmCanvas() {
 
 function renderBrmCanvas() {
     const wrap = document.getElementById('brm-canvas-wrap');
-    const svgLayer = document.getElementById('brm-svg-layer');
-    if (!wrap || !svgLayer) return;
+    if (!wrap) return;
 
     const proj = projectsData[activeProjectId];
     const brm = proj?.brmData || { nodes: [], connections: [] };
@@ -1439,30 +1485,7 @@ function renderBrmCanvas() {
     const existingNodes = wrap.querySelectorAll('.brm-card-node');
     existingNodes.forEach(n => n.remove());
 
-    let svgHtml = `<defs>
-        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary)"/>
-        </marker>
-    </defs>`;
-
-    brm.connections.forEach(conn => {
-        const fromNode = brm.nodes.find(n => n.id === conn.from);
-        const toNode = brm.nodes.find(n => n.id === conn.to);
-        if (fromNode && toNode) {
-            const fromEl = document.getElementById(`brm-node-el-${fromNode.id}`);
-            const toEl = document.getElementById(`brm-node-el-${toNode.id}`);
-            
-            const fromH = fromEl ? fromEl.offsetHeight : 75;
-            const toH = toEl ? toEl.offsetHeight : 75;
-
-            const x1 = fromNode.x + 87;
-            const y1 = fromNode.y + (fromH / 2);
-            const x2 = toNode.x + 87;
-            const y2 = toNode.y + (toH / 2);
-            svgHtml += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--primary)" stroke-width="2.5" marker-end="url(#arrow)" />`;
-        }
-    });
-    svgLayer.innerHTML = svgHtml;
+    updateBrmLinesOnly();
 
     brm.nodes.forEach(node => {
         const catKey = node.typeKey || 'deliverables';
@@ -1487,8 +1510,7 @@ function renderBrmCanvas() {
         textarea.value = node.text || '';
         
         textarea.oninput = (e) => {
-            updateBrmNodeText(node.id, e.target.value, e.target);
-            renderBrmCanvas();
+            updateBrmNodeTextDirect(node.id, e.target.value, e.target);
         };
 
         textarea.onclick = (e) => {
@@ -1514,7 +1536,7 @@ function renderBrmCanvas() {
                 node.y = Math.max(0, Math.min(wrap.clientHeight - 75, moveEvent.clientY - startY));
                 div.style.left = `${node.x}px`;
                 div.style.top = `${node.y}px`;
-                renderBrmCanvas();
+                updateBrmLinesOnly();
             };
 
             const onMouseUp = () => {
