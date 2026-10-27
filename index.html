@@ -9,7 +9,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%232563eb'/><text x='50%' y='58%' font-family='-apple-system, sans-serif' font-weight='900' font-size='130' fill='white' text-anchor='middle'>RASCI</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%232563eb'/><text x='50%' y='58%' font-family='-apple-system, sans-serif' font-weight='900' font-size='130' fill='white' text-anchor='middle'>RASCI</text></svg>">
     
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlJBU0NJIC0gQ2hhbmdlICYgQWRhcHRpb24iLAogICJzaG9ydF9uYW1lIjogIlJBU0NJIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMDkxZTNhIiwKICAidGhlbWVfY29sb3IiOiAiIzI1NjNlYiIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDUxMiA1MTInPjxyZWN0IHdpZHRoPSc1MTInIGhlaWdodD0nNTEyJyByeD0nMTIwJyBmaWxsPSclMjMyNTYzZWInLz48dGV4dCB4PSc1MCUnIHk9JzU4JScgZm9udC1mYW1pbHk9Jy1hcHBsZS1zeXN0ZW0sIHNhbnMtc2VyaWY mem9udC13ZWlnaHQ9JzkwMCcgZm9udC1zaXplPScxMzAnIGZpbGw9J3doaXRlJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJz5SQVNDSTwvdGV4dD48L3N2Zz4iLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9">
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlJBU0NJIC0gQ2hhbmdlICYgQWRhcHRpb24iLAogICJzaG9ydF9uYW1lIjogIlJBU0NJIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAic3RhbmRhbG9uZSI6IHRydWUsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzA5MWUzYSIsCiAgInRoZW1lX2NvbG9yIjogIiMyNTYzZWIiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsPHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA1MTIgNTEyJz48cmVjdCB3aWR0aD0nNTEyJyBoZWlnaHQ9JzUxMicgcmg9JzEyMCcgZmlsbD0nJTIzMjU2M2ViJy8+PHRleHQgeD0nNTAlJyB5PSc1OCUnIGZvbnQtZmFtaWx5PSctYXBwbGUtc3lzdGVtLCBzYW5zLXNlcmlmJyBmb250LXdlaWdodD0nOTAwJyBmb250LXNpemU9JzEzMCcgZmlsbD0nd2hpdGUnIHRleHQtYW5jaG9yPSdtaWRkbGUnPlJBU0NJPC90ZXh0Pjwvc3ZnPiIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSIKICAgIH0KICBdCn0=">
 
     <style>
         :root {
@@ -1346,6 +1346,13 @@ const brmCategoryMap = {
     'benefits': { name: 'Benefits', class: 'benefits', colIndex: 4 }
 };
 
+function getBrmColumnX(colIndex) {
+    const wrap = document.getElementById('brm-canvas-wrap');
+    const colWidth = wrap ? wrap.clientWidth / 5 : 200;
+    const cardWidth = 175;
+    return (colIndex * colWidth) + ((colWidth - cardWidth) / 2);
+}
+
 function toggleBrmFullscreen() {
     const container = document.getElementById('brm-container-box');
     const btn = document.getElementById('brm-fullscreen-btn');
@@ -1356,8 +1363,20 @@ function toggleBrmFullscreen() {
         btn.textContent = isFull ? "🗗 Luk Fuld Skærm" : "🖥️ Fuld Skærm";
     }
     setTimeout(() => {
+        alignBrmNodesToColumns();
         updateBrmLinesOnly();
     }, 100);
+}
+
+function alignBrmNodesToColumns() {
+    if (!activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    if (!proj.brmData || !proj.brmData.nodes) return;
+
+    proj.brmData.nodes.forEach(node => {
+        const cat = brmCategoryMap[node.typeKey] || brmCategoryMap['deliverables'];
+        node.x = getBrmColumnX(cat.colIndex);
+    });
 }
 
 function addBrmNode(categoryKey) {
@@ -1366,9 +1385,6 @@ function addBrmNode(categoryKey) {
     if (!proj.brmData) proj.brmData = { nodes: [], connections: [] };
 
     const cat = brmCategoryMap[categoryKey] || brmCategoryMap['deliverables'];
-    const wrap = document.getElementById('brm-canvas-wrap');
-    const colWidth = wrap ? wrap.clientWidth / 5 : 200;
-
     const id = "node_" + Date.now();
     const countInCol = proj.brmData.nodes.filter(n => n.typeKey === categoryKey).length;
     
@@ -1377,7 +1393,7 @@ function addBrmNode(categoryKey) {
         typeKey: categoryKey,
         typeName: cat.name,
         text: "",
-        x: (cat.colIndex * colWidth) + 12,
+        x: getBrmColumnX(cat.colIndex),
         y: 20 + (countInCol * 100)
     };
 
@@ -1521,6 +1537,8 @@ function renderBrmCanvas() {
     const wrap = document.getElementById('brm-canvas-wrap');
     if (!wrap) return;
 
+    alignBrmNodesToColumns();
+
     const proj = projectsData[activeProjectId];
     const brm = proj?.brmData || { nodes: [], connections: [] };
 
@@ -1529,6 +1547,10 @@ function renderBrmCanvas() {
 
     brm.nodes.forEach(node => {
         const catKey = node.typeKey || 'deliverables';
+        const cat = brmCategoryMap[catKey] || brmCategoryMap['deliverables'];
+        
+        node.x = getBrmColumnX(cat.colIndex);
+
         const div = document.createElement('div');
         div.id = `brm-node-el-${node.id}`;
         div.className = `brm-card-node ${catKey} ${selectedBrmNodeId === node.id ? 'selected' : ''}`;
@@ -1562,19 +1584,16 @@ function renderBrmCanvas() {
         div.appendChild(textarea);
 
         let isDragging = false;
-        let startX, startY;
+        let startY;
 
         dragHandle.onmousedown = (e) => {
             e.stopPropagation();
             isDragging = true;
-            startX = e.clientX - node.x;
             startY = e.clientY - node.y;
 
             const onMouseMove = (moveEvent) => {
                 if (!isDragging) return;
-                node.x = Math.max(0, moveEvent.clientX - startX);
                 node.y = Math.max(0, moveEvent.clientY - startY);
-                div.style.left = `${node.x}px`;
                 div.style.top = `${node.y}px`;
                 updateBrmLinesOnly();
             };
@@ -1858,6 +1877,12 @@ function formatBadge(val) {
 
 window.onload = function() {
     initPasscodeSystem();
+};
+window.onresize = function() {
+    if (document.getElementById('note-drawer-task_3')?.classList.contains('open')) {
+        alignBrmNodesToColumns();
+        renderBrmCanvas();
+    }
 };
 </script>
 </body>
