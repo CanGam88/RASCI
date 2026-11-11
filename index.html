@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Change & Adaption (C&A) & RASCI Suite</title>
+  <title>RASCI &amp; Change Management Suite</title>
   <style>
     :root {
       --bg-main: #090d16;
@@ -38,19 +38,22 @@
     header {
       background: linear-gradient(135deg, var(--dark-red) 0%, #150507 100%);
       color: #fff;
-      padding: 24px;
+      padding: 20px 24px;
       border-bottom: 1px solid var(--border-accent);
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    header h1 { margin: 0; font-size: 1.6rem; font-weight: 700; }
-    header p { margin: 4px 0 0; color: #d0d7de; font-size: 0.9rem; }
+    header h1 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+    header p { margin: 4px 0 0; color: #d0d7de; font-size: 0.88rem; }
 
     .nav-tabs {
       display: flex;
-      gap: 4px;
+      gap: 6px;
       background: #0d131f;
-      padding: 8px 16px;
+      padding: 10px 16px;
       border-bottom: 1px solid var(--border);
       overflow-x: auto;
     }
@@ -80,7 +83,7 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1250px;
       margin: 24px auto;
       padding: 0 16px;
     }
@@ -150,7 +153,7 @@
       color: #fff;
       border: none;
       border-radius: 6px;
-      padding: 10px 18px;
+      padding: 9px 16px;
       font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
@@ -166,7 +169,7 @@
     .btn.secondary:hover { background: #2e3c58; color: #fff; }
     .btn.teal { background: var(--teal); }
     .btn.teal:hover { background: #196967; }
-    .btn.small { padding: 6px 12px; font-size: 0.8rem; }
+    .btn.small { padding: 5px 10px; font-size: 0.8rem; }
 
     .toolbar { text-align: right; margin-top: 10px; }
 
@@ -193,7 +196,7 @@
 
     .saved { color: var(--teal-light); font-size: 0.85rem; font-weight: 600; margin-left: 8px; }
 
-    /* RASCI Table Styles */
+    /* RASCI Matrix Table Styles */
     .table-responsive {
       overflow-x: auto;
       margin-top: 14px;
@@ -209,7 +212,7 @@
     }
 
     table.rasci-table th, table.rasci-table td {
-      padding: 12px;
+      padding: 10px 12px;
       border-bottom: 1px solid var(--border);
       border-right: 1px solid var(--border);
     }
@@ -218,26 +221,42 @@
       background: #0d131f;
       color: #fff;
       font-weight: 600;
+      white-space: nowrap;
     }
 
     table.rasci-table tr:hover { background: var(--bg-card-hover); }
 
     .rasci-select {
       font-weight: 700;
-      padding: 4px;
+      padding: 6px 8px;
       text-align: center;
       border-radius: 4px;
       cursor: pointer;
+      width: 100%;
+      min-width: 55px;
     }
 
-    .rasci-R { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid #3b82f6; }
-    .rasci-A { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
-    .rasci-S { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
-    .rasci-C { background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid #8b5cf6; }
-    .rasci-I { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+    .rasci-R { background: rgba(59, 130, 246, 0.25); color: #60a5fa; border: 1px solid #3b82f6; }
+    .rasci-A { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid #ef4444; }
+    .rasci-S { background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid #f59e0b; }
+    .rasci-C { background: rgba(139, 92, 246, 0.25); color: #c084fc; border: 1px solid #8b5cf6; }
+    .rasci-I { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid #10b981; }
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      padding: 10px 14px;
+      background: #090d16;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; }
+    .legend-box { padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; }
 
     @media print {
       header, .nav-tabs, .toolbar, .btn, .hint { display: none; }
@@ -251,21 +270,70 @@
 <body>
 
 <header>
-  <h1>Change &amp; Adaption Suite</h1>
-  <p>Forandringsledelse, SCQA Core Story &amp; RASCI Ansvarsfordeling</p>
+  <div>
+    <h1>RASCI &amp; Change Management Suite</h1>
+    <p>ROCKWOOL Operations – Vamdrup</p>
+  </div>
+  <div>
+    <button class="btn secondary small" onclick="exportData()">Eksporter data</button>
+    <button class="btn secondary small" onclick="importData()">Importer data</button>
+  </div>
 </header>
 
 <nav class="nav-tabs">
-  <button class="tab-btn active" onclick="switchTab('corestory')">Develop Core Story &amp; Key Messages</button>
-  <button class="tab-btn" onclick="switchTab('rasci')">RASCI Ansvarsmatrix</button>
-  <button class="tab-btn" onclick="switchTab('alignment')">Change Readiness &amp; Alignment</button>
+  <button class="tab-btn active" onclick="switchTab('rasci', this)">RASCI Matrix</button>
+  <button class="tab-btn" onclick="switchTab('corestory', this)">Develop Core Story &amp; Key Messages</button>
+  <button class="tab-btn" onclick="switchTab('dagenslogs', this)">Dagens logs &amp; Opgaver</button>
+  <button class="tab-btn" onclick="switchTab('kalender', this)">Kalender &amp; Milepæle</button>
 </nav>
 
 <div class="container">
 
-  <!-- TAB 1: CORE STORY (SCQA) -->
-  <div id="tab-corestory" class="tab-content active">
-    <!-- Project info -->
+  <!-- TAB 1: RASCI MATRIX (HOVED-APP) -->
+  <div id="tab-rasci" class="tab-content active">
+    <div class="card">
+      <h2>RASCI Ansvarsfordeling &amp; Matrix</h2>
+      <p class="hint">Definér ansvarsfordelingen på tværs af roller og forandringsaktiviteter.</p>
+      
+      <div class="legend">
+        <div class="legend-item"><span class="legend-box rasci-R">R</span> Responsible (Udførende)</div>
+        <div class="legend-item"><span class="legend-box rasci-A">A</span> Accountable (Slutansvarlig / Godkender)</div>
+        <div class="legend-item"><span class="legend-box rasci-S">S</span> Support (Støttende ressource)</div>
+        <div class="legend-item"><span class="legend-box rasci-C">C</span> Consulted (Rådføres undervejs)</div>
+        <div class="legend-item"><span class="legend-box rasci-I">I</span> Informed (Orienteres)</div>
+      </div>
+
+      <div style="margin-bottom: 12px; display: flex; gap: 8px;">
+        <button class="btn small teal" onclick="addRasciRow()">+ Tilføj Aktivitet / Leverance</button>
+        <button class="btn small secondary" onclick="addRasciRole()">+ Tilføj Rolle / Person</button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="rasci-table" id="rasciTable">
+          <thead>
+            <tr id="rasciHeader">
+              <th>Aktivitet / Leverance</th>
+              <th>Projektleder</th>
+              <th>Change Master</th>
+              <th>Driftsleder</th>
+              <th>Operatør</th>
+              <th style="width: 40px;"></th>
+            </tr>
+          </thead>
+          <tbody id="rasciBody">
+            <!-- Dynamisk indhold indlæses her -->
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top: 14px; text-align: right;">
+        <button class="btn secondary small" onclick="sendDirectEmail()">Send overblik til COM-VAM-Ropex-Polk@rockwool.com</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: CORE STORY (SCQA TOOL) -->
+  <div id="tab-corestory" class="tab-content">
+    <!-- Stamdata for Forandringsinitiativ -->
     <div class="card">
       <h2>Stamdata for Forandringsinitiativ</h2>
       <div class="grid-2">
@@ -275,15 +343,15 @@
         </div>
         <div>
           <label>Local Change Master / Ansvarlig</label>
-          <input type="text" id="owner" placeholder="fx Lasse Gamborg (VAM)">
+          <input type="text" id="owner" placeholder="fx Lasse (VAM)">
         </div>
       </div>
     </div>
 
     <!-- Core Story SCQA -->
     <div class="card">
-      <h2>Core Story (SCQA)</h2>
-      <p class="hint">Byg kernefortællingen i fire trin. Hold hvert felt kort og konkret.</p>
+      <h2>Core Story &amp; Key Messages (SCQA)</h2>
+      <p class="hint">Change &amp; Adaption – værktøj til at formulere forandringens kernefortælling (SCQA)</p>
 
       <label><span class="badge">S</span> Situation – hvor er vi i dag?</label>
       <textarea id="situation" placeholder="Beskriv udgangspunktet / den nuværende situation..."></textarea>
@@ -306,14 +374,14 @@
       <button class="btn small secondary" onclick="addKeyMessage()">+ Tilføj budskab</button>
     </div>
 
-    <!-- Actions -->
+    <!-- Resultat / Eksport -->
     <div class="card">
-      <h2>Samlet Udkast &amp; Eksport</h2>
+      <h2>Resultat &amp; Handling</h2>
       <div class="toolbar">
         <button class="btn" onclick="generate()">Generér udkast</button>
-        <button class="btn teal" onclick="syncToRasci()">Overfør til RASCI Matrix</button>
+        <button class="btn teal" onclick="syncKeyMessagesToRasci()">Overfør budskaber til RASCI Matrix</button>
         <button class="btn secondary" onclick="window.print()">Print / gem som PDF</button>
-        <button class="btn secondary" onclick="clearAll()">Nulstil</button>
+        <button class="btn secondary" onclick="clearCoreStory()">Nulstil felter</button>
         <span id="savedState" class="saved"></span>
       </div>
       <div id="preview" style="margin-top: 14px;">Udfyld felterne ovenfor og klik "Generér udkast".</div>
@@ -321,73 +389,28 @@
     </div>
   </div>
 
-  <!-- TAB 2: RASCI MATRIX -->
-  <div id="tab-rasci" class="tab-content">
+  <!-- TAB 3: DAGENS LOGS & OPGAVER -->
+  <div id="tab-dagenslogs" class="tab-content">
     <div class="card">
-      <h2>RASCI Matrix &amp; Rollefordeling</h2>
-      <p class="hint">Kobl forandringsinitiativerne direkte til ansvarsområder (Responsible, Accountable, Support, Consulted, Informed).</p>
-      
-      <div style="margin-bottom: 12px; display: flex; gap: 8px;">
-        <button class="btn small teal" onclick="addRasciRow()">+ Tilføj Aktivitet / Leverance</button>
-        <button class="btn small secondary" onclick="addRasciRole()">+ Tilføj Rolle / Person</button>
-      </div>
-
-      <div class="table-responsive">
-        <table class="rasci-table" id="rasciTable">
-          <thead>
-            <tr id="rasciHeader">
-              <th>Aktivitet / Leverance</th>
-              <th>Projektleder (A)</th>
-              <th>Change Master (R)</th>
-              <th>Driftsleder (C)</th>
-              <th>Operatør (I)</th>
-            </tr>
-          </thead>
-          <tbody id="rasciBody">
-            <!-- Dynamisk indhold -->
-          </tbody>
-        </table>
+      <h2>Dagens logs &amp; Noter</h2>
+      <p class="hint">Daglige opfølgninger og logninger på forandringsprocessen i produktionen.</p>
+      <textarea id="dailyLog" style="min-height: 160px;" placeholder="Skriv dagens observans, status på eSOPs eller tavlemøder her..."></textarea>
+      <div style="margin-top: 10px;">
+        <button class="btn teal" onclick="saveDailyLog()">Gem</button>
+        <span id="logSaveStatus" class="saved"></span>
       </div>
     </div>
   </div>
 
-  <!-- TAB 3: ALIGNMENT & READINESS -->
-  <div id="tab-alignment" class="tab-content">
+  <!-- TAB 4: KALENDER & MILEPÆLE -->
+  <div id="tab-kalender" class="tab-content">
     <div class="card">
-      <h2>Change Readiness &amp; Alignment Check</h2>
-      <p class="hint">Vurdér interessenters parathed i forhold til Core Storyen og RASCI-ansvaret.</p>
-      
-      <div class="grid-2">
-        <div>
-          <label>1. Er ledelseskoalitionen enig om Core Storyen?</label>
-          <select id="align_1" onchange="saveAlignment()">
-            <option value="1">Nej - Stor uenighed om brændende platform (C)</option>
-            <option value="2">Delvis - Enige om mål, men ikke om midler</option>
-            <option value="3" selected>Ja - Fuld opbakning fra sponsor og ledelse</option>
-          </select>
-
-          <label>2. Er alle 'A' (Accountable) i RASCI klart definerede?</label>
-          <select id="align_2" onchange="saveAlignment()">
-            <option value="1">Nej - Flere opgaver mangler en 'A' eller har 2+ 'A'er</option>
-            <option value="2">Delvis - Nogle usikkerheder om slutansvar</option>
-            <option value="3" selected>Ja - Præcis ét 'A' pr. leverance</option>
-          </select>
-        </div>
-
-        <div>
-          <label>3. Er WIFM (What's In It For Me) klar for 'R' og 'I'?</label>
-          <select id="align_3" onchange="saveAlignment()">
-            <option value="1">Nej - Fokus er kun på organisationens gevinst</option>
-            <option value="2">Delvis - Forstået af ledelsen, uafklaret i driften</option>
-            <option value="3" selected>Ja - Tydelig personlig gevinst kommunikeret</option>
-          </select>
-
-          <label>4. Kommunikationshyppighed for Key Messages</label>
-          <select id="align_4" onchange="saveAlignment()">
-            <option value="1">Sjældent / Engangsorientering</option>
-            <option value="2">Månedlig opfølgning</option>
-            <option value="3" selected>Ugentlig / Integreret i tavlemøder og eSOPs</option>
-          </select>
+      <h2>Kalender &amp; Forandringsmilepæle</h2>
+      <p class="hint">Tidslinje for udrulning, workshops og statusmøder (Man-ons fokus / ugentlige kadencer).</p>
+      <div id="milestoneList">
+        <div class="km-row">
+          <input type="text" value="Man-ons: Udrulning af første eSOP udkast" readonly>
+          <span class="badge" style="background: var(--teal); padding: 6px;">Planlagt</span>
         </div>
       </div>
     </div>
@@ -396,18 +419,18 @@
 </div>
 
 <script>
-  const fields = ['project','owner','situation','complication','question','answer'];
-
-  // Tab switcher
-  function switchTab(tabId) {
+  // ---- TAB SWITCHER ----
+  function switchTab(tabId, btnEl) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
     
     document.getElementById('tab-' + tabId).classList.add('active');
-    event.currentTarget.classList.add('active');
+    btnEl.classList.add('active');
   }
 
-  // ---- Key messages ----
+  // ---- CORE STORY (SCQA) ENGINE ----
+  const fields = ['project','owner','situation','complication','question','answer'];
+
   function addKeyMessage(value='') {
     const wrap = document.getElementById('keymessages');
     const row = document.createElement('div');
@@ -415,11 +438,11 @@
     const ta = document.createElement('textarea');
     ta.placeholder = 'Skriv et nøglebudskab...';
     ta.value = value;
-    ta.addEventListener('input', save);
+    ta.addEventListener('input', saveCoreStory);
     const del = document.createElement('button');
     del.className = 'btn small secondary';
     del.textContent = '✕';
-    del.onclick = () => { row.remove(); save(); };
+    del.onclick = () => { row.remove(); saveCoreStory(); };
     row.appendChild(ta);
     row.appendChild(del);
     wrap.appendChild(row);
@@ -430,8 +453,7 @@
       .map(t => t.value.trim()).filter(Boolean);
   }
 
-  // ---- Save / load (localStorage) ----
-  function save() {
+  function saveCoreStory() {
     const data = {};
     fields.forEach(f => data[f] = document.getElementById(f).value);
     data.keymessages = getKeyMessages();
@@ -443,25 +465,25 @@
     }
   }
 
-  function load() {
+  function loadCoreStory() {
     const raw = localStorage.getItem('ca_corestory');
-    if (!raw) { addKeyMessage(); initDefaultRasci(); return; }
+    if (!raw) { addKeyMessage(); return; }
     const data = JSON.parse(raw);
     fields.forEach(f => { if (data[f] !== undefined) document.getElementById(f).value = data[f]; });
     if (data.keymessages && data.keymessages.length) {
       data.keymessages.forEach(m => addKeyMessage(m));
     } else { addKeyMessage(); }
-    initDefaultRasci();
   }
 
-  function clearAll() {
-    if (!confirm('Nulstil alle felter?')) return;
+  function clearCoreStory() {
+    if (!confirm('Nulstil alle SCQA-felter og budskaber?')) return;
     localStorage.removeItem('ca_corestory');
-    localStorage.removeItem('ca_rasci');
-    location.reload();
+    fields.forEach(f => document.getElementById(f).value = '');
+    document.getElementById('keymessages').innerHTML = '';
+    addKeyMessage();
+    document.getElementById('preview').textContent = 'Udfyld felterne ovenfor og klik "Generér udkast".';
   }
 
-  // ---- Generate draft ----
   function generate() {
     const v = id => document.getElementById(id).value.trim();
     const km = getKeyMessages();
@@ -481,28 +503,45 @@
     out += '\n\n--- Key Messages ---\n';
     out += km.length ? km.map((m,i) => (i+1) + '. ' + m).join('\n') : '[tilføj mindst ét budskab]';
     document.getElementById('preview').textContent = out;
-    save();
+    saveCoreStory();
   }
 
-  // ---- RASCI Engine ----
+  // ---- RASCI MATRIX ENGINE ----
+  let rasciRoles = ["Projektleder", "Change Master", "Driftsleder", "Operatør"];
   let rasciData = [
-    { task: "Udarbejde Core Story & SCQA", roles: ["A", "R", "C", "I"] },
+    { task: "Udarbejde SCQA Core Story", roles: ["A", "R", "C", "I"] },
     { task: "Godkende forandringskommunikation", roles: ["A", "S", "C", "I"] },
-    { task: "Udrulle nye digitale eSOPs", roles: ["S", "R", "A", "I"] }
+    { task: "Udrulle nye eSOPs i produktionen", roles: ["S", "R", "A", "I"] }
   ];
 
-  function initDefaultRasci() {
+  function loadRasci() {
+    const savedRoles = localStorage.getItem('rasci_roles');
+    const savedData = localStorage.getItem('rasci_data');
+    if (savedRoles) rasciRoles = JSON.parse(savedRoles);
+    if (savedData) rasciData = JSON.parse(savedData);
     renderRasci();
   }
 
+  function saveRasci() {
+    localStorage.setItem('rasci_roles', JSON.stringify(rasciRoles));
+    localStorage.setItem('rasci_data', JSON.stringify(rasciData));
+  }
+
   function renderRasci() {
+    const headerRow = document.getElementById('rasciHeader');
+    headerRow.innerHTML = '<th>Aktivitet / Leverance</th>' + 
+      rasciRoles.map((r, idx) => `<th>${r} <span style="cursor:pointer;opacity:0.6;" onclick="removeRasciRole(${idx})">✕</span></th>`).join('') +
+      '<th style="width:40px;"></th>';
+
     const tbody = document.getElementById('rasciBody');
-    if (!tbody) return;
     tbody.innerHTML = '';
+
     rasciData.forEach((row, rIdx) => {
       const tr = document.createElement('tr');
       let html = `<td><input type="text" value="${row.task}" onchange="updateRasciTask(${rIdx}, this.value)"></td>`;
-      row.roles.forEach((val, cIdx) => {
+      
+      rasciRoles.forEach((role, cIdx) => {
+        const val = row.roles[cIdx] || '-';
         html += `
           <td style="text-align:center;">
             <select class="rasci-select rasci-${val}" onchange="updateRasciValue(${rIdx}, ${cIdx}, this.value)">
@@ -515,6 +554,8 @@
             </select>
           </td>`;
       });
+
+      html += `<td style="text-align:center;"><button class="btn small secondary" onclick="deleteRasciRow(${rIdx})">✕</button></td>`;
       tr.innerHTML = html;
       tbody.appendChild(tr);
     });
@@ -532,50 +573,111 @@
   }
 
   function addRasciRow(taskName = "Ny forandringsaktivitet") {
-    const colCount = rasciData[0] ? rasciData[0].roles.length : 4;
-    rasciData.push({ task: taskName, roles: Array(colCount).fill('-') });
+    rasciData.push({ task: taskName, roles: Array(rasciRoles.length).fill('-') });
+    renderRasci();
+    saveRasci();
+  }
+
+  function deleteRasciRow(rIdx) {
+    rasciData.splice(rIdx, 1);
     renderRasci();
     saveRasci();
   }
 
   function addRasciRole() {
-    const roleName = prompt("Indtast ny rolle/stilling:");
+    const roleName = prompt("Indtast ny rolle / stilling:");
     if (!roleName) return;
-    const header = document.getElementById('rasciHeader');
-    const th = document.createElement('th');
-    th.textContent = roleName;
-    header.appendChild(th);
+    rasciRoles.push(roleName);
     rasciData.forEach(row => row.roles.push('-'));
     renderRasci();
     saveRasci();
   }
 
-  function syncToRasci() {
+  function removeRasciRole(cIdx) {
+    if (!confirm(`Fjern rollen "${rasciRoles[cIdx]}"?`)) return;
+    rasciRoles.splice(cIdx, 1);
+    rasciData.forEach(row => row.roles.splice(cIdx, 1));
+    renderRasci();
+    saveRasci();
+  }
+
+  function syncKeyMessagesToRasci() {
     const kms = getKeyMessages();
     if (!kms.length) {
-      alert("Tilføj venligst et eller flere Key Messages først.");
+      alert("Tilføj venligst et eller flere Key Messages først under Core Story.");
       return;
     }
     kms.forEach(km => {
       addRasciRow("Kommunikér: " + km);
     });
-    alert("Key Messages er overført som leverancer i RASCI Matrix!");
-    switchTab('rasci');
+    alert("Dine Key Messages er nu overført direkte som aktiviteter i RASCI-matrixen!");
+    const btnRasci = document.querySelectorAll('.tab-btn')[0];
+    switchTab('rasci', btnRasci);
   }
 
-  function saveRasci() {
-    localStorage.setItem('ca_rasci', JSON.stringify(rasciData));
+  function sendDirectEmail() {
+    const mailto = "mailto:COM-VAM-Ropex-Polk@rockwool.com?subject=RASCI Statusopdatering&body=" + 
+      encodeURIComponent("Her er den seneste opdatering af RASCI-ansvarsfordelingen:\n\n" + JSON.stringify(rasciData, null, 2));
+    window.location.href = mailto;
   }
 
-  function saveAlignment() {
-    // Gemmer status for alignment
+  // ---- DAGENS LOGS ----
+  function saveDailyLog() {
+    const val = document.getElementById('dailyLog').value;
+    localStorage.setItem('ca_dailylog', val);
+    const s = document.getElementById('logSaveStatus');
+    s.textContent = '✓ Gemt';
+    setTimeout(() => s.textContent = '', 1500);
   }
 
-  // Auto-save listeners
-  fields.forEach(f => document.getElementById(f)?.addEventListener('input', save));
-  
-  // Opstart
-  load();
+  function loadDailyLog() {
+    const val = localStorage.getItem('ca_dailylog');
+    if (val) document.getElementById('dailyLog').value = val;
+  }
+
+  // Export / Import
+  function exportData() {
+    const data = {
+      corestory: localStorage.getItem('ca_corestory'),
+      rasci_roles: localStorage.getItem('rasci_roles'),
+      rasci_data: localStorage.getItem('rasci_data'),
+      dailylog: localStorage.getItem('ca_dailylog')
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'rasci_suite_backup.json';
+    a.click();
+  }
+
+  function importData() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = e => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = event => {
+        try {
+          const data = JSON.parse(event.target.result);
+          if (data.corestory) localStorage.setItem('ca_corestory', data.corestory);
+          if (data.rasci_roles) localStorage.setItem('rasci_roles', data.rasci_roles);
+          if (data.rasci_data) localStorage.setItem('rasci_data', data.rasci_data);
+          if (data.dailylog) localStorage.setItem('ca_dailylog', data.dailylog);
+          location.reload();
+        } catch(err) {
+          alert("Fejl ved import af fil.");
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  }
+
+  // ---- INITIALISERING ----
+  fields.forEach(f => document.getElementById(f)?.addEventListener('input', saveCoreStory));
+  loadCoreStory();
+  loadRasci();
+  loadDailyLog();
 </script>
 </body>
 </html>
