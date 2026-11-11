@@ -54,6 +54,10 @@
             --brm-green: #10b981;
             --brm-light-blue: #38bdf8;
             --brm-dark-blue: #1d4ed8;
+
+            --scqa-red: #D20014;
+            --scqa-dark-red: #9F000F;
+            --scqa-teal: #208684;
         }
 
         [data-theme="dark"] {
@@ -249,6 +253,19 @@
         .def-field-label { font-weight: 800; font-size: 0.9rem; color: var(--primary); }
         .def-field-input { width: 100%; min-height: 60px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--input-bg); color: var(--input-text); font-size: 0.92rem; outline: none; resize: vertical; }
         .def-field-input:focus { border-color: var(--primary); }
+
+        /* SCQA CORE STORY STYLES */
+        .scqa-box { display: flex; flex-direction: column; gap: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-top: 8px; }
+        .scqa-header-title { font-weight: 800; font-size: 1.1rem; color: var(--scqa-red); border-bottom: 2px solid var(--border); padding-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .scqa-badge { display: inline-block; background: var(--scqa-teal); color: #fff; border-radius: 4px; padding: 2px 8px; font-size: 0.8rem; font-weight: 800; margin-right: 6px; }
+        .scqa-field-group { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+        .scqa-field-label { font-weight: 700; font-size: 0.9rem; color: var(--text-main); }
+        .scqa-textarea { width: 100%; min-height: 65px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--input-bg); color: var(--input-text); font-size: 0.92rem; outline: none; resize: vertical; }
+        .scqa-textarea:focus { border-color: var(--scqa-teal); }
+        .km-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+        .km-row textarea { flex: 1; min-height: 50px; }
+        .scqa-preview { white-space: pre-wrap; background: var(--surface-subtle); border: 1px dashed var(--border); border-radius: 8px; padding: 16px; font-size: 0.9rem; font-family: monospace; color: var(--text-main); }
+        .scqa-note { background: rgba(210,0,20,0.08); border-left: 4px solid var(--scqa-red); padding: 10px 14px; font-size: 0.82rem; color: var(--text-muted); border-radius: 4px; margin-top: 10px; }
 
         .brm-container { display: flex; flex-direction: column; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-top: 8px; transition: all 0.3s ease; }
         .brm-container.is-fullscreen {
@@ -799,6 +816,7 @@ function loadFromLocalStorage() {
                 completedTasks: { "task_1": true },
                 taskNotes: { "task_1": "Pre-complexity assessment gennemført ved oprettelse." },
                 definingSuccessData: {},
+                coreStoryData: { situation: '', complication: '', question: '', answer: '', keymessages: [''] },
                 brmData: { nodes: [], connections: [] },
                 assessmentScore: 12,
                 fokusTodos: [],
@@ -1244,6 +1262,7 @@ function confirmAssessmentAndCreate() {
         completedTasks: { "task_1": true },
         taskNotes: { "task_1": `Pre-complexity Score: ${totalScore}/18 (${calculatedScope === 'all' ? 'Komplekst' : 'Mindre'}). Test udført ved oprettelse.` },
         definingSuccessData: {},
+        coreStoryData: { situation: '', complication: '', question: '', answer: '', keymessages: [''] },
         brmData: { nodes: [], connections: [] },
         fokusTodos: [],
         deadline: newProjectPending.deadline,
@@ -1306,14 +1325,24 @@ function saveTaskNote(taskId, text) {
         
         proj.taskNotes[taskId] = text.trim();
         saveToLocalStorage();
-        
-        const noteBtn = document.getElementById(`note-btn-${taskId}`);
-        if (noteBtn) {
-            if (text.trim()) {
-                noteBtn.classList.add('has-note');
-            } else {
-                noteBtn.classList.remove('has-note');
-            }
+        updateNoteBtnState(taskId);
+    }
+}
+
+function updateNoteBtnState(taskId) {
+    if (!activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    const noteText = (proj.taskNotes && proj.taskNotes[taskId]) ? proj.taskNotes[taskId] : '';
+    const hasDefData = taskId === 'task_2' && proj.definingSuccessData && Object.values(proj.definingSuccessData).some(v => v && v.trim().length > 0);
+    const hasBrmData = taskId === 'task_3' && proj.brmData && proj.brmData.nodes && proj.brmData.nodes.length > 0;
+    const hasCoreData = taskId === 'task_4' && proj.coreStoryData && (proj.coreStoryData.situation || proj.coreStoryData.complication || proj.coreStoryData.question || proj.coreStoryData.answer || (proj.coreStoryData.keymessages && proj.coreStoryData.keymessages.some(m => m.trim())));
+
+    const noteBtn = document.getElementById(`note-btn-${taskId}`);
+    if (noteBtn) {
+        if (noteText.trim() || hasDefData || hasBrmData || hasCoreData) {
+            noteBtn.classList.add('has-note');
+        } else {
+            noteBtn.classList.remove('has-note');
         }
     }
 }
@@ -1325,15 +1354,118 @@ function saveDefiningSuccessField(fieldKey, value) {
         
         proj.definingSuccessData[fieldKey] = value;
         saveToLocalStorage();
+        updateNoteBtnState('task_2');
+    }
+}
 
-        const noteBtn = document.getElementById(`note-btn-task_2`);
-        const hasContent = Object.values(proj.definingSuccessData).some(v => v && v.trim().length > 0);
-        if (noteBtn) {
-            if (hasContent) {
-                noteBtn.classList.add('has-note');
-            } else {
-                noteBtn.classList.remove('has-note');
-            }
+/* SCQA CORE STORY LOGIC FOR TASK_4 */
+function initCoreStoryUI(proj) {
+    if (!proj.coreStoryData) {
+        proj.coreStoryData = { situation: '', complication: '', question: '', answer: '', keymessages: [''] };
+    }
+    const cs = proj.coreStoryData;
+    const fields = ['situation', 'complication', 'question', 'answer'];
+    fields.forEach(f => {
+        const el = document.getElementById(`scqa-${f}`);
+        if (el) el.value = cs[f] || '';
+    });
+
+    renderKmList(cs.keymessages || ['']);
+}
+
+function saveScqaField(fieldKey, val) {
+    if (activeProjectId && projectsData[activeProjectId]) {
+        const proj = projectsData[activeProjectId];
+        if (!proj.coreStoryData) proj.coreStoryData = { situation: '', complication: '', question: '', answer: '', keymessages: [] };
+        proj.coreStoryData[fieldKey] = val;
+        saveToLocalStorage();
+        updateNoteBtnState('task_4');
+    }
+}
+
+function renderKmList(kmArray) {
+    const wrap = document.getElementById('scqa-km-list');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    kmArray.forEach((val, idx) => {
+        const row = document.createElement('div');
+        row.className = 'km-row';
+        const ta = document.createElement('textarea');
+        ta.className = 'scqa-textarea';
+        ta.placeholder = 'Skriv et nøglebudskab...';
+        ta.value = val;
+        ta.oninput = (e) => {
+            kmArray[idx] = e.target.value;
+            saveKmData(kmArray);
+        };
+        const del = document.createElement('button');
+        del.className = 'btn small secondary';
+        del.style.padding = '6px 10px';
+        del.textContent = '✕';
+        del.onclick = () => {
+            kmArray.splice(idx, 1);
+            if (!kmArray.length) kmArray.push('');
+            saveKmData(kmArray);
+            renderKmList(kmArray);
+        };
+        row.appendChild(ta);
+        row.appendChild(del);
+        wrap.appendChild(row);
+    });
+}
+
+function addScqaKm() {
+    if (activeProjectId && projectsData[activeProjectId]) {
+        const proj = projectsData[activeProjectId];
+        if (!proj.coreStoryData) proj.coreStoryData = { situation: '', complication: '', question: '', answer: '', keymessages: [] };
+        if (!proj.coreStoryData.keymessages) proj.coreStoryData.keymessages = [];
+        proj.coreStoryData.keymessages.push('');
+        saveToLocalStorage();
+        renderKmList(proj.coreStoryData.keymessages);
+    }
+}
+
+function saveKmData(kmArray) {
+    if (activeProjectId && projectsData[activeProjectId]) {
+        const proj = projectsData[activeProjectId];
+        if (!proj.coreStoryData) proj.coreStoryData = {};
+        proj.coreStoryData.keymessages = kmArray;
+        saveToLocalStorage();
+        updateNoteBtnState('task_4');
+    }
+}
+
+function generateScqaDraft() {
+    if (!activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    const cs = proj.coreStoryData || {};
+    const km = (cs.keymessages || []).filter(m => m.trim());
+    
+    let out = '';
+    out += 'CORE STORY & KEY MESSAGES\n';
+    out += '=========================\n';
+    out += 'Projekt: ' + (proj.name || '') + '\n';
+    out += '\n--- Core Story (SCQA) ---\n';
+    out += 'Situation:    ' + (cs.situation    || '[udfyld]') + '\n\n';
+    out += 'Complication: ' + (cs.complication || '[udfyld]') + '\n\n';
+    out += 'Question:     ' + (cs.question     || '[udfyld]') + '\n\n';
+    out += 'Answer:       ' + (cs.answer       || '[udfyld]') + '\n';
+    out += '\n--- Fortælleversion ---\n';
+    out += [cs.situation, cs.complication, cs.question, cs.answer].filter(Boolean).join(' ') || '[udfyld SCQA-felterne ovenfor]';
+    out += '\n\n--- Key Messages ---\n';
+    out += km.length ? km.map((m,i) => (i+1) + '. ' + m).join('\n') : '[tilføj mindst ét budskab]';
+    
+    document.getElementById('scqa-preview-box').textContent = out;
+}
+
+function clearScqaForm() {
+    if (confirm("Nulstil alle SCQA-felter og budskaber på dette projekt?")) {
+        if (activeProjectId && projectsData[activeProjectId]) {
+            projectsData[activeProjectId].coreStoryData = { situation: '', complication: '', question: '', answer: '', keymessages: [''] };
+            saveToLocalStorage();
+            initCoreStoryUI(projectsData[activeProjectId]);
+            document.getElementById('scqa-preview-box').textContent = 'Udfyld felterne ovenfor og klik "Generér udkast".';
+            updateNoteBtnState('task_4');
         }
     }
 }
@@ -1749,7 +1881,11 @@ function renderProjectTable() {
                 const brmData = proj.brmData || { nodes: [] };
                 const hasBrmData = isTask3 && brmData.nodes && brmData.nodes.length > 0;
 
-                const hasNote = noteText.length > 0 || hasDefData || hasBrmData;
+                const isTask4 = item.id === 'task_4';
+                const coreData = proj.coreStoryData || {};
+                const hasCoreData = isTask4 && (coreData.situation || coreData.complication || coreData.question || coreData.answer || (coreData.keymessages && coreData.keymessages.some(m => m.trim())));
+
+                const hasNote = noteText.length > 0 || hasDefData || hasBrmData || hasCoreData;
 
                 html += `<tr class="${isDone ? 'task-done' : ''}">
                     <td class="deliverable-cell">
@@ -1796,6 +1932,57 @@ function renderProjectTable() {
                                 <div class="def-field-group">
                                     <label class="def-field-label">5. Vision of Success (Hverdagsbillede når forandringen er i mål):</label>
                                     <textarea class="def-field-input" placeholder="Beskriv succeshverdagen..." onblur="saveDefiningSuccessField('vision', this.value)">${defData.vision || ''}</textarea>
+                                </div>
+                            </div>
+                            ` : ''}
+
+                            ${isTask4 ? `
+                            <div class="scqa-box">
+                                <div class="scqa-header-title">
+                                    <span>🗣️ Core Story &amp; Key Messages (SCQA)</span>
+                                    <span style="font-size:0.8rem; font-weight:600; color:var(--text-muted);">Change &amp; Adaption Tool</span>
+                                </div>
+                                <p style="font-size:0.85rem; color:var(--text-muted);">Byg kernefortællingen i fire trin. Hold hvert felt kort og konkret.</p>
+
+                                <div class="scqa-field-group">
+                                    <label class="scqa-field-label"><span class="scqa-badge">S</span> Situation – hvor er vi i dag?</label>
+                                    <textarea id="scqa-situation" class="scqa-textarea" placeholder="Beskriv udgangspunktet / den nuværende situation..." onblur="saveScqaField('situation', this.value)"></textarea>
+                                </div>
+
+                                <div class="scqa-field-group">
+                                    <label class="scqa-field-label"><span class="scqa-badge">C</span> Complication – hvad er udfordringen?</label>
+                                    <textarea id="scqa-complication" class="scqa-textarea" placeholder="Beskriv problemet eller muligheden der driver forandringen..." onblur="saveScqaField('complication', this.value)"></textarea>
+                                </div>
+
+                                <div class="scqa-field-group">
+                                    <label class="scqa-field-label"><span class="scqa-badge">Q</span> Question – hvad skal vi svare på?</label>
+                                    <textarea id="scqa-question" class="scqa-textarea" placeholder="Formulér det centrale spørgsmål forandringen skal løse..." onblur="saveScqaField('question', this.value)"></textarea>
+                                </div>
+
+                                <div class="scqa-field-group">
+                                    <label class="scqa-field-label"><span class="scqa-badge">A</span> Answer – hvad er løsningen?</label>
+                                    <textarea id="scqa-answer" class="scqa-textarea" placeholder="Beskriv løsningen og hvad vi opnår..." onblur="saveScqaField('answer', this.value)"></textarea>
+                                </div>
+
+                                <div style="margin-top: 10px;">
+                                    <label class="scqa-field-label" style="margin-bottom:6px;">Key Messages (Nøglebudskaber)</label>
+                                    <div id="scqa-km-list"></div>
+                                    <button class="btn small secondary" style="margin-top:6px;" onclick="addScqaKm()">+ Tilføj budskab</button>
+                                </div>
+
+                                <div style="margin-top: 12px;">
+                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                        <label class="scqa-field-label">Resultat / Genereret udkast</label>
+                                        <div>
+                                            <button class="btn small primary" onclick="generateScqaDraft()">Generér udkast</button>
+                                            <button class="btn small secondary" onclick="clearScqaForm()">Nulstil felter</button>
+                                        </div>
+                                    </div>
+                                    <div id="scqa-preview-box" class="scqa-preview">Udfyld felterne ovenfor og klik "Generér udkast".</div>
+                                </div>
+
+                                <div class="scqa-note">
+                                    ⚠️ Dette er et arbejdsværktøj. Core Story og budskaber bør testes på nøgleinteressenter og valideres med sponsor, inden de deles bredt.
                                 </div>
                             </div>
                             ` : ''}
@@ -1860,6 +2047,10 @@ function renderProjectTable() {
     });
 
     tbody.innerHTML = html;
+
+    if (proj) {
+        initCoreStoryUI(proj);
+    }
 
     if (document.getElementById('note-drawer-task_3')?.classList.contains('open')) {
         renderBrmCanvas();
