@@ -1,683 +1,1889 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RASCI &amp; Change Management Suite</title>
-  <style>
-    :root {
-      --bg-main: #090d16;
-      --bg-card: #121826;
-      --bg-card-hover: #1a2234;
-      --border: #232d42;
-      --border-accent: #2e3c58;
-      --text-main: #f0f4fc;
-      --text-muted: #8c9ba8;
-      --red: #d20014;
-      --dark-red: #9f000f;
-      --teal: #208684;
-      --teal-light: #2ab6b3;
-      --badge-r: #3b82f6;
-      --badge-a: #ef4444;
-      --badge-s: #f59e0b;
-      --badge-c: #8b5cf6;
-      --badge-i: #10b981;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RASCI - Change & Adaption</title>
 
-    * { box-sizing: border-box; }
+    <!-- App Icon & Manifest -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%232563eb'/><text x='50%' y='58%' font-family='-apple-system, sans-serif' font-weight='900' font-size='130' fill='white' text-anchor='middle'>RASCI</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%232563eb'/><text x='50%' y='58%' font-family='-apple-system, sans-serif' font-weight='900' font-size='130' fill='white' text-anchor='middle'>RASCI</text></svg>">
+    
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlJBU0NJIC0gQ2hhbmdlICYgQWRhcHRpb24iLAogICJzaG9ydF9uYW1lIjogIlJBU0NJIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAic3RhcnRfdXJsIjogIi4vIiwKICAic3RhbmRhbG9uZSI6IHRydWUsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzA5MWUzYSIsCiAgInRoZW1lX2NvbG9yIjogIiMyNTYzZWIiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsPHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCA1MTIgNTEyJz48cmVjdCB3aWR0aD0nNTEyJyBoZWlnaHQ9JzUxMicgcmg9JzEyMCcgZmlsbD0nJTIzMjU2M2ViJy8+PHRleHQgeD0nNTAlJyB5PSc1OCUnIGZvbnQtZmFtaWx5PSctYXBwbGUtc3lzdGVtLCBzYW5zLXNlcmlmJyBmb250LXdlaWdodD0nOTAwJyBmb250LXNpemU9JzEzMCcgZmlsbD0nd2hpdGUnIHRleHQtYW5jaG9yPSdtaWRkbGUnPlJBU0NJPC90ZXh0Pjwvc3ZnPiIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSIKICAgIH0KICBdCn0=">
 
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      margin: 0;
-      background: var(--bg-main);
-      color: var(--text-main);
-      line-height: 1.5;
-      padding-bottom: 40px;
-    }
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --bg-pattern: radial-gradient(#cbd5e1 0.7px, transparent 0.7px);
+            --surface: #ffffff;
+            --surface-subtle: #f1f5f9;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --primary: #2563eb;
+            --primary-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
+            --primary-bg: #eff6ff;
+            --primary-border: #bfdbfe;
+            --success: #10b981;
+            --success-bg: #f0fdf4;
+            --amber: #f59e0b;
+            --amber-bg: #fffbeb;
+            --danger: #ef4444;
+            --danger-bg: #fef2f2;
 
-    header {
-      background: linear-gradient(135deg, var(--dark-red) 0%, #150507 100%);
-      color: #fff;
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border-accent);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.08);
 
-    header h1 { margin: 0; font-size: 1.5rem; font-weight: 700; }
-    header p { margin: 4px 0 0; color: #d0d7de; font-size: 0.88rem; }
+            --input-bg: #ffffff;
+            --input-text: #1e293b;
 
-    .nav-tabs {
-      display: flex;
-      gap: 6px;
-      background: #0d131f;
-      padding: 10px 16px;
-      border-bottom: 1px solid var(--border);
-      overflow-x: auto;
-    }
+            --badge-a-bg: #10b981;
+            --badge-r-bg: #2563eb;
+            --badge-s-bg: #f59e0b;
+            --badge-c-bg: #6366f1;
+            --badge-i-bg: #64748b;
 
-    .tab-btn {
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--text-muted);
-      padding: 10px 18px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-    }
+            --phase-bg: linear-gradient(135deg, #1e293b, #334155);
+            --phase-text: #ffffff;
+            --stage-bg: #f1f5f9;
+            --stage-text: #0f172a;
 
-    .tab-btn:hover {
-      color: var(--text-main);
-      background: rgba(255,255,255,0.04);
-    }
+            --brm-red: #ef4444;
+            --brm-yellow: #eab308;
+            --brm-green: #10b981;
+            --brm-light-blue: #38bdf8;
+            --brm-dark-blue: #1d4ed8;
+        }
 
-    .tab-btn.active {
-      color: #fff;
-      background: var(--teal);
-      border-color: var(--teal-light);
-    }
+        [data-theme="dark"] {
+            --bg: #091026;
+            --bg-pattern: radial-gradient(#1e293b 1.2px, transparent 1.2px);
+            --surface: #131d38;
+            --surface-subtle: #0d152b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #1e293b;
+            --primary: #3b82f6;
+            --primary-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            --primary-bg: #0c4a6e;
+            --primary-border: #0284c7;
+            --success: #10b981;
+            --success-bg: #064e3b;
+            --amber: #f59e0b;
+            --amber-bg: #451a03;
+            --danger: #f87171;
+            --danger-bg: #7f1d1d;
 
-    .container {
-      max-width: 1250px;
-      margin: 24px auto;
-      padding: 0 16px;
-    }
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.6);
 
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
+            --input-bg: #0d152b;
+            --input-text: #f8fafc;
 
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
+            --phase-bg: linear-gradient(135deg, #1e293b, #0f172a);
+            --phase-text: #f8fafc;
+            --stage-bg: #0d152b;
+            --stage-text: #f8fafc;
+        }
 
-    .card h2 {
-      margin: 0 0 6px;
-      color: #fff;
-      font-size: 1.15rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--bg); background-image: var(--bg-pattern); background-size: 20px 20px; color: var(--text-main); padding: 28px; transition: background-color 0.3s ease, color 0.3s ease; }
+        .container { width: 100%; max-width: 1650px; margin: 0 auto; }
 
-    .hint { color: var(--text-muted); font-size: 0.85rem; margin: 0 0 14px; }
+        /* PASSCODE LOCK SCREEN */
+        #lock-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
 
-    label { display: block; font-weight: 600; margin: 14px 0 4px; font-size: 0.9rem; color: #d0d7de; }
+        .lock-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
 
-    .badge {
-      display: inline-block;
-      background: var(--teal);
-      color: #fff;
-      border-radius: 4px;
-      padding: 1px 7px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      margin-right: 6px;
-    }
+        .lock-input {
+            width: 100%;
+            padding: 14px;
+            font-size: 1.2rem;
+            text-align: center;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--input-bg);
+            color: var(--input-text);
+            outline: none;
+            letter-spacing: 0.2em;
+        }
 
-    textarea, input[type=text], select {
-      width: 100%;
-      background: #090d16;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 10px 12px;
-      font-family: inherit;
-      font-size: 0.92rem;
-      color: var(--text-main);
-      resize: vertical;
-      transition: border-color 0.2s;
-    }
+        .lock-input:focus { border-color: var(--primary); }
 
-    textarea:focus, input:focus, select:focus {
-      outline: none;
-      border-color: var(--teal);
-      box-shadow: 0 0 0 2px rgba(32, 134, 132, 0.2);
-    }
+        .btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-main); padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.92rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: var(--shadow-sm); transition: all 0.2s ease; }
+        .btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .btn-primary { background: var(--primary-gradient); color: white; border: none; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35); color: white; }
+        .btn-return { background: var(--primary-bg); color: var(--primary); border: 1px solid var(--primary-border); padding: 10px 18px; font-size: 0.92rem; font-weight: 700; border-radius: 10px; }
+        .btn-return:hover { background: var(--primary); color: white; }
+        .btn-pencil-note { background: transparent; border: none; font-size: 1.1rem; cursor: pointer; padding: 4px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; transition: all 0.2s; opacity: 0.5; }
+        .btn-pencil-note:hover { opacity: 1; background: var(--bg); }
+        .btn-pencil-note.has-note { opacity: 1; background: var(--primary-bg); border: 1px solid var(--primary-border); }
 
-    textarea { min-height: 70px; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 16px; }
+        .app-badge { background: var(--primary-gradient); color: white; font-size: 0.85rem; font-weight: 900; padding: 4px 12px; border-radius: 8px; letter-spacing: 0.08em; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25); }
+        .title-area { display: flex; align-items: center; gap: 14px; }
+        .title-area h1 { font-size: 2.2rem; color: var(--text-main); font-weight: 800; letter-spacing: -0.02em; }
 
-    .km-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
-    .km-row textarea { flex: 1; min-height: 50px; }
+        .dashboard-view { display: block; }
+        .fokus-container { margin-bottom: 28px; }
+        .fokus-card { background: var(--surface); border: 2px solid var(--primary); border-radius: 20px; padding: 28px; box-shadow: 0 12px 30px -5px rgba(37, 99, 235, 0.15); display: flex; flex-direction: column; gap: 20px; cursor: pointer; position: relative; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .fokus-card:hover { transform: translateY(-3px); box-shadow: 0 18px 36px -5px rgba(37, 99, 235, 0.22); }
+        .fokus-header-tag { display: inline-flex; align-items: center; gap: 8px; background: var(--primary-gradient); color: white; font-weight: 800; font-size: 0.85rem; padding: 6px 14px; border-radius: 10px; align-self: flex-start; text-transform: uppercase; letter-spacing: 0.06em; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25); }
+        .fokus-title { font-size: 1.85rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.01em; }
 
-    .btn {
-      background: var(--red);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 9px 16px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin: 4px 6px 4px 0;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: background 0.2s;
-    }
+        .fokus-todo-container { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-top: 6px; }
+        .fokus-todo-input-row { display: flex; gap: 10px; margin-bottom: 14px; }
+        .fokus-todo-input { flex: 1; padding: 11px 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--input-bg); color: var(--input-text); font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+        .fokus-todo-input:focus { border-color: var(--primary); }
+        .fokus-todo-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .fokus-todo-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-sm); }
+        .fokus-todo-item.done span { text-decoration: line-through; color: var(--text-muted); }
+        .fokus-todo-delete-btn { background: transparent; border: none; color: var(--danger); cursor: pointer; font-size: 0.95rem; padding: 2px 6px; border-radius: 4px; transition: background 0.2s; }
+        .fokus-todo-delete-btn:hover { background: var(--danger-bg); }
 
-    .btn:hover { background: var(--dark-red); }
-    .btn.secondary { background: #232d42; color: #d0d7de; border: 1px solid var(--border); }
-    .btn.secondary:hover { background: #2e3c58; color: #fff; }
-    .btn.teal { background: var(--teal); }
-    .btn.teal:hover { background: #196967; }
-    .btn.small { padding: 5px 10px; font-size: 0.8rem; }
+        .project-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 24px; }
+        .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 24px; box-shadow: var(--shadow-md); display: flex; flex-direction: column; gap: 18px; cursor: grab; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; position: relative; }
+        .project-card:active { cursor: grabbing; }
+        .project-card.dragging { opacity: 0.4; border: 2px dashed var(--primary); }
+        .project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary-border); }
+        .project-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; padding-right: 68px; }
+        .project-card-title { font-size: 1.35rem; font-weight: 700; color: var(--text-main); line-height: 1.3; }
+        .card-actions-top { position: absolute; top: 18px; right: 18px; display: flex; align-items: center; gap: 6px; }
+        .fokus-btn { background: transparent; border: none; font-size: 1.3rem; cursor: pointer; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; opacity: 0.35; transition: all 0.2s; }
+        .fokus-btn:hover, .fokus-btn.is-fokus { opacity: 1; background: var(--primary-bg); }
+        .delete-card-btn { background: transparent; border: none; color: var(--danger); font-size: 1.3rem; font-weight: 700; cursor: pointer; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .delete-card-btn:hover { background: var(--danger-bg); }
 
-    .toolbar { text-align: right; margin-top: 10px; }
+        .card-deadline { font-size: 0.88rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; background: var(--surface-subtle); padding: 5px 12px; border-radius: 8px; white-space: nowrap; font-weight: 600; }
+        .card-deadline.overdue { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger); }
+        .card-deadline.due-soon { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber); }
 
-    #preview {
-      white-space: pre-wrap;
-      background: #090d16;
-      border: 1px dashed var(--border);
-      border-radius: 6px;
-      padding: 16px;
-      font-size: 0.9rem;
-      color: #e2e8f0;
-      font-family: 'Consolas', 'Monaco', monospace;
-    }
+        .scope-type-badge { display: inline-flex; align-items: center; font-size: 0.75rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .scope-type-badge.complex { background: var(--danger-bg); color: var(--danger); }
+        .scope-type-badge.minor { background: var(--primary-bg); color: var(--primary); }
 
-    .note {
-      background: rgba(210, 0, 20, 0.1);
-      border-left: 4px solid var(--red);
-      padding: 10px 14px;
-      font-size: 0.85rem;
-      color: #fca5a5;
-      border-radius: 4px;
-      margin-top: 12px;
-    }
+        .next-task-box { font-size: 0.95rem; background: var(--surface-subtle); padding: 12px 16px; border-radius: 12px; color: var(--text-main); border-left: 4px solid var(--primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .saved { color: var(--teal-light); font-size: 0.85rem; font-weight: 600; margin-left: 8px; }
+        .progress-ring-container { display: flex; align-items: center; gap: 16px; }
+        .progress-ring-svg { transform: rotate(-90deg); width: 52px; height: 52px; }
+        .progress-ring-circle-bg { stroke: var(--border); stroke-width: 5; fill: transparent; }
+        .progress-ring-circle { stroke: var(--success); stroke-width: 5; stroke-dasharray: 138; stroke-dashoffset: 138; stroke-linecap: round; fill: transparent; transition: stroke-dashoffset 0.5s ease-in-out; }
 
-    /* RASCI Matrix Table Styles */
-    .table-responsive {
-      overflow-x: auto;
-      margin-top: 14px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-    }
+        .new-project-card { background: var(--surface); border: 2px dashed var(--border); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; cursor: pointer; color: var(--text-muted); transition: all 0.2s; min-height: 200px; }
+        .new-project-card:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-bg); transform: translateY(-2px); }
 
-    table.rasci-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 0.9rem;
-    }
+        .project-view { display: none; }
+        .top-subnav-strip { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 16px 24px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; box-shadow: var(--shadow-sm); }
+        .subnav-left { display: flex; align-items: center; gap: 20px; }
+        .subnav-right { display: flex; align-items: center; gap: 16px; flex: 1; max-width: 480px; }
 
-    table.rasci-table th, table.rasci-table td {
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--border);
-      border-right: 1px solid var(--border);
-    }
+        .deadline-badge { font-size: 0.95rem; color: var(--text-muted); background: var(--surface-subtle); padding: 6px 14px; border-radius: 10px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .deadline-input { border: 1px solid var(--border); border-radius: 6px; background: var(--input-bg); color: var(--input-text); font-size: 0.95rem; padding: 4px 8px; outline: none; }
 
-    table.rasci-table th {
-      background: #0d131f;
-      color: #fff;
-      font-weight: 600;
-      white-space: nowrap;
-    }
+        .filter-toggle-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .collapsible-filter-panel { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 20px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; align-items: center; box-shadow: var(--shadow-sm); }
+        .collapsible-filter-panel.open { display: grid; }
 
-    table.rasci-table tr:hover { background: var(--bg-card-hover); }
+        .filter-input, .filter-select { padding: 11px 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--input-bg); color: var(--input-text); font-size: 0.95rem; outline: none; width: 100%; }
+        .my-view-btn { background: var(--surface); border: 1px solid var(--primary-border); color: var(--primary); font-weight: 700; padding: 11px 16px; border-radius: 10px; cursor: pointer; white-space: nowrap; transition: all 0.2s; }
+        .my-view-btn.active { background: var(--primary-gradient); color: white; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25); }
 
-    .rasci-select {
-      font-weight: 700;
-      padding: 6px 8px;
-      text-align: center;
-      border-radius: 4px;
-      cursor: pointer;
-      width: 100%;
-      min-width: 55px;
-    }
+        .legend-tooltip-container { position: relative; display: inline-block; }
+        .legend-tooltip-content { display: none; position: absolute; right: 0; top: 44px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 18px; box-shadow: var(--shadow-lg); z-index: 100; width: 380px; font-size: 0.9rem; }
+        .legend-tooltip-container:hover .legend-tooltip-content { display: block; }
+        .legend-pop-item { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .legend-pop-item:last-child { margin-bottom: 0; }
 
-    .rasci-R { background: rgba(59, 130, 246, 0.25); color: #60a5fa; border: 1px solid #3b82f6; }
-    .rasci-A { background: rgba(239, 68, 68, 0.25); color: #f87171; border: 1px solid #ef4444; }
-    .rasci-S { background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid #f59e0b; }
-    .rasci-C { background: rgba(139, 92, 246, 0.25); color: #c084fc; border: 1px solid #8b5cf6; }
-    .rasci-I { background: rgba(16, 185, 129, 0.25); color: #34d399; border: 1px solid #10b981; }
+        .phase-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .phase-summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 8px; }
+        .phase-summary-title { font-size: 0.88rem; font-weight: 800; color: var(--text-main); display: flex; justify-content: space-between; }
 
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+        .table-container { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-md); width: 100%; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; text-align: left; font-size: 1rem; }
+        thead th { position: sticky; top: 0; z-index: 100; background: var(--surface); color: var(--text-muted); font-weight: 800; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 18px 20px; border-bottom: 3px solid var(--primary); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06); }
+        th.role-col { text-align: center; width: 130px; line-height: 1.2; }
+        tr.phase-header-row td { background: var(--phase-bg); color: var(--phase-text); font-weight: 800; font-size: 1.05rem; padding: 16px 20px; letter-spacing: 0.05em; border-left: 6px solid var(--primary); }
+        tr.stage-header-row td { background: var(--stage-bg); color: var(--stage-text); font-weight: 800; font-size: 0.95rem; padding: 12px 20px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .stage-header-content { display: flex; justify-content: space-between; align-items: center; }
+        .stage-progress-badge { font-size: 0.8rem; font-weight: 800; background: var(--surface); color: var(--primary); padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border); }
 
-    .legend {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-      padding: 10px 14px;
-      background: #090d16;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-    }
-    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; }
-    .legend-box { padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.75rem; }
+        td { padding: 16px 20px; border-bottom: 1px solid var(--border); vertical-align: middle; background: var(--surface); }
+        td.deliverable-cell { color: var(--text-main); font-weight: 600; font-size: 1.02rem; padding-left: 20px; }
+        .task-label { display: inline-flex; align-items: center; gap: 14px; cursor: pointer; }
+        .task-checkbox { width: 22px; height: 22px; cursor: pointer; accent-color: var(--success); border-radius: 6px; }
+        tr.task-done td.deliverable-cell .task-title { text-decoration: line-through; color: var(--text-muted); font-weight: 400; }
+        tr.task-done td { background-color: var(--success-bg); }
 
-    @media print {
-      header, .nav-tabs, .toolbar, .btn, .hint { display: none; }
-      body { background: #fff; color: #000; }
-      .card { background: #fff; border: 1px solid #ccc; box-shadow: none; color: #000; }
-      #preview { background: #fff; color: #000; border: 1px solid #ccc; }
-      textarea, input[type=text] { background: #fff; color: #000; border: 1px solid #ccc; }
-    }
-  </style>
+        .note-drawer-row td { background-color: var(--surface-subtle); }
+        .note-drawer-row { display: none; }
+        .note-drawer-row.open { display: table-row; }
+        .note-textarea { width: 100%; min-height: 80px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--input-bg); color: var(--input-text); font-size: 0.95rem; outline: none; resize: vertical; }
+        .note-textarea:focus { border-color: var(--primary); }
+
+        .def-success-box { display: flex; flex-direction: column; gap: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-top: 8px; }
+        .def-field-group { display: flex; flex-direction: column; gap: 6px; }
+        .def-field-label { font-weight: 800; font-size: 0.9rem; color: var(--primary); }
+        .def-field-input { width: 100%; min-height: 60px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--input-bg); color: var(--input-text); font-size: 0.92rem; outline: none; resize: vertical; }
+        .def-field-input:focus { border-color: var(--primary); }
+
+        .brm-container { display: flex; flex-direction: column; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-top: 8px; transition: all 0.3s ease; }
+        .brm-container.is-fullscreen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 99999;
+            border-radius: 0;
+            padding: 24px;
+            background: var(--bg);
+            overflow-y: auto;
+        }
+
+        .brm-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; background: var(--surface-subtle); padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); }
+        .brm-btn-add { color: white; border: none; font-weight: 700; cursor: pointer; }
+        .brm-btn-add.deliverables { background: var(--brm-red); }
+        .brm-btn-add.competencies { background: var(--brm-yellow); color: #1e293b; }
+        .brm-btn-add.behaviours { background: var(--brm-green); }
+        .brm-btn-add.outcomes { background: var(--brm-light-blue); color: #0f172a; }
+        .brm-btn-add.benefits { background: var(--brm-dark-blue); }
+
+        .brm-columns-header { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; text-align: center; font-weight: 800; font-size: 0.88rem; color: white; padding: 4px; border-radius: 10px; background: var(--surface-subtle); }
+        .brm-col-head { padding: 10px 8px; border-radius: 8px; box-shadow: var(--shadow-sm); letter-spacing: 0.02em; }
+        .brm-col-head.deliverables { background: var(--brm-red); }
+        .brm-col-head.competencies { background: var(--brm-yellow); color: #1e293b; }
+        .brm-col-head.behaviours { background: var(--brm-green); }
+        .brm-col-head.outcomes { background: var(--brm-light-blue); color: #0f172a; }
+        .brm-col-head.benefits { background: var(--brm-dark-blue); }
+
+        .brm-canvas-wrap { position: relative; width: 100%; height: 580px; background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 12px; overflow: auto; }
+        .brm-container.is-fullscreen .brm-canvas-wrap { height: calc(100vh - 160px); }
+
+        .brm-column-dividers { position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 800px; display: grid; grid-template-columns: repeat(5, 1fr); pointer-events: none; z-index: 1; }
+        .brm-col-divider { border-right: 2px dashed var(--border); height: 100%; }
+        .brm-col-divider:last-child { border-right: none; }
+        .brm-svg-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; min-height: 800px; pointer-events: none; z-index: 10; }
+        .brm-line-path { stroke: var(--primary); stroke-width: 3; fill: none; pointer-events: stroke; cursor: pointer; transition: stroke 0.2s, stroke-width 0.2s; }
+        .brm-line-path:hover { stroke: var(--danger) !important; stroke-width: 5 !important; }
+
+        .brm-card-node { position: absolute; width: 175px; min-height: 75px; background: var(--surface); border: 2px solid var(--border); border-radius: 10px; padding: 8px 10px; box-shadow: var(--shadow-sm); z-index: 20; display: flex; flex-direction: column; gap: 4px; }
+        .brm-card-node.deliverables { border-color: var(--brm-red); }
+        .brm-card-node.competencies { border-color: var(--brm-yellow); }
+        .brm-card-node.behaviours { border-color: var(--brm-green); }
+        .brm-card-node.outcomes { border-color: var(--brm-light-blue); }
+        .brm-card-node.benefits { border-color: var(--brm-dark-blue); }
+        .brm-card-node.selected { box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.4); }
+
+        .brm-drag-handle { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); padding-bottom: 4px; cursor: move; user-select: none; }
+        .brm-card-body { width: 100%; min-height: 42px; border: none; background: transparent; color: var(--text-main); font-size: 0.85rem; resize: none; outline: none; overflow: hidden; box-sizing: border-box; cursor: text; }
+
+        .badge-box { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 10px; font-weight: 900; font-size: 0.9rem; color: white; margin: 0 auto; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); }
+        .badge-box.A { background: var(--badge-a-bg); }
+        .badge-box.R { background: var(--badge-r-bg); }
+        .badge-box.S { background: var(--badge-s-bg); }
+        .badge-box.C { background: var(--badge-c-bg); }
+        .badge-box.I { background: var(--badge-i-bg); }
+
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(5px); z-index: 1000; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+        .modal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; width: 100%; max-width: 520px; padding: 32px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; gap: 22px; }
+        .assessment-modal-card { max-width: 860px; }
+        .modal-header h2 { font-size: 1.5rem; font-weight: 800; color: var(--text-main); }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); }
+        .form-control { padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--input-bg); color: var(--input-text); font-size: 0.95rem; outline: none; }
+        .form-control:focus { border-color: var(--primary); }
+
+        .assessment-section-title { font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-top: 10px; padding-bottom: 6px; border-bottom: 2px solid var(--primary-border); }
+        .question-card { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+        .question-title { font-size: 1rem; font-weight: 800; color: var(--text-main); }
+        .score-options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .score-option-btn { background: var(--surface); border: 2px solid var(--border); border-radius: 12px; padding: 12px; cursor: pointer; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; }
+        .score-option-btn:hover { border-color: var(--primary-border); }
+        .score-option-btn.selected { border-color: var(--primary); background: var(--primary-bg); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); }
+        .score-desc { font-size: 0.95rem; font-weight: 800; color: var(--primary); line-height: 1.25; }
+        .score-num { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px; }
+
+        @media print {
+            .top-subnav-strip, .filter-toggle-row, .collapsible-filter-panel, header, .phase-summary-grid { display: none !important; }
+            body { background: white; padding: 0; }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <div>
-    <h1>RASCI &amp; Change Management Suite</h1>
-    <p>ROCKWOOL Operations – Vamdrup</p>
-  </div>
-  <div>
-    <button class="btn secondary small" onclick="exportData()">Eksporter data</button>
-    <button class="btn secondary small" onclick="importData()">Importer data</button>
-  </div>
-</header>
-
-<nav class="nav-tabs">
-  <button class="tab-btn active" onclick="switchTab('rasci', this)">RASCI Matrix</button>
-  <button class="tab-btn" onclick="switchTab('corestory', this)">Develop Core Story &amp; Key Messages</button>
-  <button class="tab-btn" onclick="switchTab('dagenslogs', this)">Dagens logs &amp; Opgaver</button>
-  <button class="tab-btn" onclick="switchTab('kalender', this)">Kalender &amp; Milepæle</button>
-</nav>
-
-<div class="container">
-
-  <!-- TAB 1: RASCI MATRIX (HOVED-APP) -->
-  <div id="tab-rasci" class="tab-content active">
-    <div class="card">
-      <h2>RASCI Ansvarsfordeling &amp; Matrix</h2>
-      <p class="hint">Definér ansvarsfordelingen på tværs af roller og forandringsaktiviteter.</p>
-      
-      <div class="legend">
-        <div class="legend-item"><span class="legend-box rasci-R">R</span> Responsible (Udførende)</div>
-        <div class="legend-item"><span class="legend-box rasci-A">A</span> Accountable (Slutansvarlig / Godkender)</div>
-        <div class="legend-item"><span class="legend-box rasci-S">S</span> Support (Støttende ressource)</div>
-        <div class="legend-item"><span class="legend-box rasci-C">C</span> Consulted (Rådføres undervejs)</div>
-        <div class="legend-item"><span class="legend-box rasci-I">I</span> Informed (Orienteres)</div>
-      </div>
-
-      <div style="margin-bottom: 12px; display: flex; gap: 8px;">
-        <button class="btn small teal" onclick="addRasciRow()">+ Tilføj Aktivitet / Leverance</button>
-        <button class="btn small secondary" onclick="addRasciRole()">+ Tilføj Rolle / Person</button>
-      </div>
-
-      <div class="table-responsive">
-        <table class="rasci-table" id="rasciTable">
-          <thead>
-            <tr id="rasciHeader">
-              <th>Aktivitet / Leverance</th>
-              <th>Projektleder</th>
-              <th>Change Master</th>
-              <th>Driftsleder</th>
-              <th>Operatør</th>
-              <th style="width: 40px;"></th>
-            </tr>
-          </thead>
-          <tbody id="rasciBody">
-            <!-- Dynamisk indhold indlæses her -->
-          </tbody>
-        </table>
-      </div>
-      <div style="margin-top: 14px; text-align: right;">
-        <button class="btn secondary small" onclick="sendDirectEmail()">Send overblik til COM-VAM-Ropex-Polk@rockwool.com</button>
-      </div>
+<!-- PASSCODE LOCK SCREEN CONTAINER -->
+<div id="lock-screen">
+    <div class="lock-card">
+        <div style="font-size: 2.5rem;">🔒</div>
+        <h2 id="lock-title" style="font-size: 1.5rem; font-weight: 800;">Indtast Adgangskode</h2>
+        <p id="lock-desc" style="font-size: 0.9rem; color: var(--text-muted);">Siden er beskyttet. Indtast din personlige kode for at åbne appen.</p>
+        
+        <input type="password" id="passcode-input" class="lock-input" placeholder="••••" onkeydown="if(event.key==='Enter') checkPasscode()">
+        
+        <button class="btn btn-primary" style="justify-content: center; padding: 12px;" onclick="checkPasscode()">Lås Op 🔓</button>
+        <button id="reset-pass-btn" class="btn" style="justify-content: center; font-size:0.8rem; display:none;" onclick="resetPasscode()">Nulstil adgangskode</button>
     </div>
-  </div>
+</div>
 
-  <!-- TAB 2: CORE STORY (SCQA TOOL) -->
-  <div id="tab-corestory" class="tab-content">
-    <!-- Stamdata for Forandringsinitiativ -->
-    <div class="card">
-      <h2>Stamdata for Forandringsinitiativ</h2>
-      <div class="grid-2">
-        <div>
-          <label>Projekt- / Initiativnavn</label>
-          <input type="text" id="project" placeholder="fx RUNI – pressesnegl til tørring af uldaffald">
+<div class="container" id="app-container" style="display:none;">
+    <header>
+        <div class="title-area">
+            <span class="app-badge">RASCI</span>
+            <h1 id="main-header-title">Change & Adaption</h1>
         </div>
-        <div>
-          <label>Local Change Master / Ansvarlig</label>
-          <input type="text" id="owner" placeholder="fx Lasse (VAM)">
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn" onclick="exportBackup()" title="Download alle data som en backup-fil">💾 Backup</button>
+            <button class="btn" onclick="triggerImport()" title="Indlæs backup-fil">📂 Importer</button>
+            <input type="file" id="import-file-input" style="display: none;" accept=".json" onchange="importBackup(event)">
+            <button class="btn" onclick="toggleTheme()">🌓 Tema</button>
+            <button class="btn" onclick="lockApp()">🔒 Lås App</button>
+            <button class="btn" onclick="window.print()">🖨️ Udskriv</button>
         </div>
-      </div>
+    </header>
+
+    <!-- DASHBOARD VIEW -->
+    <div id="view-dashboard" class="dashboard-view">
+        <div class="fokus-container" id="fokus-area"></div>
+        <div class="project-cards-grid" id="projects-grid"></div>
     </div>
 
-    <!-- Core Story SCQA -->
-    <div class="card">
-      <h2>Core Story &amp; Key Messages (SCQA)</h2>
-      <p class="hint">Change &amp; Adaption – værktøj til at formulere forandringens kernefortælling (SCQA)</p>
+    <!-- PROJECT DETAIL VIEW -->
+    <div id="view-project" class="project-view">
+        <div class="top-subnav-strip">
+            <div class="subnav-left">
+                <button class="btn btn-return" onclick="showDashboard()">← Retur til oversigt</button>
 
-      <label><span class="badge">S</span> Situation – hvor er vi i dag?</label>
-      <textarea id="situation" placeholder="Beskriv udgangspunktet / den nuværende situation..."></textarea>
+                <div id="project-deadline-badge" class="deadline-badge">
+                    <span>📅 Deadline:</span>
+                    <input type="date" id="project-deadline-input" class="deadline-input" onchange="updateProjectDeadline(this.value)">
+                </div>
+            </div>
 
-      <label><span class="badge">C</span> Complication – hvad er udfordringen?</label>
-      <textarea id="complication" placeholder="Beskriv problemet eller muligheden der driver forandringen..."></textarea>
-
-      <label><span class="badge">Q</span> Question – hvad skal vi svare på?</label>
-      <textarea id="question" placeholder="Formulér det centrale spørgsmål forandringen skal løse..."></textarea>
-
-      <label><span class="badge">A</span> Answer – hvad er løsningen?</label>
-      <textarea id="answer" placeholder="Beskriv løsningen og hvad vi opnår..."></textarea>
-    </div>
-
-    <!-- Key Messages -->
-    <div class="card">
-      <h2>Key Messages</h2>
-      <p class="hint">De vigtigste budskaber, der skal gentages konsekvent. Tilføj så mange du har brug for.</p>
-      <div id="keymessages"></div>
-      <button class="btn small secondary" onclick="addKeyMessage()">+ Tilføj budskab</button>
-    </div>
-
-    <!-- Resultat / Eksport -->
-    <div class="card">
-      <h2>Resultat &amp; Handling</h2>
-      <div class="toolbar">
-        <button class="btn" onclick="generate()">Generér udkast</button>
-        <button class="btn teal" onclick="syncKeyMessagesToRasci()">Overfør budskaber til RASCI Matrix</button>
-        <button class="btn secondary" onclick="window.print()">Print / gem som PDF</button>
-        <button class="btn secondary" onclick="clearCoreStory()">Nulstil felter</button>
-        <span id="savedState" class="saved"></span>
-      </div>
-      <div id="preview" style="margin-top: 14px;">Udfyld felterne ovenfor og klik "Generér udkast".</div>
-      <div class="note">⚠️ Dette er et arbejdsværktøj. Core Story og budskaber bør testes på nøgleinteressenter og valideres med sponsor, inden de deles bredt – værktøjet kan støtte processen, men ikke erstatte din og koalitionens egen vurdering.</div>
-    </div>
-  </div>
-
-  <!-- TAB 3: DAGENS LOGS & OPGAVER -->
-  <div id="tab-dagenslogs" class="tab-content">
-    <div class="card">
-      <h2>Dagens logs &amp; Noter</h2>
-      <p class="hint">Daglige opfølgninger og logninger på forandringsprocessen i produktionen.</p>
-      <textarea id="dailyLog" style="min-height: 160px;" placeholder="Skriv dagens observans, status på eSOPs eller tavlemøder her..."></textarea>
-      <div style="margin-top: 10px;">
-        <button class="btn teal" onclick="saveDailyLog()">Gem</button>
-        <span id="logSaveStatus" class="saved"></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 4: KALENDER & MILEPÆLE -->
-  <div id="tab-kalender" class="tab-content">
-    <div class="card">
-      <h2>Kalender &amp; Forandringsmilepæle</h2>
-      <p class="hint">Tidslinje for udrulning, workshops og statusmøder (Man-ons fokus / ugentlige kadencer).</p>
-      <div id="milestoneList">
-        <div class="km-row">
-          <input type="text" value="Man-ons: Udrulning af første eSOP udkast" readonly>
-          <span class="badge" style="background: var(--teal); padding: 6px;">Planlagt</span>
+            <div class="subnav-right">
+                <span id="progress-text" style="font-size: 1rem; font-weight: 700; white-space: nowrap;">0/0 (0%)</span>
+                <div style="flex:1;">
+                    <div class="progress-bar-bg" style="height:12px; background:var(--border); border-radius:6px; overflow:hidden;">
+                        <div id="progress-bar-fill" style="height:100%; background:var(--success); width:0%; transition:width 0.3s;"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
 
+        <!-- PHASE PROGRESS SUMMARY GRID -->
+        <div class="phase-summary-grid" id="phase-summary-grid"></div>
+
+        <div class="filter-toggle-row">
+            <button class="btn" onclick="toggleFilterPanel()">⚙️ Filtre & Søgning</button>
+            
+            <div class="legend-tooltip-container">
+                <button class="btn">ℹ️ RASCI Forklaring</button>
+                <div class="legend-tooltip-content">
+                    <div class="legend-pop-item"><span class="badge-box R">R</span> <strong>Responsible</strong> (does the work)</div>
+                    <div class="legend-pop-item"><span class="badge-box A">A</span> <strong>Accountable</strong> (owns outcome/decision)</div>
+                    <div class="legend-pop-item"><span class="badge-box S">S</span> <strong>Support</strong> (supports/helps)</div>
+                    <div class="legend-pop-item"><span class="badge-box C">C</span> <strong>Consulted</strong> (provides input)</div>
+                    <div class="legend-pop-item"><span class="badge-box I">I</span> <strong>Informed</strong> (kept up to date)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="collapsible-filter-panel" id="filter-panel">
+            <input type="text" id="search" class="filter-input" placeholder="🔍 Søg i opgaver..." oninput="renderProjectTable()">
+            
+            <select id="role-focus-filter" class="filter-select" onchange="renderProjectTable()">
+                <option value="all">👤 Vis alle roller (5 kolonner)</option>
+            </select>
+
+            <button id="my-view-btn" class="my-view-btn" onclick="toggleMyView()">🎯 Min Visning (R/A)</button>
+
+            <select id="phase-filter" class="filter-select" onchange="renderProjectTable()">
+                <option value="all">Alle Faser (Change Phase)</option>
+            </select>
+
+            <select id="stage-filter" class="filter-select" onchange="renderProjectTable()">
+                <option value="all">Alle Stages (Governance Model)</option>
+            </select>
+
+            <select id="code-filter" class="filter-select" onchange="renderProjectTable()">
+                <option value="all">Filtrér på ansvarskode...</option>
+                <option value="R">R - Responsible</option>
+                <option value="A">A - Accountable</option>
+                <option value="S">S - Support</option>
+                <option value="C">C - Consulted</option>
+                <option value="I">I - Informed</option>
+            </select>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr id="table-header-row">
+                        <th>DELIVERABLE / ACTIVITY</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- STEP 1: NEW PROJECT NAME & DEADLINE MODAL -->
+<div class="modal-overlay" id="new-project-modal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2>Opret Nyt Projekt (Trin 1 af 2)</h2>
+        </div>
+
+        <div class="form-group">
+            <label for="modal-proj-name">Projektnavn:</label>
+            <input type="text" id="modal-proj-name" class="form-control" placeholder="f.eks. CRM Implementering">
+        </div>
+
+        <div class="form-group">
+            <label for="modal-proj-deadline">Deadline:</label>
+            <input type="date" id="modal-proj-deadline" class="form-control">
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn" onclick="closeNewProjectModal()">Annuller</button>
+            <button class="btn btn-primary" onclick="goToPreComplexityStep()">Næste: Pre-complexity Assessment →</button>
+        </div>
+    </div>
+</div>
+
+<!-- STEP 2: PRE-COMPLEXITY ASSESSMENT MODAL -->
+<div class="modal-overlay" id="assessment-modal">
+    <div class="modal-card assessment-modal-card">
+        <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <h2>Pre-complexity Assessment</h2>
+            <div id="live-score-badge" style="background:var(--primary-bg); color:var(--primary); font-weight:800; padding:6px 14px; border-radius:10px; font-size:1rem;">
+                Samlet Score: <span id="current-total-score">6</span> / 18
+            </div>
+        </div>
+
+        <p style="font-size:0.9rem; color:var(--text-muted); line-height:1.4;">
+            Svar på de 6 spørgsmål for at bestemme projektets kompleksitet. En samlet score på <strong>12 eller derover</strong> klassificerer projektet som <strong>Komplekst</strong> (30 opgaver). Under 12 sættes det som <strong>Mindre</strong> (13 opgaver).
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:16px; max-height:55vh; overflow-y:auto; padding-right:6px;">
+            <div class="assessment-section-title">The change</div>
+            
+            <div class="question-card">
+                <div class="question-title">1. Hvor mange medarbejdere er ramt af forandringen?</div>
+                <div class="score-options-grid">
+                    <div class="score-option-btn selected" id="q1-opt-1" onclick="selectScore(1, 1)">
+                        <span class="score-desc">&lt; 20 medarbejdere</span>
+                        <span class="score-num">1 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q1-opt-2" onclick="selectScore(1, 2)">
+                        <span class="score-desc">20 - 100 medarbejdere</span>
+                        <span class="score-num">2 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q1-opt-3" onclick="selectScore(1, 3)">
+                        <span class="score-desc">&gt; 100 medarbejdere</span>
+                        <span class="score-num">3 Point</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-title">2. Hvilken type forandring er det?</div>
+                <div class="score-options-grid">
+                    <div class="score-option-btn selected" id="q2-opt-1" onclick="selectScore(2, 1)">
+                        <span class="score-desc">Simpel forandring (få elementer)</span>
+                        <span class="score-num">1 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q2-opt-2" onclick="selectScore(2, 2)">
+                        <span class="score-desc">Middel forandring</span>
+                        <span class="score-num">2 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q2-opt-3" onclick="selectScore(2, 3)">
+                        <span class="score-desc">Kompleks (nyt system/processer)</span>
+                        <span class="score-num">3 Point</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-title">3. Er de forskellige målgrupper påvirket forskelligt?</div>
+                <div class="score-options-grid">
+                    <div class="score-option-btn selected" id="q3-opt-1" onclick="selectScore(3, 1)">
+                        <span class="score-desc">Påvirket på samme måde</span>
+                        <span class="score-num">1 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q3-opt-2" onclick="selectScore(3, 2)">
+                        <span class="score-desc">Nogle forskelle</span>
+                        <span class="score-num">2 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q3-opt-3" onclick="selectScore(3, 3)">
+                        <span class="score-desc">Påvirket på forskellige måder</span>
+                        <span class="score-num">3 Point</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="assessment-section-title">The organization</div>
+
+            <div class="question-card">
+                <div class="question-title">4. Hvordan er ændringskapaciteten i den/de påvirkede dele af organisationen?</div>
+                <div class="score-options-grid">
+                    <div class="score-option-btn selected" id="q4-opt-1" onclick="selectScore(4, 1)">
+                        <span class="score-desc">Meget få ændringer på vej</span>
+                        <span class="score-num">1 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q4-opt-2" onclick="selectScore(4, 2)">
+                        <span class="score-desc">Nogle ændringer på vej</span>
+                        <span class="score-num">2 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q4-opt-3" onclick="selectScore(4, 3)">
+                        <span class="score-desc">Mange ændringer på vej</span>
+                        <span class="score-num">3 Point</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-title">5. Hvordan var tidligere forandringer håndteret?</div>
+                <div class="score-options-grid">
+                    <div class="score-option-btn selected" id="q5-opt-1" onclick="selectScore(5, 1)">
+                        <span class="score-desc">Meget veldrevet efter en struktureret tilgang</span>
+                        <span class="score-num">1 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q5-opt-2" onclick="selectScore(5, 2)">
+                        <span class="score-desc">Middelmådigt håndteret</span>
+                        <span class="score-num">2 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q5-opt-3" onclick="selectScore(5, 3)">
+                        <span class="score-desc">Dårligt veldrevet uden en struktureret tilgang</span>
+                        <span class="score-num">3 Point</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-title">6. Hvordan er det oplevede behov for den planlagte forandring blandt påvirkede medarbejdere?</div>
+                <div class="score-options-grid">
+                    <div class="score-option-btn selected" id="q6-opt-1" onclick="selectScore(6, 1)">
+                        <span class="score-desc">Høj (utilfreds med nuværende)</span>
+                        <span class="score-num">1 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q6-opt-2" onclick="selectScore(6, 2)">
+                        <span class="score-desc">Moderat behov</span>
+                        <span class="score-num">2 Point</span>
+                    </div>
+                    <div class="score-option-btn" id="q6-opt-3" onclick="selectScore(6, 3)">
+                        <span class="score-desc">Lav (tilfreds med nuværende)</span>
+                        <span class="score-num">3 Point</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn" onclick="closeAssessmentModal()">Annuller</button>
+            <button class="btn btn-primary" onclick="confirmAssessmentAndCreate()">Gennemfør &amp; Opret Projekt ✓</button>
+        </div>
+    </div>
 </div>
 
 <script>
-  // ---- TAB SWITCHER ----
-  function switchTab(tabId, btnEl) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-    
-    document.getElementById('tab-' + tabId).classList.add('active');
-    btnEl.classList.add('active');
-  }
+/* PASSCODE & LOCK SYSTEM */
+function initPasscodeSystem() {
+    const savedPass = localStorage.getItem('rasci_app_passcode');
+    const lockTitle = document.getElementById('lock-title');
+    const lockDesc = document.getElementById('lock-desc');
+    const resetBtn = document.getElementById('reset-pass-btn');
 
-  // ---- CORE STORY (SCQA) ENGINE ----
-  const fields = ['project','owner','situation','complication','question','answer'];
-
-  function addKeyMessage(value='') {
-    const wrap = document.getElementById('keymessages');
-    const row = document.createElement('div');
-    row.className = 'km-row';
-    const ta = document.createElement('textarea');
-    ta.placeholder = 'Skriv et nøglebudskab...';
-    ta.value = value;
-    ta.addEventListener('input', saveCoreStory);
-    const del = document.createElement('button');
-    del.className = 'btn small secondary';
-    del.textContent = '✕';
-    del.onclick = () => { row.remove(); saveCoreStory(); };
-    row.appendChild(ta);
-    row.appendChild(del);
-    wrap.appendChild(row);
-  }
-
-  function getKeyMessages() {
-    return [...document.querySelectorAll('#keymessages textarea')]
-      .map(t => t.value.trim()).filter(Boolean);
-  }
-
-  function saveCoreStory() {
-    const data = {};
-    fields.forEach(f => data[f] = document.getElementById(f).value);
-    data.keymessages = getKeyMessages();
-    localStorage.setItem('ca_corestory', JSON.stringify(data));
-    const s = document.getElementById('savedState');
-    if (s) {
-      s.textContent = '✓ Gemt lokalt';
-      setTimeout(() => s.textContent = '', 1500);
+    if (!savedPass) {
+        lockTitle.textContent = "Opret Adgangskode";
+        lockDesc.textContent = "Opret en personlig adgangskode til at beskytte dine projekter.";
+        resetBtn.style.display = 'none';
+    } else {
+        lockTitle.textContent = "Indtast Adgangskode";
+        lockDesc.textContent = "Siden er låst. Indtast din adgangskode for at fortsætte.";
+        resetBtn.style.display = 'inline-flex';
     }
-  }
+}
 
-  function loadCoreStory() {
-    const raw = localStorage.getItem('ca_corestory');
-    if (!raw) { addKeyMessage(); return; }
-    const data = JSON.parse(raw);
-    fields.forEach(f => { if (data[f] !== undefined) document.getElementById(f).value = data[f]; });
-    if (data.keymessages && data.keymessages.length) {
-      data.keymessages.forEach(m => addKeyMessage(m));
-    } else { addKeyMessage(); }
-  }
+function checkPasscode() {
+    const input = document.getElementById('passcode-input').value.trim();
+    const savedPass = localStorage.getItem('rasci_app_passcode');
 
-  function clearCoreStory() {
-    if (!confirm('Nulstil alle SCQA-felter og budskaber?')) return;
-    localStorage.removeItem('ca_corestory');
-    fields.forEach(f => document.getElementById(f).value = '');
-    document.getElementById('keymessages').innerHTML = '';
-    addKeyMessage();
-    document.getElementById('preview').textContent = 'Udfyld felterne ovenfor og klik "Generér udkast".';
-  }
-
-  function generate() {
-    const v = id => document.getElementById(id).value.trim();
-    const km = getKeyMessages();
-    let out = '';
-    out += 'CORE STORY & KEY MESSAGES\n';
-    out += '=========================\n';
-    if (v('project')) out += 'Projekt: ' + v('project') + '\n';
-    if (v('owner'))   out += 'Ansvarlig: ' + v('owner') + '\n';
-    out += '\n--- Core Story (SCQA) ---\n';
-    out += 'Situation:    ' + (v('situation')    || '[udfyld]') + '\n\n';
-    out += 'Complication: ' + (v('complication')|| '[udfyld]') + '\n\n';
-    out += 'Question:     ' + (v('question')     || '[udfyld]') + '\n\n';
-    out += 'Answer:       ' + (v('answer')       || '[udfyld]') + '\n';
-    out += '\n--- Fortælleversion ---\n';
-    out += [v('situation'), v('complication'), v('question'), v('answer')]
-            .filter(Boolean).join(' ') || '[udfyld SCQA-felterne ovenfor]';
-    out += '\n\n--- Key Messages ---\n';
-    out += km.length ? km.map((m,i) => (i+1) + '. ' + m).join('\n') : '[tilføj mindst ét budskab]';
-    document.getElementById('preview').textContent = out;
-    saveCoreStory();
-  }
-
-  // ---- RASCI MATRIX ENGINE ----
-  let rasciRoles = ["Projektleder", "Change Master", "Driftsleder", "Operatør"];
-  let rasciData = [
-    { task: "Udarbejde SCQA Core Story", roles: ["A", "R", "C", "I"] },
-    { task: "Godkende forandringskommunikation", roles: ["A", "S", "C", "I"] },
-    { task: "Udrulle nye eSOPs i produktionen", roles: ["S", "R", "A", "I"] }
-  ];
-
-  function loadRasci() {
-    const savedRoles = localStorage.getItem('rasci_roles');
-    const savedData = localStorage.getItem('rasci_data');
-    if (savedRoles) rasciRoles = JSON.parse(savedRoles);
-    if (savedData) rasciData = JSON.parse(savedData);
-    renderRasci();
-  }
-
-  function saveRasci() {
-    localStorage.setItem('rasci_roles', JSON.stringify(rasciRoles));
-    localStorage.setItem('rasci_data', JSON.stringify(rasciData));
-  }
-
-  function renderRasci() {
-    const headerRow = document.getElementById('rasciHeader');
-    headerRow.innerHTML = '<th>Aktivitet / Leverance</th>' + 
-      rasciRoles.map((r, idx) => `<th>${r} <span style="cursor:pointer;opacity:0.6;" onclick="removeRasciRole(${idx})">✕</span></th>`).join('') +
-      '<th style="width:40px;"></th>';
-
-    const tbody = document.getElementById('rasciBody');
-    tbody.innerHTML = '';
-
-    rasciData.forEach((row, rIdx) => {
-      const tr = document.createElement('tr');
-      let html = `<td><input type="text" value="${row.task}" onchange="updateRasciTask(${rIdx}, this.value)"></td>`;
-      
-      rasciRoles.forEach((role, cIdx) => {
-        const val = row.roles[cIdx] || '-';
-        html += `
-          <td style="text-align:center;">
-            <select class="rasci-select rasci-${val}" onchange="updateRasciValue(${rIdx}, ${cIdx}, this.value)">
-              <option value="-" ${val==='-'?'selected':''}>-</option>
-              <option value="R" ${val==='R'?'selected':''}>R</option>
-              <option value="A" ${val==='A'?'selected':''}>A</option>
-              <option value="S" ${val==='S'?'selected':''}>S</option>
-              <option value="C" ${val==='C'?'selected':''}>C</option>
-              <option value="I" ${val==='I'?'selected':''}>I</option>
-            </select>
-          </td>`;
-      });
-
-      html += `<td style="text-align:center;"><button class="btn small secondary" onclick="deleteRasciRow(${rIdx})">✕</button></td>`;
-      tr.innerHTML = html;
-      tbody.appendChild(tr);
-    });
-  }
-
-  function updateRasciTask(rIdx, val) {
-    rasciData[rIdx].task = val;
-    saveRasci();
-  }
-
-  function updateRasciValue(rIdx, cIdx, val) {
-    rasciData[rIdx].roles[cIdx] = val;
-    renderRasci();
-    saveRasci();
-  }
-
-  function addRasciRow(taskName = "Ny forandringsaktivitet") {
-    rasciData.push({ task: taskName, roles: Array(rasciRoles.length).fill('-') });
-    renderRasci();
-    saveRasci();
-  }
-
-  function deleteRasciRow(rIdx) {
-    rasciData.splice(rIdx, 1);
-    renderRasci();
-    saveRasci();
-  }
-
-  function addRasciRole() {
-    const roleName = prompt("Indtast ny rolle / stilling:");
-    if (!roleName) return;
-    rasciRoles.push(roleName);
-    rasciData.forEach(row => row.roles.push('-'));
-    renderRasci();
-    saveRasci();
-  }
-
-  function removeRasciRole(cIdx) {
-    if (!confirm(`Fjern rollen "${rasciRoles[cIdx]}"?`)) return;
-    rasciRoles.splice(cIdx, 1);
-    rasciData.forEach(row => row.roles.splice(cIdx, 1));
-    renderRasci();
-    saveRasci();
-  }
-
-  function syncKeyMessagesToRasci() {
-    const kms = getKeyMessages();
-    if (!kms.length) {
-      alert("Tilføj venligst et eller flere Key Messages først under Core Story.");
-      return;
-    }
-    kms.forEach(km => {
-      addRasciRow("Kommunikér: " + km);
-    });
-    alert("Dine Key Messages er nu overført direkte som aktiviteter i RASCI-matrixen!");
-    const btnRasci = document.querySelectorAll('.tab-btn')[0];
-    switchTab('rasci', btnRasci);
-  }
-
-  function sendDirectEmail() {
-    const mailto = "mailto:COM-VAM-Ropex-Polk@rockwool.com?subject=RASCI Statusopdatering&body=" + 
-      encodeURIComponent("Her er den seneste opdatering af RASCI-ansvarsfordelingen:\n\n" + JSON.stringify(rasciData, null, 2));
-    window.location.href = mailto;
-  }
-
-  // ---- DAGENS LOGS ----
-  function saveDailyLog() {
-    const val = document.getElementById('dailyLog').value;
-    localStorage.setItem('ca_dailylog', val);
-    const s = document.getElementById('logSaveStatus');
-    s.textContent = '✓ Gemt';
-    setTimeout(() => s.textContent = '', 1500);
-  }
-
-  function loadDailyLog() {
-    const val = localStorage.getItem('ca_dailylog');
-    if (val) document.getElementById('dailyLog').value = val;
-  }
-
-  // Export / Import
-  function exportData() {
-    const data = {
-      corestory: localStorage.getItem('ca_corestory'),
-      rasci_roles: localStorage.getItem('rasci_roles'),
-      rasci_data: localStorage.getItem('rasci_data'),
-      dailylog: localStorage.getItem('ca_dailylog')
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'rasci_suite_backup.json';
-    a.click();
-  }
-
-  function importData() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.onchange = e => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = event => {
-        try {
-          const data = JSON.parse(event.target.result);
-          if (data.corestory) localStorage.setItem('ca_corestory', data.corestory);
-          if (data.rasci_roles) localStorage.setItem('rasci_roles', data.rasci_roles);
-          if (data.rasci_data) localStorage.setItem('rasci_data', data.rasci_data);
-          if (data.dailylog) localStorage.setItem('ca_dailylog', data.dailylog);
-          location.reload();
-        } catch(err) {
-          alert("Fejl ved import af fil.");
+    if (!savedPass) {
+        if (!input) {
+            alert("Indtast venligst en adgangskode.");
+            return;
         }
-      };
-      reader.readAsText(file);
-    };
-    input.click();
-  }
+        localStorage.setItem('rasci_app_passcode', input);
+        alert("Adgangskode gemt!");
+        unlockApp();
+    } else {
+        if (input === savedPass) {
+            unlockApp();
+        } else {
+            alert("Forkert adgangskode. Prøv igen.");
+            document.getElementById('passcode-input').value = '';
+        }
+    }
+}
 
-  // ---- INITIALISERING ----
-  fields.forEach(f => document.getElementById(f)?.addEventListener('input', saveCoreStory));
-  loadCoreStory();
-  loadRasci();
-  loadDailyLog();
+function unlockApp() {
+    document.getElementById('lock-screen').style.display = 'none';
+    document.getElementById('app-container').style.display = 'block';
+    initApp();
+}
+
+function lockApp() {
+    document.getElementById('passcode-input').value = '';
+    document.getElementById('app-container').style.display = 'none';
+    document.getElementById('lock-screen').style.display = 'flex';
+}
+
+function resetPasscode() {
+    if (confirm("Vil du nulstille din adgangskode? Du skal oprette en ny bagefter.")) {
+        localStorage.removeItem('rasci_app_passcode');
+        document.getElementById('passcode-input').value = '';
+        initPasscodeSystem();
+    }
+}
+
+const roles = [
+    "Project manager",
+    "Local change master",
+    "Change & Adaption",
+    "Sponsor",
+    "People Manager"
+];
+
+const masterTasks = [
+    { id: "task_1", phase: "Preparing Change", stage: "Scoping, Desk Study and Digital Concept", deliverable: "Complete pre-complexity assessment", minor: true, rasci: { "Project manager": "A", "Change & Adaption": "R" } },
+    { id: "task_2", phase: "Preparing Change", stage: "Scoping, Desk Study and Digital Concept", deliverable: "Defining Success", minor: true, rasci: { "Project manager": "A", "Change & Adaption": "R" } },
+    { id: "task_3", phase: "Preparing Change", stage: "Scoping, Desk Study and Digital Concept", deliverable: "Complete Benefit Realisation Mapping", minor: false, rasci: { "Project manager": "A", "Change & Adaption": "R" } },
+    
+    { id: "task_4", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Develop core story and key messages", minor: false, rasci: { "Project manager": "R, A", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_5", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Organise sponsor coalition", minor: true, rasci: { "Project manager": "S", "Local change master": "R", "Change & Adaption": "S, C" } },
+    { id: "task_6", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Critically evaluate local meeting structures", minor: false, rasci: { "Project manager": "S", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_7", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Complete complexity assessment", minor: false, rasci: { "Project manager": "A", "Local change master": "R", "Change & Adaption": "S, C" } },
+    { id: "task_8", phase: "Preparing Change", stage: "Business Case & Concept Study", deliverable: "Create high-level communication plan", minor: true, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+
+    { id: "task_9", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Complete Stakeholder Engagement Plan", minor: true, rasci: { "Project manager": "A", "Local change master": "R", "Change & Adaption": "S, C" } },
+    { id: "task_10", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Complete ADKAR Blueprint and Analyser", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_11", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Complete Change impact assessment", minor: true, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_12", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Create C&A Summary", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_13", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Create Detailed communication plan", minor: true, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_14", phase: "Managing Change", stage: "Design, Engineering & Development", deliverable: "Complete High-level Training plan", minor: false, rasci: { "Project manager": "C", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+
+    { id: "task_15", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Update Stakeholder Engagement Plan", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_16", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Update ADKAR Blueprint and Analyser", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_17", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Update Change impact assessment", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_18", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Update Detailed communication plan", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_19", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Plan and execute training", minor: true, rasci: { "Project manager": "C", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_20", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Secure creation of end user training material", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_21", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Collect Change & Adaption Lessons learned", minor: true, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_22", phase: "Managing Change", stage: "Project Delivery/Implementation", deliverable: "Assess Organisation Readiness", minor: false, rasci: { "Project manager": "A", "Local change master": "R", "Change & Adaption": "S, C" } },
+
+    { id: "task_23", phase: "Reinforcing change", stage: "Hypercare/Aftercare", deliverable: "Update Stakeholder Engagement Plan", minor: false, rasci: { "Project manager": "R, A", "Local change master": "R", "Change & Adaption": "S, C" } },
+    { id: "task_24", phase: "Reinforcing change", stage: "Hypercare/Aftercare", deliverable: "Follow up communication", minor: true, rasci: { "Project manager": "A", "Local change master": "R", "Change & Adaption": "S, C" } },
+    { id: "task_25", phase: "Reinforcing change", stage: "Hypercare/Aftercare", deliverable: "Follow up end user training", minor: false, rasci: { "Project manager": "I", "Local change master": "R, A", "Change & Adaption": "S, C" } },
+    { id: "task_26", phase: "Reinforcing change", stage: "Hypercare/Aftercare", deliverable: "Celebrate success", minor: true, rasci: { "Project manager": "A", "Local change master": "R", "Change & Adaption": "S, C" } },
+
+    { id: "task_27", phase: "Leadership & Sponsor", stage: "Sponsorship & Alignment", deliverable: "Define success, KPIs and local prioritisation", minor: false, rasci: { "Sponsor": "A", "People Manager": "C", "Local change master": "S" } },
+    { id: "task_28", phase: "Leadership & Sponsor", stage: "Sponsorship & Alignment", deliverable: "Communicate business purpose (“why”) visibly and credibly", minor: true, rasci: { "Sponsor": "A", "People Manager": "R", "Local change master": "S" } },
+    { id: "task_29", phase: "Leadership & Sponsor", stage: "Sponsorship & Alignment", deliverable: "Manage negative reactions locally", minor: true, rasci: { "Sponsor": "A", "People Manager": "R", "Local change master": "S" } },
+    { id: "task_30", phase: "Leadership & Sponsor", stage: "Sponsorship & Alignment", deliverable: "Ensure time and conditions for training / info events", minor: false, rasci: { "Sponsor": "A", "People Manager": "R", "Local change master": "S" } }
+];
+
+let projectsData = {};
+let projectOrder = [];
+let fokusProjectId = null;
+let activeProjectId = null;
+let isMyViewActive = false;
+
+let newProjectPending = { name: "", deadline: "" };
+let currentAssessmentScores = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1 };
+
+let selectedBrmNodeId = null;
+let brmConnectingSourceId = null;
+
+function initApp() {
+    loadSavedTheme();
+    loadFromLocalStorage();
+
+    const roleSel = document.getElementById('role-focus-filter');
+    roleSel.innerHTML = '<option value="all">👤 Vis alle roller (5 kolonner)</option>';
+    roles.forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = r;
+        opt.textContent = `👤 Fokus: ${r}`;
+        roleSel.appendChild(opt);
+    });
+
+    const phases = [...new Set(masterTasks.map(d => d.phase))];
+    const phaseSel = document.getElementById('phase-filter');
+    phaseSel.innerHTML = '<option value="all">Alle Faser (Change Phase)</option>';
+    phases.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p;
+        opt.textContent = p;
+        phaseSel.appendChild(opt);
+    });
+
+    const stages = [...new Set(masterTasks.map(d => d.stage))];
+    const stageSel = document.getElementById('stage-filter');
+    stageSel.innerHTML = '<option value="all">Alle Stages (Governance Model)</option>';
+    stages.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s;
+        stageSel.appendChild(opt);
+    });
+
+    showDashboard();
+}
+
+function loadSavedTheme() {
+    const savedTheme = localStorage.getItem('rasci_app_theme');
+    if (savedTheme) {
+        document.body.setAttribute('data-theme', savedTheme);
+    }
+}
+
+function toggleTheme() {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    const newTheme = isDark ? 'light' : 'dark';
+    document.body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('rasci_app_theme', newTheme);
+}
+
+function loadFromLocalStorage() {
+    const saved = localStorage.getItem('rasci_app_projects_v2');
+    if (saved) {
+        try {
+            projectsData = JSON.parse(saved);
+        } catch (e) {
+            console.error("Fejl ved indlæsning af projekter", e);
+        }
+    }
+
+    if (!projectsData || Object.keys(projectsData).length === 0) {
+        const defaultId = "proj_1";
+        projectsData = {
+            "proj_1": {
+                id: defaultId,
+                name: "Mit Første Projekt",
+                scope: "all",
+                completedTasks: { "task_1": true },
+                taskNotes: { "task_1": "Pre-complexity assessment gennemført ved oprettelse." },
+                definingSuccessData: {},
+                brmData: { nodes: [], connections: [] },
+                assessmentScore: 12,
+                fokusTodos: [],
+                deadline: "",
+                updatedAt: new Date().toLocaleDateString('da-DK')
+            }
+        };
+    }
+
+    const savedOrder = localStorage.getItem('rasci_app_order');
+    if (savedOrder) {
+        try {
+            projectOrder = JSON.parse(savedOrder);
+        } catch(e){}
+    }
+    
+    Object.keys(projectsData).forEach(id => {
+        if (!projectOrder.includes(id)) {
+            projectOrder.push(id);
+        }
+    });
+    projectOrder = projectOrder.filter(id => projectsData[id]);
+
+    fokusProjectId = localStorage.getItem('rasci_app_fokus') || localStorage.getItem('rasci_app_frog') || null;
+    if (fokusProjectId && !projectsData[fokusProjectId]) {
+        fokusProjectId = null;
+    }
+
+    saveToLocalStorage();
+}
+
+function saveToLocalStorage() {
+    localStorage.setItem('rasci_app_projects_v2', JSON.stringify(projectsData));
+    localStorage.setItem('rasci_app_order', JSON.stringify(projectOrder));
+    if (fokusProjectId) {
+        localStorage.setItem('rasci_app_fokus', fokusProjectId);
+    } else {
+        localStorage.removeItem('rasci_app_fokus');
+    }
+}
+
+function exportBackup() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+        projects: projectsData,
+        order: projectOrder,
+        fokus: fokusProjectId,
+        theme: localStorage.getItem('rasci_app_theme')
+    }));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `rasci_backup_${new Date().toISOString().slice(0,10)}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+}
+
+function triggerImport() {
+    document.getElementById('import-file-input').click();
+}
+
+function importBackup(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const imported = JSON.parse(e.target.result);
+            if (imported.projects) {
+                projectsData = imported.projects;
+                if (imported.order) projectOrder = imported.order;
+                if (imported.fokus || imported.frog) fokusProjectId = imported.fokus || imported.frog;
+                if (imported.theme) localStorage.setItem('rasci_app_theme', imported.theme);
+                saveToLocalStorage();
+                loadSavedTheme();
+                renderDashboard();
+                alert("Backup blev indlæst med succes!");
+            }
+        } catch (err) {
+            alert("Ugyldig backup-fil.");
+        }
+    };
+    reader.readAsText(file);
+}
+
+function toggleFilterPanel() {
+    document.getElementById('filter-panel').classList.toggle('open');
+}
+
+function toggleMyView() {
+    isMyViewActive = !isMyViewActive;
+    const btn = document.getElementById('my-view-btn');
+    btn.classList.toggle('active', isMyViewActive);
+    renderProjectTable();
+}
+
+function showDashboard() {
+    activeProjectId = null;
+    document.getElementById('main-header-title').textContent = "Change & Adaption";
+    document.getElementById('view-dashboard').style.display = 'block';
+    document.getElementById('view-project').style.display = 'none';
+    renderDashboard();
+}
+
+function openProject(projId) {
+    if (projectsData[projId]) {
+        activeProjectId = projId;
+        const proj = projectsData[projId];
+
+        document.getElementById('main-header-title').textContent = proj.name;
+        document.getElementById('view-dashboard').style.display = 'none';
+        document.getElementById('view-project').style.display = 'block';
+        
+        document.getElementById('project-deadline-input').value = proj.deadline || '';
+        renderProjectTable();
+    }
+}
+
+function setFokusProject(event, projId) {
+    event.stopPropagation();
+    if (fokusProjectId === projId) {
+        fokusProjectId = null;
+    } else {
+        fokusProjectId = projId;
+    }
+    saveToLocalStorage();
+    renderDashboard();
+}
+
+function addFokusTodo(projId) {
+    const input = document.getElementById(`fokus-todo-input-${projId}`);
+    if (!input) return;
+    const text = input.value.trim();
+    if (text && projectsData[projId]) {
+        if (!projectsData[projId].fokusTodos) {
+            projectsData[projId].fokusTodos = projectsData[projId].frogTodos || [];
+        }
+        projectsData[projId].fokusTodos.push({ id: Date.now(), text: text, done: false });
+        saveToLocalStorage();
+        renderDashboard();
+    }
+}
+
+function toggleFokusTodo(projId, todoId) {
+    const todos = projectsData[projId]?.fokusTodos || projectsData[projId]?.frogTodos;
+    if (todos) {
+        const item = todos.find(t => t.id === todoId);
+        if (item) {
+            item.done = !item.done;
+            saveToLocalStorage();
+            renderDashboard();
+        }
+    }
+}
+
+function deleteFokusTodo(projId, todoId) {
+    if (projectsData[projId]) {
+        let todos = projectsData[projId].fokusTodos || projectsData[projId].frogTodos;
+        if (todos) {
+            projectsData[projId].fokusTodos = todos.filter(t => t.id !== todoId);
+            saveToLocalStorage();
+            renderDashboard();
+        }
+    }
+}
+
+function clearDoneFokusTodos(projId) {
+    if (projectsData[projId]) {
+        let todos = projectsData[projId].fokusTodos || projectsData[projId].frogTodos;
+        if (todos) {
+            projectsData[projId].fokusTodos = todos.filter(t => !t.done);
+            saveToLocalStorage();
+            renderDashboard();
+        }
+    }
+}
+
+function getDeadlineStatus(deadlineStr, isCompleted) {
+    if (!deadlineStr || isCompleted) return { text: deadlineStr ? formatDate(deadlineStr) : 'Ingen deadline', class: '' };
+    
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const deadlineDate = new Date(deadlineStr);
+    deadlineDate.setHours(0,0,0,0);
+
+    const diffDays = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 0) {
+        return { text: `⚠️ Overskredet (${formatDate(deadlineStr)})`, class: 'overdue' };
+    } else if (diffDays <= 7) {
+        return { text: `⏳ Snart (${formatDate(deadlineStr)})`, class: 'due-soon' };
+    }
+    return { text: formatDate(deadlineStr), class: '' };
+}
+
+function renderDashboard() {
+    const fokusContainer = document.getElementById('fokus-area');
+    const grid = document.getElementById('projects-grid');
+    fokusContainer.innerHTML = '';
+    grid.innerHTML = '';
+
+    if (fokusProjectId && projectsData[fokusProjectId]) {
+        const fokusProj = projectsData[fokusProjectId];
+        const scopeTasks = masterTasks.filter(t => (fokusProj.scope || 'all') === 'all' || t.minor);
+        const completedCount = scopeTasks.filter(t => fokusProj.completedTasks && fokusProj.completedTasks[t.id]).length;
+        const totalCount = scopeTasks.length;
+        const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+        const nextTask = scopeTasks.find(t => !(fokusProj.completedTasks && fokusProj.completedTasks[t.id]));
+        const nextTaskText = nextTask ? nextTask.deliverable : "Alle opgaver gennemført! 🎉";
+        const todos = fokusProj.fokusTodos || fokusProj.frogTodos || [];
+        const dlStatus = getDeadlineStatus(fokusProj.deadline, pct === 100);
+        const isComplex = (fokusProj.scope || 'all') === 'all';
+
+        const fokusCard = document.createElement('div');
+        fokusCard.className = 'fokus-card';
+        fokusCard.onclick = () => openProject(fokusProj.id);
+        
+        let todosHtml = todos.map(t => `
+            <li class="fokus-todo-item ${t.done ? 'done' : ''}">
+                <label style="display:flex; align-items:center; gap:8px; cursor:pointer; width:100%;">
+                    <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleFokusTodo('${fokusProj.id}', ${t.id})">
+                    <span>${t.text}</span>
+                </label>
+                <button class="fokus-todo-delete-btn" onclick="deleteFokusTodo('${fokusProj.id}', ${t.id})">🗑️</button>
+            </li>
+        `).join('');
+
+        fokusCard.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="fokus-header-tag">🎯 Fokus opgave</div>
+                <button class="fokus-btn is-fokus" onclick="setFokusProject(event, '${fokusProj.id}')" title="Fjern fokus-markering">🎯</button>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div class="fokus-title">${fokusProj.name}</div>
+                    <span class="scope-type-badge ${isComplex ? 'complex' : 'minor'}">${isComplex ? 'Komplekst' : 'Mindre'}</span>
+                </div>
+                <div class="card-deadline ${dlStatus.class}">📅 ${dlStatus.text}</div>
+            </div>
+
+            <div class="next-task-box" title="Næste uafsluttede opgave">
+                <strong>Næste opgave:</strong> ${nextTaskText}
+            </div>
+
+            <div class="progress-ring-container">
+                <svg class="progress-ring-svg">
+                    <circle class="progress-ring-circle-bg" cx="26" cy="26" r="22"></circle>
+                    <circle class="progress-ring-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: ${138 - (138 * pct) / 100};"></circle>
+                </svg>
+                <div>
+                    <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-main);">${pct}% Færdig</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">${completedCount} af ${totalCount} opgaver udført</div>
+                </div>
+            </div>
+
+            <div class="fokus-todo-container" onclick="event.stopPropagation()">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <label style="font-size: 0.88rem; font-weight: 800; color: var(--primary);">📝 Noter:</label>
+                    ${todos.some(t => t.done) ? `<button class="btn" style="padding:3px 10px; font-size:0.75rem;" onclick="clearDoneFokusTodos('${fokusProj.id}')">Ryd udførte</button>` : ''}
+                </div>
+                <div class="fokus-todo-input-row">
+                    <input type="text" id="fokus-todo-input-${fokusProj.id}" class="fokus-todo-input" placeholder="Tilføj ny note..." onkeydown="if(event.key==='Enter') addFokusTodo('${fokusProj.id}')">
+                    <button class="btn btn-primary" style="padding:8px 14px;" onclick="addFokusTodo('${fokusProj.id}')">+ Tilføj</button>
+                </div>
+                <ul class="fokus-todo-list">${todosHtml}</ul>
+            </div>
+        `;
+        fokusContainer.appendChild(fokusCard);
+    }
+
+    projectOrder.forEach((projId) => {
+        if (projId === fokusProjectId) return;
+
+        const proj = projectsData[projId];
+        if (!proj) return;
+
+        const scopeTasks = masterTasks.filter(t => (proj.scope || 'all') === 'all' || t.minor);
+        const completedCount = scopeTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+        const totalCount = scopeTasks.length;
+        const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+        const nextTask = scopeTasks.find(t => !(proj.completedTasks && proj.completedTasks[t.id]));
+        const nextTaskText = nextTask ? nextTask.deliverable : "Alle opgaver gennemført! 🎉";
+        const dlStatus = getDeadlineStatus(proj.deadline, pct === 100);
+        const isComplex = (proj.scope || 'all') === 'all';
+
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.draggable = true;
+        card.dataset.id = proj.id;
+        card.onclick = () => openProject(proj.id);
+
+        card.innerHTML = `
+            <div class="card-actions-top">
+                <button class="fokus-btn" onclick="setFokusProject(event, '${proj.id}')" title="Sæt som Fokus opgave">🎯</button>
+                <button class="delete-card-btn" onclick="deleteProjectCard(event, '${proj.id}')" title="Slet projekt">✖</button>
+            </div>
+            
+            <div class="project-card-header">
+                <div style="display:flex; flex-direction:column; gap:4px;">
+                    <div class="project-card-title">${proj.name}</div>
+                    <span class="scope-type-badge ${isComplex ? 'complex' : 'minor'}" style="align-self:flex-start;">${isComplex ? 'Komplekst' : 'Mindre'}</span>
+                </div>
+                <div class="card-deadline ${dlStatus.class}">
+                    📅 ${dlStatus.text}
+                </div>
+            </div>
+
+            <div class="next-task-box" title="Næste uafsluttede opgave">
+                <strong>Næste opgave:</strong> ${nextTaskText}
+            </div>
+
+            <div class="progress-ring-container">
+                <svg class="progress-ring-svg">
+                    <circle class="progress-ring-circle-bg" cx="26" cy="26" r="22"></circle>
+                    <circle class="progress-ring-circle" cx="26" cy="26" r="22" style="stroke-dashoffset: ${138 - (138 * pct) / 100};"></circle>
+                </svg>
+                <div>
+                    <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);">${pct}% Udført</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">${completedCount} / ${totalCount} opgaver</div>
+                </div>
+            </div>
+        `;
+
+        setupDragAndDrop(card);
+        grid.appendChild(card);
+    });
+
+    const newCard = document.createElement('div');
+    newCard.className = 'new-project-card';
+    newCard.onclick = openNewProjectModal;
+    newCard.innerHTML = `
+        <div style="font-size: 2.2rem; font-weight: 300;">+</div>
+        <div style="font-weight: 600; font-size: 1.1rem;">Opret Nyt Projekt</div>
+    `;
+    grid.appendChild(newCard);
+}
+
+let draggedCardId = null;
+
+function setupDragAndDrop(card) {
+    card.addEventListener('dragstart', (e) => {
+        draggedCardId = card.dataset.id;
+        card.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+    });
+
+    card.addEventListener('dragend', () => {
+        card.classList.remove('dragging');
+        draggedCardId = null;
+    });
+
+    card.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    });
+
+    card.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const targetId = card.dataset.id;
+        if (draggedCardId && targetId && draggedCardId !== targetId) {
+            const fromIndex = projectOrder.indexOf(draggedCardId);
+            const toIndex = projectOrder.indexOf(targetId);
+            if (fromIndex !== -1 && toIndex !== -1) {
+                projectOrder.splice(fromIndex, 1);
+                projectOrder.splice(toIndex, 0, draggedCardId);
+                saveToLocalStorage();
+                renderDashboard();
+            }
+        }
+    });
+}
+
+function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+    return dateStr;
+}
+
+function openNewProjectModal() {
+    document.getElementById('modal-proj-name').value = '';
+    document.getElementById('modal-proj-deadline').value = '';
+    document.getElementById('new-project-modal').style.display = 'flex';
+    document.getElementById('modal-proj-name').focus();
+}
+
+function closeNewProjectModal() {
+    document.getElementById('new-project-modal').style.display = 'none';
+}
+
+function goToPreComplexityStep() {
+    const name = document.getElementById('modal-proj-name').value.trim();
+    const deadline = document.getElementById('modal-proj-deadline').value;
+
+    if (!name) {
+        alert("Indtast venligst et projektnavn.");
+        return;
+    }
+
+    newProjectPending = { name: name, deadline: deadline };
+    closeNewProjectModal();
+    
+    currentAssessmentScores = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1 };
+    for (let q = 1; q <= 6; q++) {
+        selectScore(q, 1);
+    }
+    document.getElementById('assessment-modal').style.display = 'flex';
+}
+
+function closeAssessmentModal() {
+    document.getElementById('assessment-modal').style.display = 'none';
+}
+
+function selectScore(questionNum, scoreVal) {
+    currentAssessmentScores[questionNum] = scoreVal;
+    
+    for (let i = 1; i <= 3; i++) {
+        const btn = document.getElementById(`q${questionNum}-opt-${i}`);
+        if (btn) {
+            btn.classList.toggle('selected', i === scoreVal);
+        }
+    }
+
+    const total = Object.values(currentAssessmentScores).reduce((a, b) => a + b, 0);
+    document.getElementById('current-total-score').textContent = total;
+}
+
+function confirmAssessmentAndCreate() {
+    const totalScore = Object.values(currentAssessmentScores).reduce((a, b) => a + b, 0);
+    const calculatedScope = totalScore >= 12 ? 'all' : 'minor';
+
+    const newId = "proj_" + Date.now();
+    projectsData[newId] = {
+        id: newId,
+        name: newProjectPending.name,
+        scope: calculatedScope,
+        assessmentScore: totalScore,
+        assessmentDetails: { ...currentAssessmentScores },
+        completedTasks: { "task_1": true },
+        taskNotes: { "task_1": `Pre-complexity Score: ${totalScore}/18 (${calculatedScope === 'all' ? 'Komplekst' : 'Mindre'}). Test udført ved oprettelse.` },
+        definingSuccessData: {},
+        brmData: { nodes: [], connections: [] },
+        fokusTodos: [],
+        deadline: newProjectPending.deadline,
+        updatedAt: new Date().toLocaleDateString('da-DK')
+    };
+
+    projectOrder.push(newId);
+    saveToLocalStorage();
+    closeAssessmentModal();
+    openProject(newId);
+}
+
+function deleteProjectCard(event, projId) {
+    event.stopPropagation();
+    if (Object.keys(projectsData).length <= 1) {
+        alert("Du skal have mindst ét aktivt projekt.");
+        return;
+    }
+    const proj = projectsData[projId];
+    if (confirm(`Er du sikker på, at du vil slette opgaven / projektet "${proj.name}"?`)) {
+        delete projectsData[projId];
+        projectOrder = projectOrder.filter(id => id !== projId);
+        if (fokusProjectId === projId) fokusProjectId = null;
+        saveToLocalStorage();
+        renderDashboard();
+    }
+}
+
+function updateProjectDeadline(newDeadline) {
+    if (activeProjectId && projectsData[activeProjectId]) {
+        projectsData[activeProjectId].deadline = newDeadline;
+        saveToLocalStorage();
+        const dlStatus = getDeadlineStatus(newDeadline, false);
+        const badge = document.getElementById('project-deadline-badge');
+        badge.className = `deadline-badge ${dlStatus.class}`;
+    }
+}
+
+function toggleTaskCompletion(taskId) {
+    if (activeProjectId && projectsData[activeProjectId]) {
+        const proj = projectsData[activeProjectId];
+        if (!proj.completedTasks) proj.completedTasks = {};
+        proj.completedTasks[taskId] = !proj.completedTasks[taskId];
+        saveToLocalStorage();
+        renderProjectTable();
+    }
+}
+
+function toggleNoteDrawer(taskId) {
+    const drawerRow = document.getElementById(`note-drawer-${taskId}`);
+    if (drawerRow) {
+        drawerRow.classList.toggle('open');
+    }
+}
+
+function saveTaskNote(taskId, text) {
+    if (activeProjectId && projectsData[activeProjectId]) {
+        const proj = projectsData[activeProjectId];
+        if (!proj.taskNotes) proj.taskNotes = {};
+        
+        proj.taskNotes[taskId] = text.trim();
+        saveToLocalStorage();
+        
+        const noteBtn = document.getElementById(`note-btn-${taskId}`);
+        if (noteBtn) {
+            if (text.trim()) {
+                noteBtn.classList.add('has-note');
+            } else {
+                noteBtn.classList.remove('has-note');
+            }
+        }
+    }
+}
+
+function saveDefiningSuccessField(fieldKey, value) {
+    if (activeProjectId && projectsData[activeProjectId]) {
+        const proj = projectsData[activeProjectId];
+        if (!proj.definingSuccessData) proj.definingSuccessData = {};
+        
+        proj.definingSuccessData[fieldKey] = value;
+        saveToLocalStorage();
+
+        const noteBtn = document.getElementById(`note-btn-task_2`);
+        const hasContent = Object.values(proj.definingSuccessData).some(v => v && v.trim().length > 0);
+        if (noteBtn) {
+            if (hasContent) {
+                noteBtn.classList.add('has-note');
+            } else {
+                noteBtn.classList.remove('has-note');
+            }
+        }
+    }
+}
+
+const brmCategoryMap = {
+    'deliverables': { name: 'Project deliverables', class: 'deliverables', colIndex: 0 },
+    'competencies': { name: 'New competencies', class: 'competencies', colIndex: 1 },
+    'behaviours': { name: 'New behaviours', class: 'behaviours', colIndex: 2 },
+    'outcomes': { name: 'Outcomes', class: 'outcomes', colIndex: 3 },
+    'benefits': { name: 'Benefits', class: 'benefits', colIndex: 4 }
+};
+
+function getBrmColumnX(colIndex) {
+    const wrap = document.getElementById('brm-canvas-wrap');
+    const colWidth = wrap ? wrap.clientWidth / 5 : 200;
+    const cardWidth = 175;
+    return (colIndex * colWidth) + ((colWidth - cardWidth) / 2);
+}
+
+function toggleBrmFullscreen() {
+    const container = document.getElementById('brm-container-box');
+    const btn = document.getElementById('brm-fullscreen-btn');
+    if (!container) return;
+
+    const isFull = container.classList.toggle('is-fullscreen');
+    if (btn) {
+        btn.textContent = isFull ? "🗗 Luk Fuld Skærm" : "🖥️ Fuld Skærm";
+    }
+    setTimeout(() => {
+        alignBrmNodesToColumns();
+        updateBrmLinesOnly();
+    }, 100);
+}
+
+function alignBrmNodesToColumns() {
+    if (!activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    if (!proj.brmData || !proj.brmData.nodes) return;
+
+    proj.brmData.nodes.forEach(node => {
+        const cat = brmCategoryMap[node.typeKey] || brmCategoryMap['deliverables'];
+        node.x = getBrmColumnX(cat.colIndex);
+    });
+}
+
+function addBrmNode(categoryKey) {
+    if (!activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    if (!proj.brmData) proj.brmData = { nodes: [], connections: [] };
+
+    const cat = brmCategoryMap[categoryKey] || brmCategoryMap['deliverables'];
+    const id = "node_" + Date.now();
+    const countInCol = proj.brmData.nodes.filter(n => n.typeKey === categoryKey).length;
+    
+    const newNode = {
+        id: id,
+        typeKey: categoryKey,
+        typeName: cat.name,
+        text: "",
+        x: getBrmColumnX(cat.colIndex),
+        y: 20 + (countInCol * 100)
+    };
+
+    proj.brmData.nodes.push(newNode);
+    saveToLocalStorage();
+    renderBrmCanvas();
+}
+
+function updateBrmNodeTextDirect(nodeId, text, textareaEl) {
+    if (!activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    const node = proj.brmData?.nodes?.find(n => n.id === nodeId);
+    if (node) {
+        node.text = text;
+        saveToLocalStorage();
+    }
+    if (textareaEl) {
+        textareaEl.style.height = 'auto';
+        textareaEl.style.height = (textareaEl.scrollHeight) + 'px';
+    }
+    updateBrmLinesOnly();
+}
+
+function deleteBrmConnection(fromId, toId) {
+    if (!activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    if (proj.brmData && proj.brmData.connections) {
+        proj.brmData.connections = proj.brmData.connections.filter(c => !(c.from === fromId && c.to === toId));
+        saveToLocalStorage();
+        updateBrmLinesOnly();
+    }
+}
+
+function updateBrmLinesOnly() {
+    const wrap = document.getElementById('brm-canvas-wrap');
+    const svgLayer = document.getElementById('brm-svg-layer');
+    if (!wrap || !svgLayer || !activeProjectId) return;
+
+    const wrapRect = wrap.getBoundingClientRect();
+    const proj = projectsData[activeProjectId];
+    const brm = proj?.brmData || { nodes: [], connections: [] };
+
+    let svgHtml = `<defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--primary)"/>
+        </marker>
+    </defs>`;
+
+    brm.connections.forEach(conn => {
+        const fromEl = document.getElementById(`brm-node-el-${conn.from}`);
+        const toEl = document.getElementById(`brm-node-el-${conn.to}`);
+        
+        if (fromEl && toEl) {
+            const r1 = fromEl.getBoundingClientRect();
+            const r2 = toEl.getBoundingClientRect();
+
+            const x1 = (r1.left + r1.width / 2) - wrapRect.left + wrap.scrollLeft;
+            const y1 = (r1.top + r1.height / 2) - wrapRect.top + wrap.scrollTop;
+            const x2 = (r2.left + r2.width / 2) - wrapRect.left + wrap.scrollLeft;
+            const y2 = (r2.top + r2.height / 2) - wrapRect.top + wrap.scrollTop;
+
+            svgHtml += `<line class="brm-line-path" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" 
+                marker-end="url(#arrow)" 
+                onclick="deleteBrmConnection('${conn.from}', '${conn.to}')">
+                <title>Klik for at slette stregen</title>
+            </line>`;
+        }
+    });
+    svgLayer.innerHTML = svgHtml;
+}
+
+function selectBrmNode(nodeId) {
+    selectedBrmNodeId = nodeId;
+    const proj = projectsData[activeProjectId];
+    const brm = proj?.brmData || { nodes: [] };
+
+    brm.nodes.forEach(node => {
+        const el = document.getElementById(`brm-node-el-${node.id}`);
+        if (el) {
+            if (node.id === selectedBrmNodeId) {
+                el.classList.add('selected');
+            } else {
+                el.classList.remove('selected');
+            }
+        }
+    });
+}
+
+function deleteSelectedBrmNode() {
+    if (!selectedBrmNodeId || !activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    if (!proj.brmData) return;
+
+    proj.brmData.nodes = proj.brmData.nodes.filter(n => n.id !== selectedBrmNodeId);
+    proj.brmData.connections = proj.brmData.connections.filter(c => c.from !== selectedBrmNodeId && c.to !== selectedBrmNodeId);
+    selectedBrmNodeId = null;
+    brmConnectingSourceId = null;
+    saveToLocalStorage();
+    renderBrmCanvas();
+}
+
+function toggleConnectMode() {
+    if (!selectedBrmNodeId) {
+        alert("Vælg først en boks ved at klikke på den, og tryk derefter på 'Forbind Bokse'.");
+        return;
+    }
+    if (brmConnectingSourceId === selectedBrmNodeId) {
+        brmConnectingSourceId = null;
+    } else {
+        brmConnectingSourceId = selectedBrmNodeId;
+    }
+    renderBrmCanvas();
+}
+
+function handleNodeClickForConnect(nodeId) {
+    if (brmConnectingSourceId && brmConnectingSourceId !== nodeId) {
+        const proj = projectsData[activeProjectId];
+        if (!proj.brmData.connections) proj.brmData.connections = [];
+        
+        const exists = proj.brmData.connections.some(c => (c.from === brmConnectingSourceId && c.to === nodeId) || (c.from === nodeId && c.to === brmConnectingSourceId));
+        if (!exists) {
+            proj.brmData.connections.push({ from: brmConnectingSourceId, to: nodeId });
+            saveToLocalStorage();
+        }
+        brmConnectingSourceId = null;
+    }
+    selectBrmNode(nodeId);
+}
+
+function clearBrmCanvas() {
+    if (confirm("Er du sikker på, at du vil rydde hele Benefit Realisation Lærredet?")) {
+        if (activeProjectId && projectsData[activeProjectId]) {
+            projectsData[activeProjectId].brmData = { nodes: [], connections: [] };
+            saveToLocalStorage();
+            renderBrmCanvas();
+        }
+    }
+}
+
+function renderBrmCanvas() {
+    const wrap = document.getElementById('brm-canvas-wrap');
+    if (!wrap) return;
+
+    alignBrmNodesToColumns();
+
+    const proj = projectsData[activeProjectId];
+    const brm = proj?.brmData || { nodes: [], connections: [] };
+
+    const existingNodes = wrap.querySelectorAll('.brm-card-node');
+    existingNodes.forEach(n => n.remove());
+
+    brm.nodes.forEach(node => {
+        const catKey = node.typeKey || 'deliverables';
+        const cat = brmCategoryMap[catKey] || brmCategoryMap['deliverables'];
+        
+        node.x = getBrmColumnX(cat.colIndex);
+
+        const div = document.createElement('div');
+        div.id = `brm-node-el-${node.id}`;
+        div.className = `brm-card-node ${catKey} ${selectedBrmNodeId === node.id ? 'selected' : ''}`;
+        div.style.left = `${node.x}px`;
+        div.style.top = `${node.y}px`;
+
+        div.onclick = (e) => {
+            e.stopPropagation();
+            handleNodeClickForConnect(node.id);
+        };
+
+        const dragHandle = document.createElement('div');
+        dragHandle.className = 'brm-drag-handle';
+        dragHandle.innerHTML = `<span>${node.typeName || 'Boks'}</span><span style="opacity:0.5;">⋮⋮</span>`;
+
+        const textarea = document.createElement('textarea');
+        textarea.className = 'brm-card-body';
+        textarea.placeholder = 'Skriv indhold...';
+        textarea.value = node.text || '';
+        
+        textarea.oninput = (e) => {
+            updateBrmNodeTextDirect(node.id, e.target.value, e.target);
+        };
+
+        textarea.onclick = (e) => {
+            e.stopPropagation();
+            selectBrmNode(node.id);
+        };
+
+        div.appendChild(dragHandle);
+        div.appendChild(textarea);
+
+        let isDragging = false;
+        let startY;
+
+        dragHandle.onmousedown = (e) => {
+            e.stopPropagation();
+            isDragging = true;
+            startY = e.clientY - node.y;
+
+            const onMouseMove = (moveEvent) => {
+                if (!isDragging) return;
+                node.y = Math.max(0, moveEvent.clientY - startY);
+                div.style.top = `${node.y}px`;
+                updateBrmLinesOnly();
+            };
+
+            const onMouseUp = () => {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+                saveToLocalStorage();
+            };
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        };
+
+        wrap.appendChild(div);
+
+        setTimeout(() => {
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight) + 'px';
+        }, 0);
+    });
+
+    setTimeout(() => {
+        updateBrmLinesOnly();
+    }, 50);
+}
+
+function renderProjectTable() {
+    if (!activeProjectId || !projectsData[activeProjectId]) return;
+    const proj = projectsData[activeProjectId];
+    const currentScope = proj.scope || 'all';
+
+    const searchVal = document.getElementById('search').value.toLowerCase();
+    const roleFocusVal = document.getElementById('role-focus-filter').value;
+    const phaseVal = document.getElementById('phase-filter').value;
+    const stageVal = document.getElementById('stage-filter').value;
+    const codeVal = document.getElementById('code-filter').value;
+
+    const visibleRoles = roleFocusVal === 'all' ? roles : [roleFocusVal];
+
+    const headerRow = document.getElementById('table-header-row');
+    headerRow.innerHTML = `<th>DELIVERABLE / ACTIVITY</th>` + 
+        visibleRoles.map(r => `<th class="role-col">${r.toUpperCase()}</th>`).join('');
+
+    const filtered = masterTasks.filter(item => {
+        if (currentScope === 'minor' && !item.minor) return false;
+        if (phaseVal !== 'all' && item.phase !== phaseVal) return false;
+        if (stageVal !== 'all' && item.stage !== stageVal) return false;
+        if (searchVal && !item.deliverable.toLowerCase().includes(searchVal)) return false;
+        if (roleFocusVal !== 'all' && !item.rasci[roleFocusVal]) return false;
+        
+        if (isMyViewActive) {
+            const role = roleFocusVal !== 'all' ? roleFocusVal : "Local change master";
+            const code = item.rasci[role] || "";
+            if (!code.includes("R") && !code.includes("A")) return false;
+        }
+
+        if (codeVal !== 'all') {
+            const hasCode = Object.values(item.rasci).some(c => c && c.includes(codeVal));
+            if (!hasCode) return false;
+        }
+        return true;
+    });
+
+    const totalScopeTasks = masterTasks.filter(item => currentScope === 'all' || item.minor);
+    const completedCount = totalScopeTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+    const totalCount = totalScopeTasks.length;
+    const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+    document.getElementById('progress-text').textContent = `${completedCount}/${totalCount} (${pct}%)`;
+    document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+
+    const allPhases = [...new Set(masterTasks.map(t => t.phase))];
+    const phaseSummaryContainer = document.getElementById('phase-summary-grid');
+    phaseSummaryContainer.innerHTML = '';
+
+    allPhases.forEach(pName => {
+        const pTasks = totalScopeTasks.filter(t => t.phase === pName);
+        const pDone = pTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+        const pTotal = pTasks.length;
+        const pPct = pTotal > 0 ? Math.round((pDone / pTotal) * 100) : 0;
+
+        const pCard = document.createElement('div');
+        pCard.className = 'phase-summary-card';
+        pCard.innerHTML = `
+            <div class="phase-summary-title">
+                <span>${pName}</span>
+                <span style="color:var(--primary);">${pDone}/${pTotal} (${pPct}%)</span>
+            </div>
+            <div style="height:8px; background:var(--border); border-radius:4px; overflow:hidden;">
+                <div style="height:100%; background:var(--success); width:${pPct}%; transition:width 0.3s;"></div>
+            </div>
+        `;
+        phaseSummaryContainer.appendChild(pCard);
+    });
+
+    const dlStatus = getDeadlineStatus(proj.deadline, pct === 100);
+    const badge = document.getElementById('project-deadline-badge');
+    badge.className = `deadline-badge ${dlStatus.class}`;
+
+    const tbody = document.getElementById('table-body');
+    const colCount = visibleRoles.length + 1;
+
+    if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="${colCount}" style="text-align:center; padding: 24px; color: var(--text-muted);">Ingen leverancer matchede de valgte filtre.</td></tr>`;
+        return;
+    }
+
+    const phases = [...new Set(filtered.map(d => d.phase))];
+    let html = '';
+
+    phases.forEach(phaseName => {
+        const phaseTasks = filtered.filter(d => d.phase === phaseName);
+        const phaseCompleted = phaseTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+        const phaseTotal = phaseTasks.length;
+        const phasePct = Math.round((phaseCompleted / phaseTotal) * 100);
+
+        html += `<tr class="phase-header-row">
+            <td colspan="${colCount}">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="letter-spacing:0.05em; font-weight:800;">${phaseName.toUpperCase()}</span>
+                    <span style="font-size:0.82rem; font-weight:700; background:rgba(255,255,255,0.2); color:white; padding:4px 12px; border-radius:8px;">${phaseCompleted}/${phaseTotal} udført (${phasePct}%)</span>
+                </div>
+            </td>
+        </tr>`;
+
+        const stages = [...new Set(phaseTasks.map(d => d.stage))];
+        stages.forEach(stageName => {
+            const stageTasks = phaseTasks.filter(d => d.stage === stageName);
+            const stageCompleted = stageTasks.filter(t => proj.completedTasks && proj.completedTasks[t.id]).length;
+            const stageTotal = stageTasks.length;
+            const stagePct = Math.round((stageCompleted / stageTotal) * 100);
+
+            html += `<tr class="stage-header-row">
+                <td colspan="${colCount}">
+                    <div class="stage-header-content">
+                        <div>${stageName}</div>
+                        <span class="stage-progress-badge">${stageCompleted}/${stageTotal} udført (${stagePct}%)</span>
+                    </div>
+                </td>
+            </tr>`;
+
+            stageTasks.forEach(item => {
+                const isDone = proj.completedTasks && proj.completedTasks[item.id];
+                const noteText = (proj.taskNotes && proj.taskNotes[item.id]) ? proj.taskNotes[item.id] : '';
+                
+                const isTask2 = item.id === 'task_2';
+                const defData = proj.definingSuccessData || {};
+                const hasDefData = isTask2 && Object.values(defData).some(v => v && v.trim().length > 0);
+
+                const isTask3 = item.id === 'task_3';
+                const brmData = proj.brmData || { nodes: [] };
+                const hasBrmData = isTask3 && brmData.nodes && brmData.nodes.length > 0;
+
+                const hasNote = noteText.length > 0 || hasDefData || hasBrmData;
+
+                html += `<tr class="${isDone ? 'task-done' : ''}">
+                    <td class="deliverable-cell">
+                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                            <label class="task-label">
+                                <input type="checkbox" class="task-checkbox" ${isDone ? 'checked' : ''} onchange="toggleTaskCompletion('${item.id}')">
+                                <span class="task-title">${item.deliverable}</span>
+                            </label>
+                            <button id="note-btn-${item.id}" class="btn-pencil-note ${hasNote ? 'has-note' : ''}" onclick="toggleNoteDrawer('${item.id}')" title="${hasNote ? 'Rediger dokument / note' : 'Tilføj dokument / note'}">
+                                ✏️
+                            </button>
+                        </div>
+                    </td>
+                    ${visibleRoles.map(r => {
+                        const code = item.rasci[r] || '-';
+                        return `<td style="text-align: center;">${formatBadge(code)}</td>`;
+                    }).join('')}
+                </tr>
+                <tr class="note-drawer-row" id="note-drawer-${item.id}">
+                    <td colspan="${colCount}" style="padding: 10px 16px;">
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                            
+                            ${isTask2 ? `
+                            <div class="def-success-box">
+                                <div style="font-weight: 800; font-size: 1.05rem; color: var(--primary); border-bottom: 2px solid var(--primary-border); padding-bottom: 6px;">
+                                    📋 Defining Success Template
+                                </div>
+                                <div class="def-field-group">
+                                    <label class="def-field-label">1. Business Purpose / Why (Hvorfor gør vi dette?):</label>
+                                    <textarea class="def-field-input" placeholder="Beskriv forretningsmæssigt formål..." onblur="saveDefiningSuccessField('why', this.value)">${defData.why || ''}</textarea>
+                                </div>
+                                <div class="def-field-group">
+                                    <label class="def-field-label">2. Project Outcomes (Konkrete projektresultater & leverancer):</label>
+                                    <textarea class="def-field-input" placeholder="Beskriv målbare resultater..." onblur="saveDefiningSuccessField('outcomes', this.value)">${defData.outcomes || ''}</textarea>
+                                </div>
+                                <div class="def-field-group">
+                                    <label class="def-field-label">3. People Goals / Adoption (Menneskelige mål & brug):</label>
+                                    <textarea class="def-field-input" placeholder="Beskriv adfærdsændringer og adoption..." onblur="saveDefiningSuccessField('people', this.value)">${defData.people || ''}</textarea>
+                                </div>
+                                <div class="def-field-group">
+                                    <label class="def-field-label">4. Success Metrics / KPIs (Hvordan måler vi succesen?):</label>
+                                    <textarea class="def-field-input" placeholder="Indtast KPIs og målepunkter..." onblur="saveDefiningSuccessField('kpis', this.value)">${defData.kpis || ''}</textarea>
+                                </div>
+                                <div class="def-field-group">
+                                    <label class="def-field-label">5. Vision of Success (Hverdagsbillede når forandringen er i mål):</label>
+                                    <textarea class="def-field-input" placeholder="Beskriv succeshverdagen..." onblur="saveDefiningSuccessField('vision', this.value)">${defData.vision || ''}</textarea>
+                                </div>
+                            </div>
+                            ` : ''}
+
+                            ${isTask3 ? `
+                            <div class="brm-container" id="brm-container-box">
+                                <div style="font-weight: 800; font-size: 1.05rem; color: var(--primary); border-bottom: 2px solid var(--primary-border); padding-bottom: 6px; display:flex; justify-content:space-between; align-items:center;">
+                                    <span>🗺️ Interaktivt Benefit Realisation Map</span>
+                                    <div style="display:flex; gap:8px; align-items:center;">
+                                        <span style="font-size:0.8rem; font-weight:600; color:var(--text-muted);">Klik på en streg for at slette den</span>
+                                        <button class="btn" id="brm-fullscreen-btn" style="padding:4px 10px; font-size:0.8rem; background:var(--primary-bg); color:var(--primary);" onclick="toggleBrmFullscreen()">🖥️ Fuld Skærm</button>
+                                    </div>
+                                </div>
+
+                                <div class="brm-toolbar">
+                                    <span style="font-weight:700; font-size:0.85rem;">+ Tilføj Boks:</span>
+                                    <button class="btn brm-btn-add deliverables" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('deliverables')">+ Deliverable</button>
+                                    <button class="btn brm-btn-add competencies" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('competencies')">+ Competency</button>
+                                    <button class="btn brm-btn-add behaviours" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('behaviours')">+ Behaviour</button>
+                                    <button class="btn brm-btn-add outcomes" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('outcomes')">+ Outcome</button>
+                                    <button class="btn brm-btn-add benefits" style="padding:4px 10px; font-size:0.8rem;" onclick="addBrmNode('benefits')">+ Benefit</button>
+                                    <div style="flex:1;"></div>
+                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem; background:var(--primary-bg); color:var(--primary);" onclick="toggleConnectMode()">🔗 Forbind Bokse</button>
+                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem; color:var(--danger);" onclick="deleteSelectedBrmNode()">🗑️ Slet Boks</button>
+                                    <button class="btn" style="padding:4px 10px; font-size:0.8rem;" onclick="clearBrmCanvas()">Ryd Lærred</button>
+                                </div>
+
+                                <div class="brm-columns-header">
+                                    <div class="brm-col-head deliverables">Project deliverables</div>
+                                    <div class="brm-col-head competencies">New competencies</div>
+                                    <div class="brm-col-head behaviours">New behaviours</div>
+                                    <div class="brm-col-head outcomes">Outcomes</div>
+                                    <div class="brm-col-head benefits">Benefits</div>
+                                </div>
+
+                                <div class="brm-canvas-wrap" id="brm-canvas-wrap" onscroll="updateBrmLinesOnly()" onclick="selectBrmNode(null)">
+                                    <div class="brm-column-dividers">
+                                        <div class="brm-col-divider"></div>
+                                        <div class="brm-col-divider"></div>
+                                        <div class="brm-col-divider"></div>
+                                        <div class="brm-col-divider"></div>
+                                        <div class="brm-col-divider"></div>
+                                    </div>
+                                    <svg class="brm-svg-layer" id="brm-svg-layer"></svg>
+                                </div>
+                            </div>
+                            ` : ''}
+
+                            <div style="display: flex; flex-direction: column; gap: 6px;">
+                                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Supplerende opgavenoter:</label>
+                                <textarea class="note-textarea" placeholder="Skriv din note her (gemmes automatisk)..." onblur="saveTaskNote('${item.id}', this.value)">${noteText}</textarea>
+                            </div>
+
+                            <div style="text-align: right;">
+                                <button class="btn" style="padding: 3px 8px; font-size: 0.78rem;" onclick="toggleNoteDrawer('${item.id}')">Fold sammen</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>`;
+            });
+        });
+    });
+
+    tbody.innerHTML = html;
+
+    if (document.getElementById('note-drawer-task_3')?.classList.contains('open')) {
+        renderBrmCanvas();
+    }
+}
+
+function formatBadge(val) {
+    if (val === '-') return '<span style="color:var(--border);">-</span>';
+    const firstChar = val.trim().charAt(0);
+    if (['R','A','S','C','I'].includes(firstChar)) {
+        return `<span class="badge-box ${firstChar}">${firstChar}</span>`;
+    }
+    return val;
+}
+
+window.onload = function() {
+    initPasscodeSystem();
+};
+window.onresize = function() {
+    if (document.getElementById('note-drawer-task_3')?.classList.contains('open')) {
+        alignBrmNodesToColumns();
+        renderBrmCanvas();
+    }
+};
 </script>
 </body>
 </html>
